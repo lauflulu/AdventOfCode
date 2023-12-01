@@ -6,23 +6,23 @@ def read_data(filename: str) -> list[str]:
         return [line.strip() for line in file]
 
 
-def _find_all_digits(code_line: str):
-    return re.findall(r'[0-9]', code_line)
+def _find_all_digits(line: str):
+    return re.findall(r'[0-9]', line)
 
 
-def extract_two_digits(code_line: str):
-    all_digits = _find_all_digits(code_line)
+def _extract_two_digits(line: str):
+    all_digits = _find_all_digits(line)
     return int(all_digits[0] + all_digits[-1])
 
 
-def answer(lines):
-    two_digits = [extract_two_digits(line) for line in lines]
+def compute_total_sum(lines):
+    two_digits = [_extract_two_digits(line) for line in lines]
     return sum(two_digits)
 
 
 def main():
     lines = read_data("material.txt")
-    print(answer(lines))
+    print(compute_total_sum(lines))
 
 
 if __name__ == '__main__':

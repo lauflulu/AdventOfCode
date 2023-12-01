@@ -14,10 +14,10 @@ def test_that_read_example_data_is_the_correct_list():
     ("treb7uchet", 77),
 ])
 def test_that_first_and_last_digits_are_extracted(code_line, expected_result):
-    result = solution.extract_two_digits(code_line)
+    result = solution._extract_two_digits(code_line)
     assert result == expected_result
 
 
 def test_that_the_correct_sum_is_computed_for_example_data():
     example_data = solution.read_data("example_data.txt")
-    assert solution.answer(example_data) == 142
+    assert solution.compute_total_sum(example_data) == 142
