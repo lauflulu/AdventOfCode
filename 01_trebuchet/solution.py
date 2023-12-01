@@ -21,8 +21,11 @@ def read_data(filename: str) -> list[str]:
 
 
 def _find_all_digits(line: str) -> list[str]:
-    matches = re.finditer(r'(?=([0-9]|zero|one|two|three|four|five|six|seven|eight|nine))', line)
-    literal_digits = [match.group(1) for match in matches]
+    literal_digits = _find_all_digits_including_literals(line)
+    return _replace_literal_digits(literal_digits)
+
+
+def _replace_literal_digits(literal_digits):
     int_digits = []
     for digit in literal_digits:
         if digit in map_literal_digits.keys():
@@ -30,6 +33,11 @@ def _find_all_digits(line: str) -> list[str]:
         else:
             int_digits.append(digit)
     return int_digits
+
+
+def _find_all_digits_including_literals(line):
+    matches = re.finditer(r'(?=([0-9]|zero|one|two|three|four|five|six|seven|eight|nine))', line)
+    return [match.group(1) for match in matches]
 
 
 def _extract_two_digits(line: str):
