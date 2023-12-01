@@ -23,4 +23,19 @@ class TestPartOne:
 
 
 class TestPartTwo:
-    pass
+    @pytest.mark.parametrize("example_line, expected_result", [
+        ("two1nine", 29),
+        ("eightwothree", 83),
+        ("abcone2threexyz", 13),
+        ("xtwone3four", 24),
+        ("4nineeightseven2", 42),
+        ("zoneight234", 14),
+        ("7pqrstsixteen", 76)
+    ])
+    def test_that_first_and_last_digits_are_extracted(self, example_line, expected_result):
+        result = solution._extract_two_digits(example_line)
+        assert result == expected_result
+
+    def test_that_the_correct_sum_is_computed_for_example_data(self):
+        example_lines = solution.read_data("example_data_2.txt")
+        assert solution.compute_total_sum(example_lines) == 281
