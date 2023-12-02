@@ -34,5 +34,9 @@ def is_possible(game: list[dict]) -> bool:
     return True
 
 
-def get_result(data: dict[list[dict]]) -> int:
-    pass
+def get_result(data: list[list[dict]]) -> int:
+    result = 0
+    for i, game in enumerate(data):
+        if is_possible(game):
+            result += i + 1
+    return result
