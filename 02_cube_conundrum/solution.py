@@ -32,3 +32,7 @@ def is_possible(game: list[dict]) -> bool:
             return False
     print(game)
     return True
+
+
+def get_result(data: dict[list[dict]]) -> int:
+    pass

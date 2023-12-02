@@ -26,3 +26,8 @@ def test_that_load_example_data_has_the_correct_entries(game, index):
                          [(GAME_1, True), (GAME_2, True), (GAME_3, False), (GAME_4, False), (GAME_5, True)])
 def test_that_if_a_game_is_possible_is_correctly_determined(game, is_possible):
     assert solution.is_possible(game) is is_possible
+
+
+def test_that_the_sum_of_possible_game_indices_is_correct_for_example_data():
+    data = solution.load_data("example_data.txt")
+    assert solution.get_result(data) == 8
