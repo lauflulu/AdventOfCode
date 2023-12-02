@@ -22,13 +22,14 @@ def _parse_rgb(rgb_string: str) -> dict:
     return rgb_dict
 
 
-def is_possible(game: list[dict]) -> bool:
+def is_possible(game: list[dict], cube_set: dict = None) -> bool:
+    cube_set = cube_set or {'red': 12, 'green': 13, 'blue': 14}
     for draw in game:
-        if draw['red'] > 12:
+        if draw['red'] > cube_set['red']:
             return False
-        if draw['green'] > 13:
+        if draw['green'] > cube_set['green']:
             return False
-        if draw['blue'] > 14:
+        if draw['blue'] > cube_set['blue']:
             return False
     return True
 
