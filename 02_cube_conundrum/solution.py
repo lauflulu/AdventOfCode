@@ -43,7 +43,12 @@ def get_result(data: list[list[dict]]) -> int:
 
 
 def minimum_set(game: list[dict]) -> dict:
-    pass
+    min_set = {'red': 0, 'green': 0, 'blue': 0}
+    for set_ in game:
+        for color in min_set.keys():
+            if set_[color] > min_set[color]:
+                min_set[color] = set_[color]
+    return min_set
 
 
 def main():
