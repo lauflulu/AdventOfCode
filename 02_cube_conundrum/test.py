@@ -47,3 +47,8 @@ def test_that_the_minimum_set_is_correct_for_example_data(game, minimum_set):
 @pytest.mark.parametrize("game", [GAME_1, GAME_2, GAME_3, GAME_4, GAME_5])
 def test_that_a_game_is_possible_given_its_minimum_set(game):
     assert solution.is_possible(game, solution.minimum_set(game))
+
+
+@pytest.mark.parametrize("game, power", [(GAME_1, 48), (GAME_2, 12), (GAME_3, 1560), (GAME_4, 630), (GAME_5, 36)])
+def test_that_power_of_set_is_correct_for_example(game, power):
+    assert solution.power_of(solution.minimum_set(game)) == power
