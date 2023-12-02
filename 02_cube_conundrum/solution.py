@@ -58,9 +58,17 @@ def power_of(set_: dict) -> int:
     return p
 
 
+def get_result_2(data: list[list[dict]]) -> int:
+    power_sum = 0
+    for game in data:
+        power_sum += power_of(minimum_set(game))
+    return power_sum
+
+
 def main():
     data = load_data("data.txt")
-    print(get_result(data))
+    print(f"Result: {get_result(data)}")
+    print(f"Result 2: {get_result_2(data)}")
 
 
 if __name__ == '__main__':
