@@ -20,3 +20,9 @@ def test_that_load_example_data_is_a_list_of_list_of_dicts():
 def test_that_load_example_data_has_the_correct_entries(game, index):
     data = solution.load_data("example_data.txt")
     assert data[index] == game
+
+
+@pytest.mark.parametrize("game, is_possible",
+                         [(GAME_1, True), (GAME_2, True), (GAME_3, False), (GAME_4, False), (GAME_5, True)])
+def test_that_if_a_game_is_possible_is_correctly_determined(game, is_possible):
+    assert solution.is_possible(game) is is_possible

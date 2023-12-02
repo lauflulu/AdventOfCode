@@ -1,4 +1,3 @@
-# 12 red cubes, 13 green cubes, and 14 blue cubes.
 import re
 
 
@@ -21,3 +20,8 @@ def _parse_rgb(rgb_string: str) -> dict:
             if color in rgb:
                 rgb_dict[color] = int(re.findall(r'[0-9]+', rgb)[0])
     return rgb_dict
+
+
+def is_possible(game: list[dict]) -> bool:
+    # 12 red cubes, 13 green cubes, and 14 blue cubes.
+    pass
