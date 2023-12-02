@@ -19,5 +19,5 @@ def _parse_rgb(rgb_string: str) -> dict:
     for rgb in rgbs:
         for color in rgb_dict.keys():
             if color in rgb:
-                rgb_dict[color] = int(re.findall(r'[0-9]', rgb)[0])
+                rgb_dict[color] = int(re.findall(r'[0-9]+', rgb)[0])
     return rgb_dict
