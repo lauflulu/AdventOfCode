@@ -42,6 +42,10 @@ def get_result(data: list[list[dict]]) -> int:
     return result
 
 
+def minimum_set(game: list[dict]) -> dict:
+    pass
+
+
 def main():
     data = load_data("data.txt")
     print(get_result(data))

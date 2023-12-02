@@ -31,3 +31,19 @@ def test_that_if_a_game_is_possible_is_correctly_determined(game, is_possible):
 def test_that_the_sum_of_possible_game_indices_is_correct_for_example_data():
     data = solution.load_data("example_data.txt")
     assert solution.get_result(data) == 8
+
+
+@pytest.mark.parametrize("game, minimum_set", [
+    (GAME_1, {'red': 4, 'green': 2, 'blue': 6}),
+    (GAME_2, {'red': 1, 'green': 3, 'blue': 4}),
+    (GAME_3, {'red': 20, 'green': 13, 'blue': 6}),
+    (GAME_4, {'red': 14, 'green': 3, 'blue': 15}),
+    (GAME_5, {'red': 6, 'green': 3, 'blue': 2}),
+])
+def test_that_the_minimum_set_is_correct_for_example_data(game, minimum_set):
+    assert solution.minimum_set(game) == minimum_set
+
+
+@pytest.mark.parametrize("game", [GAME_1, GAME_2, GAME_3, GAME_4, GAME_5])
+def test_that_a_game_is_possible_given_its_minimum_set(game):
+    assert solution.is_possible(game, solution.minimum_set(game))
