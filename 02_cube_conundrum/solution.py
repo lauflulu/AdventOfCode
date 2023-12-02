@@ -51,6 +51,13 @@ def minimum_set(game: list[dict]) -> dict:
     return min_set
 
 
+def power_of(set_: dict) -> int:
+    p = 1
+    for number in set_.values():
+        p *= number
+    return p
+
+
 def main():
     data = load_data("data.txt")
     print(get_result(data))
