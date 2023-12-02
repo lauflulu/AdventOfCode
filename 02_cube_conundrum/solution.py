@@ -23,5 +23,12 @@ def _parse_rgb(rgb_string: str) -> dict:
 
 
 def is_possible(game: list[dict]) -> bool:
-    # 12 red cubes, 13 green cubes, and 14 blue cubes.
-    pass
+    for draw in game:
+        if draw['red'] > 12:
+            return False
+        if draw['green'] > 13:
+            return False
+        if draw['blue'] > 14:
+            return False
+    print(game)
+    return True
