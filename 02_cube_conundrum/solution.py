@@ -30,7 +30,6 @@ def is_possible(game: list[dict]) -> bool:
             return False
         if draw['blue'] > 14:
             return False
-    print(game)
     return True
 
 
@@ -40,3 +39,12 @@ def get_result(data: list[list[dict]]) -> int:
         if is_possible(game):
             result += i + 1
     return result
+
+
+def main():
+    data = load_data("data.txt")
+    print(get_result(data))
+
+
+if __name__ == '__main__':
+    main()
