@@ -15,4 +15,9 @@ def get_result():
 
 
 def load_data(filename: str):
-    pass
+    with open(filename, 'r') as file:
+        matrix = []
+        for row in file:
+            columns = [col for col in row.strip()]
+            matrix.append(columns)
+        return np.array(matrix)
