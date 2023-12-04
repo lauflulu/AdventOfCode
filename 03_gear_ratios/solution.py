@@ -3,9 +3,11 @@ import re
 import numpy as np
 
 
-def _has_neighbor(x: int, y: int):
+def _has_neighbor(data: np.array, x: int, y: int) -> bool:
     """Determine if there is a symbol in the 8-neighborhood of a given position."""
-    pass
+    padded_data = np.pad(data, 1, mode='constant', constant_values='.')
+    neighboring_data = padded_data[y:y+3, x:x+3]  # has to shift by one due to padding
+    return bool(np.any(np.char.find(neighboring_data, '*') != -1))
 
 
 def get_part_numbers():
