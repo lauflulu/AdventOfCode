@@ -17,7 +17,8 @@ class TestExampleData:
         assert solution.get_part_numbers(data) == [467, 35, 633, 617, 592, 755, 664, 598]
 
     def test_that_the_answer_is_correct_for_example_data(self):
-        assert solution.get_result() == 4361
+        data = solution.load_data("example.txt")
+        assert solution.get_result(data) == 4361
 
 
 class TestKernel:

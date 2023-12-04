@@ -33,9 +33,8 @@ def get_part_numbers(data: np.array) -> list:
     return [int(n) for n in part_numbers]
 
 
-
-def get_result():
-    pass
+def get_result(data: np.array) -> int:
+    return sum(get_part_numbers(data))
 
 
 def load_data(filename: str):
@@ -53,3 +52,6 @@ def _replace_symbols(row):
             col = '*'
         columns.append(col)
     return columns
+
+
+
