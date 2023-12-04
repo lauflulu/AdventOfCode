@@ -13,7 +13,8 @@ class TestExampleData:
         assert np.all(np.isin(loaded_data, ['*', '.'] + [str(n) for n in range(10)]))
 
     def test_that_only_part_numbers_are_found_in_example_data(self):
-        assert solution.get_part_numbers() == [467, 35, 633, 617, 592, 755, 664, 598]
+        data = solution.load_data("example.txt")
+        assert solution.get_part_numbers(data) == [467, 35, 633, 617, 592, 755, 664, 598]
 
     def test_that_the_answer_is_correct_for_example_data(self):
         assert solution.get_result() == 4361
