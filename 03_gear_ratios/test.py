@@ -28,6 +28,7 @@ class TestKernel:
         (3, 2, True),  # symbol above
         (9, 9, False),  # corner bottom right
         (2, 4, True),  # symbol right
+        (8, 5, False)  # no neighbor
     ])
     def test_that_neighboring_symbols_are_detected_in_example_data_at_position(self, x, y, has_neighbor_):
         data = solution.load_data("example.txt")
