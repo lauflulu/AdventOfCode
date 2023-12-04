@@ -33,3 +33,13 @@ class TestKernel:
     def test_that_neighboring_symbols_are_detected_in_example_data_at_position(self, x, y, has_neighbor_):
         data = solution.load_data("example.txt")
         assert solution._has_neighbor(data, x, y) is has_neighbor_
+
+    def test_that_sliced_data_has_correct_shape(self):
+        data = solution.load_data("example.txt")
+        assert solution._slice_neighbors(data, 2, 2).shape == (3, 3)
+
+    @pytest.mark.parametrize(" x, y", [(1, 1), (2, 2), (3, 1)])
+    def test_that_sliced_data_is_centered(self, x, y):
+        data = solution.load_data("example.txt")
+        center_of_slice = solution._slice_neighbors(data, x, y)[1, 1]
+        assert center_of_slice == data[y, x]

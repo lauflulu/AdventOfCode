@@ -5,8 +5,12 @@ import numpy as np
 def _has_neighbor(data: np.array, x: int, y: int) -> bool:
     """Determine if there is a symbol in the 8-neighborhood of a given position."""
     padded_data = np.pad(data, 1, mode='constant', constant_values='.')
-    neighboring_data = padded_data[y:y+3, x:x+3]  # has to shift by one due to padding
+    neighboring_data = _slice_neighbors(padded_data, x+1, y+1)  # has to shift by +1 due to padding
     return bool(np.any(np.char.find(neighboring_data, '*') != -1))
+
+
+def _slice_neighbors(padded_data, x, y):
+    return padded_data[y-1:y + 2, x-1:x + 2]
 
 
 def get_part_numbers(data: np.array) -> list:
@@ -55,7 +59,6 @@ def _replace_symbols(row):
 
 def main():
     data = load_data("data.txt")
-    print(data)
     print(get_result(data))
 
 
