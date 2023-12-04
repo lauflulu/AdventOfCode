@@ -1,3 +1,5 @@
+import re
+
 import numpy as np
 
 
@@ -18,6 +20,14 @@ def load_data(filename: str):
     with open(filename, 'r') as file:
         matrix = []
         for row in file:
-            columns = [col for col in row.strip()]
-            matrix.append(columns)
+            matrix.append(_replace_symbols(row))
         return np.array(matrix)
+
+
+def _replace_symbols(row):
+    columns = []
+    for col in row.strip():
+        if not re.match(r'[.0-9]', col):
+            col = '*'
+        columns.append(col)
+    return columns

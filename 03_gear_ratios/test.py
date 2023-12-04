@@ -1,11 +1,16 @@
 import pytest
 import solution
+import numpy as np
 
 
 class TestExampleData:
     def test_that_loaded_example_data_has_the_correct_shape(self):
         loaded_data = solution.load_data("example.txt")
         assert loaded_data.shape == (10, 10)
+
+    def test_that_loaded_data_only_contains_allowed_symbols(self):
+        loaded_data = solution.load_data("example.txt")
+        assert np.all(np.isin(loaded_data, ['*', '.'] + [str(n) for n in range(10)]))
 
     def test_that_only_part_numbers_are_found_in_example_data(self):
         assert solution.get_part_numbers() == [467, 35, 633, 617, 592, 755, 664, 598]
