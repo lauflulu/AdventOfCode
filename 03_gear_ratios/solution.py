@@ -1,5 +1,4 @@
 import re
-
 import numpy as np
 
 
@@ -54,4 +53,11 @@ def _replace_symbols(row):
     return columns
 
 
+def main():
+    data = load_data("data.txt")
+    print(data)
+    print(get_result(data))
 
+
+if __name__ == '__main__':
+    main()
