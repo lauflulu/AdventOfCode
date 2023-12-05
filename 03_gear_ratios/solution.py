@@ -17,6 +17,7 @@ def _slice_neighbors(padded_data, x, y):
 
 
 def get_part_numbers(data: np.array) -> list:
+    data = _dot_pad_data(data)
     part_numbers = []
     previous_value = '.'
     part_number = ''
