@@ -9,7 +9,7 @@ class TestExampleData:
         assert loaded_data.shape == (10, 10)
 
     def test_that_loaded_data_only_contains_allowed_symbols(self):
-        loaded_data = solution.load_data("example.txt")
+        loaded_data = solution._replace_symbols(solution.load_data("example.txt"))
         assert np.all(np.isin(loaded_data, ['*', '.'] + [str(n) for n in range(10)]))
 
     def test_that_only_part_numbers_are_found_in_example_data(self):

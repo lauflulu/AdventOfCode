@@ -17,7 +17,7 @@ def _slice_neighbors(padded_data, x, y):
 
 
 def get_part_numbers(data: np.array) -> list:
-    data = _dot_pad_data(data)
+    data = _dot_pad_data(_replace_symbols(data))
     part_numbers = []
     previous_value = '.'
     part_number = ''
@@ -46,19 +46,15 @@ def get_result(data: np.array) -> int:
 
 def load_data(filename: str):
     with open(filename, 'r') as file:
-        matrix = []
-        for row in file:
-            matrix.append(_replace_symbols(row))
-        return np.array(matrix)
+        return np.array([[col for col in row.strip()] for row in file])
 
 
-def _replace_symbols(row):
-    columns = []
-    for col in row.strip():
-        if not re.match(r'[.0-9]', col):
-            col = '*'
-        columns.append(col)
-    return columns
+def _replace_symbols(data: np.array):
+    for y in range(data.shape[0]):
+        for x in range(data.shape[1]):
+            if not re.match(r'[.0-9]', data[y, x]):
+                data[y, x] = '*'
+    return data
 
 
 def get_gear_ratios(data):
