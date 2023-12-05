@@ -61,9 +61,18 @@ def _replace_symbols(row):
     return columns
 
 
+def get_gear_ratios(data):
+    pass
+
+
+def get_result_2(data):
+    pass
+
+
 def main():
     data = load_data("data.txt")
     print(get_result(data))
+    print(get_result_2(data))
 
 
 if __name__ == '__main__':

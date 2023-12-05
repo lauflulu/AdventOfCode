@@ -43,3 +43,13 @@ class TestKernel:
         data = solution.load_data("example.txt")
         center_of_slice = solution._slice_neighbors(data, x, y)[1, 1]
         assert center_of_slice == data[y, x]
+
+
+class TestPart2:
+    def test_that_the_gear_ratios_are_found_in_example_data(self):
+        data = solution.load_data("example.txt")
+        assert solution.get_gear_ratios(data) == [16345, 755*598]
+
+    def test_that_the_result_is_correct_for_example_data(self):
+        data = solution.load_data("example.txt")
+        assert solution.get_result_2(data) == 467835
