@@ -4,8 +4,12 @@ import numpy as np
 
 def _has_neighbor(data: np.array, x: int, y: int, symbols: list[str] = '*') -> bool:
     """Determine if there is a symbol in the 8-neighborhood of a given position."""
+    return bool(np.any(_find_neighbors(data, symbols, x, y)))
+
+
+def _find_neighbors(data, symbols, x, y):
     neighboring_data = _slice_neighbors(_dot_pad_data(data), x + 1, y + 1)  # has to shift by +1 due to padding
-    return bool(np.any(np.isin(neighboring_data, symbols)))
+    return np.isin(neighboring_data, symbols)
 
 
 def _dot_pad_data(data):
