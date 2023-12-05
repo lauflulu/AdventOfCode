@@ -2,10 +2,10 @@ import re
 import numpy as np
 
 
-def _has_neighbor(data: np.array, x: int, y: int) -> bool:
+def _has_neighbor(data: np.array, x: int, y: int, symbols: list[str] = '*') -> bool:
     """Determine if there is a symbol in the 8-neighborhood of a given position."""
     neighboring_data = _slice_neighbors(_dot_pad_data(data), x + 1, y + 1)  # has to shift by +1 due to padding
-    return bool(np.any(np.char.find(neighboring_data, '*') != -1))
+    return bool(np.any(np.isin(neighboring_data, symbols)))
 
 
 def _dot_pad_data(data):
