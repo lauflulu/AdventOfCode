@@ -69,7 +69,7 @@ def get_gear_ratios(data: np.array):
         if not neighbors.sum() >= 2:
             continue
         parts = _find_parts_next_to_gear(data, neighbors, x, y)
-        if parts is not None:
+        if len(parts) == 2:
             gear_ratios.append(parts[0] * parts[1])
     return gear_ratios
 
@@ -116,7 +116,7 @@ def _find_gears(data):
 
 
 def get_result_2(data):
-    pass
+    return sum(get_gear_ratios(data))
 
 
 def main():
