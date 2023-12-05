@@ -48,8 +48,12 @@ class TestKernel:
 class TestPart2:
     def test_that_the_gear_ratios_are_found_in_example_data(self):
         data = solution.load_data("example.txt")
-        assert solution.get_gear_ratios(data) == [16345, 755*598]
+        assert solution.get_gear_ratios(data) == [16345, 755 * 598]
 
     def test_that_the_result_is_correct_for_example_data(self):
         data = solution.load_data("example.txt")
         assert solution.get_result_2(data) == 467835
+
+    def test_that_only_non_adjacent_digits_are_considered_as_parts(self):
+        neighbors = np.array([[False, False, False], [False, True, True], [True, True, False]])
+        assert solution._non_adjacent_part_indices(neighbors) == [(1, 1), (2, 0)]

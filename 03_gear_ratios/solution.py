@@ -17,7 +17,7 @@ def _dot_pad_data(data):
 
 
 def _slice_neighbors(padded_data, x, y):
-    return padded_data[y-1:y + 2, x-1:x + 2]
+    return padded_data[y - 1:y + 2, x - 1:x + 2]
 
 
 def get_part_numbers(data: np.array) -> list:
@@ -61,8 +61,58 @@ def _replace_symbols(data: np.array):
     return data
 
 
-def get_gear_ratios(data):
-    pass
+def get_gear_ratios(data: np.array):
+    data = _dot_pad_data(data)
+    gear_ratios = []
+    for y, x in _find_gears(data):
+        neighbors = _find_neighbors(data=data, symbols=[str(i) for i in range(10)], x=x, y=y)
+        if not neighbors.sum() >= 2:
+            continue
+        parts = _find_parts_next_to_gear(data, neighbors, x, y)
+        if parts is not None:
+            gear_ratios.append(parts[0] * parts[1])
+    return gear_ratios
+
+
+def _find_parts_next_to_gear(data, neighbors, x, y):
+    parts = []
+    for dy, dx in _non_adjacent_part_indices(neighbors):
+        parts.append(_get_part_number_at_index(data, y - 1 + dy, x - 1 + dx))
+    return [int(part) for part in parts]
+
+
+def _get_part_number_at_index(data, y, x):
+    part_number = data[y, x]
+    digit_chars = [str(i) for i in range(10)]
+    if part_number not in digit_chars:
+        return None
+    # go left until not digit
+    dx = 1
+    while data[y, x - dx] in digit_chars:
+        part_number = data[y, x - dx] + part_number
+        dx += 1
+    # go right until not digit
+    dx = 1
+    while data[y, x + dx] in digit_chars:
+        part_number += data[y, x + dx]
+        dx += 1
+    return part_number
+
+
+def _non_adjacent_part_indices(neighbors):
+    indices = []
+
+    for y in range(neighbors.shape[0]):
+        previous_is_neighbor = False
+        for x in range(neighbors.shape[1]):
+            if neighbors[y, x] and not previous_is_neighbor:
+                indices.append((y, x))
+            previous_is_neighbor = neighbors[y, x]
+    return indices
+
+
+def _find_gears(data):
+    return np.argwhere(data == '*')
 
 
 def get_result_2(data):
