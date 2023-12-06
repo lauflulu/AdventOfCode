@@ -1,6 +1,10 @@
+import re
+
+
 class Card:
 
-    def __init__(self, winning_numbers: tuple[int], scratch_numbers: tuple[int]):
+    def __init__(self, index: int, winning_numbers: tuple[int], scratch_numbers: tuple[int]):
+        self.index = index
         self.winning_numbers: tuple[int] = winning_numbers
         self.scratch_numbers: tuple[int] = scratch_numbers
 
@@ -36,9 +40,10 @@ def load_data(filepath: str) -> list[Card]:
 
 
 def _parse(line: str):
-    _, numbers = line.split(':')
+    index, numbers = line.split(':')
+    index = int(re.findall(r'[0-9]+', index)[0]) - 1
     winning_numbers, scratch_numbers = numbers.split('|')
-    return Card(_parse_numbers(winning_numbers), _parse_numbers(scratch_numbers))
+    return Card(index, _parse_numbers(winning_numbers), _parse_numbers(scratch_numbers))
 
 
 def _parse_numbers(numbers: str):
