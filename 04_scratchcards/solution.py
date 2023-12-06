@@ -29,5 +29,14 @@ def _parse_numbers(numbers: str):
     return tuple([int(number.strip()) for number in numbers.split(' ') if not number == ''])
 
 
-def get_result(data) -> int:
-    pass
+def get_result(cards: list[Card]) -> int:
+    return sum([card.value() for card in cards])
+
+
+def main():
+    cards = load_data("data.txt")
+    print(get_result(cards))
+
+
+if __name__ == '__main__':
+    main()
