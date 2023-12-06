@@ -25,7 +25,18 @@ class Card:
 class CardStack:
     def __init__(self, cards: list[Card]):
         self._processed = {i: [] for i in range(len(cards))}
-        self._unprocessed = {i: [card] for i, card in enumerate(cards)}
+        self._unprocessed = [[card] for card in cards]
+
+        self._process()
+
+    def _process(self):
+        while len(self._unprocessed) > 0:
+            current_cards = self._unprocessed.pop(0)
+            self._processed[current_cards[0].index] += current_cards
+            matches = current_cards[0].matches()
+            for i in range(matches):
+                for j in range(len(current_cards)):
+                    self._unprocessed[i].append(self._unprocessed[i][0])
 
     def counts(self) -> list[int]:
         return [len(card_instance) for card_instance in self._processed.values()]
