@@ -14,6 +14,18 @@ class Card:
         return 2**(matches - 1)
 
 
+class CardStack:
+    def __init__(self, cards: list[Card]):
+        self._processed = {i: [] for i in range(len(cards))}
+        self._unprocessed = {i: [card] for i, card in enumerate(cards)}
+
+    def counts(self) -> list[int]:
+        return [len(card_instance) for card_instance in self._processed.values()]
+
+    def total_count(self) -> int:
+        return sum(self.counts())
+
+
 def load_data(filepath: str) -> list[Card]:
     with open(filepath, 'r') as file:
         return [_parse(line) for line in file]
@@ -33,9 +45,14 @@ def get_result(cards: list[Card]) -> int:
     return sum([card.value() for card in cards])
 
 
+def get_result_2(cards: list[Card]) -> int:
+    return CardStack(cards).total_count()
+
+
 def main():
     cards = load_data("data.txt")
     print(get_result(cards))
+    print(get_result_2(cards))
 
 
 if __name__ == '__main__':
