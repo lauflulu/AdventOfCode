@@ -5,13 +5,17 @@ class Card:
         self.scratch_numbers: tuple[int] = scratch_numbers
 
     def value(self):
+        matches = self.matches()
+        if matches == 0:
+            return 0
+        return 2**(matches - 1)
+
+    def matches(self):
         matches = 0
         for number in self.scratch_numbers:
             if number in self.winning_numbers:
                 matches += 1
-        if matches == 0:
-            return 0
-        return 2**(matches - 1)
+        return matches
 
 
 class CardStack:
