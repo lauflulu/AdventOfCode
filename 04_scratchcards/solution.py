@@ -16,9 +16,11 @@ def load_data(filepath: str) -> list[Card]:
 def _parse(line: str):
     _, numbers = line.split(':')
     winning_numbers, scratch_numbers = numbers.split('|')
-    winning_numbers = tuple([int(number.strip()) for number in winning_numbers.split(' ') if not number == ''])
-    scratch_numbers = tuple([int(number.strip()) for number in scratch_numbers.split(' ') if not number == ''])
-    return Card(winning_numbers, scratch_numbers)
+    return Card(_parse_numbers(winning_numbers), _parse_numbers(scratch_numbers))
+
+
+def _parse_numbers(numbers: str):
+    return tuple([int(number.strip()) for number in numbers.split(' ') if not number == ''])
 
 
 def get_result(data) -> int:
