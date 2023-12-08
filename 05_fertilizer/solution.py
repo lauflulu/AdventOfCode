@@ -51,7 +51,11 @@ def load_data(filename) -> tuple[list[int], list[Map]]:
 
 
 def map_categories(maps, number, source, destination) -> int:
+    n = number
     for map_ in maps:
-        if map_.source == source and map_.destination == destination:
-            return map_.map(number)
+        if map_.source == source:
+            n = map_.map(n)
+            source = map_.destination
+            if map_.destination == destination:
+                return n
     raise ValueError
