@@ -50,4 +50,10 @@ class TestResult1:
 class TestResult2:
     def test_that_seeds_are_loaded_correctly_if_interpreted_as_ranges(self):
         seeds, maps = solution.load_data("example.txt")
-        assert len(solution.convert_seeds(seeds)) == sum(seeds[1::2])
+        seed_ranges = solution.convert_seeds(seeds)
+        assert len(seed_ranges) == sum(seeds[1::2])
+
+    def test_that_the_result_is_correct_for_example(self):
+        seeds, maps = solution.load_data("example.txt")
+        seed_ranges = solution.convert_seeds(seeds)
+        assert solution.get_result(seed_ranges, maps) == 46
