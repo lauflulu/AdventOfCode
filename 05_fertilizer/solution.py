@@ -61,6 +61,15 @@ def map_categories(maps, number, source, destination) -> int:
     raise ValueError
 
 
+def convert_seeds(seeds):
+    starts = seeds[0::2]
+    lengths = seeds[1::2]
+    seed_ranges = []
+    for start, length in zip(starts, lengths):
+        seed_ranges += range(start, start + length)
+    return seed_ranges
+
+
 def get_result(seeds, maps):
     locations = [map_categories(maps, number=seed, source="seed", destination="location") for seed in seeds]
     return min(locations)
