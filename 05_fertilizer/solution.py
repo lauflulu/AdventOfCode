@@ -59,3 +59,17 @@ def map_categories(maps, number, source, destination) -> int:
             if map_.destination == destination:
                 return n
     raise ValueError
+
+
+def get_result(seeds, maps):
+    locations = [map_categories(maps, number=seed, source="seed", destination="location") for seed in seeds]
+    return min(locations)
+
+
+def main():
+    seeds, maps = load_data("data.txt")
+    print(get_result(seeds, maps))
+
+
+if __name__ == '__main__':
+    main()

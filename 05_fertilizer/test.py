@@ -39,3 +39,15 @@ class TestMapping:
     def test_that_example_seeds_are_mapped_to_correct_location(self, seed, location):
         _, maps = solution.load_data("example.txt")
         assert solution.map_categories(maps, number=seed, source="seed", destination="location") == location
+
+
+class TestResult1:
+    def test_that_the_result_is_correct_for_example(self):
+        seeds, maps = solution.load_data("example.txt")
+        assert solution.get_result(seeds, maps) == 35
+
+
+class TestResult2:
+    def test_that_seeds_are_loaded_correctly_if_interpreted_as_ranges(self):
+        seeds, maps = solution.load_data("example.txt")
+        assert len(solution.convert_seeds(seeds)) == sum(seeds[1::2])
