@@ -30,7 +30,7 @@ class TestLoading:
 
 
 class TestMapping:
-    @pytest.mark.parametrize("seed, soil", [(79, 81), (14, 14), (55, 57), (13, 13)])
+    @pytest.mark.parametrize("seed, soil", [(79, 81), (14, 14), (55, 57), (13, 13), (97, 99), (98, 50), (49, 49)])
     def test_that_example_seeds_are_mapped_to_correct_soil(self, seed, soil):
         _, maps = solution.load_data("example.txt")
         assert solution.map_categories(maps, number=seed, source="seed", destination="soil") == soil
