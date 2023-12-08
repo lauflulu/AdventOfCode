@@ -23,8 +23,8 @@ class Range:
         self.length = length
 
     def destination(self, source_number) -> int | None:
-        if self.source_start <= source_number <= self.source_start + self.length:
-            return self.source_start - source_number + self.destination_start
+        if self.source_start <= source_number < self.source_start + self.length:
+            return source_number - self.source_start + self.destination_start
 
 
 def load_data(filename) -> tuple[list[int], list[Map]]:
@@ -50,5 +50,8 @@ def load_data(filename) -> tuple[list[int], list[Map]]:
     return seeds, maps
 
 
-def map_categories(number, source, destination):
-    pass
+def map_categories(maps, number, source, destination) -> int:
+    for map_ in maps:
+        if map_.source == source and map_.destination == destination:
+            return map_.map(number)
+    raise ValueError

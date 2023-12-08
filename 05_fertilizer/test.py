@@ -33,9 +33,9 @@ class TestMapping:
     @pytest.mark.parametrize("seed, soil", [(79, 81), (14, 14), (55, 57), (13, 13)])
     def test_that_example_seeds_are_mapped_to_correct_soil(self, seed, soil):
         _, maps = solution.load_data("example.txt")
-        assert solution.map_categories(number=seed, source="seed", destination="soil") == soil
+        assert solution.map_categories(maps, number=seed, source="seed", destination="soil") == soil
 
     @pytest.mark.parametrize("seed, location", [(79, 82), (14, 43), (55, 86), (13, 35)])
-    def test_that_example_seeds_are_mapped_to_correct_soil(self, seed, location):
+    def test_that_example_seeds_are_mapped_to_correct_location(self, seed, location):
         _, maps = solution.load_data("example.txt")
-        assert solution.map_categories(number=seed, source="seed", destination="soil") == location
+        assert solution.map_categories(maps, number=seed, source="seed", destination="location") == location
