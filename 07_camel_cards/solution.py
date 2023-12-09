@@ -1,7 +1,26 @@
+from enum import Enum
+
+
+class HandTypes(Enum):
+    FIVE = 0
+    FOUR = 1
+    FULL_HOUSE = 2
+    THREE = 3
+    TWO_PAIR = 4
+    ONE_PAIR = 5
+    HIGH_CARD = 6
+
+
+CARD_STRENGTHS = ('A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2')
+
+
 class Hand:
     def __init__(self, cards: str, bid: int):
         self.cards = cards
         self.bid = bid
+
+    def type(self):
+        pass
 
 
 def load_data(filename):
