@@ -61,6 +61,8 @@ class Hand:
 
 class HandJoker(Hand):
     def card_count(self):
+        if self.cards == "JJJJJ":
+            return [5]
         number_of_jokers = len(re.findall(r'J', self.cards))
         cards_without_jokers = self.cards.replace('J', '')
         card_count = [cards_without_jokers.count(i) for i in set(cards_without_jokers)]
