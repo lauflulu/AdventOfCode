@@ -57,3 +57,13 @@ class TestResult2:
         seeds, maps = solution.load_data("example.txt")
         seed_ranges = solution.convert_seeds(seeds)
         assert solution.get_result(seed_ranges, maps) == 46
+
+    @pytest.mark.parametrize("seed, soil", [(79, 81), (14, 14), (55, 57), (13, 13), (97, 99), (98, 50), (49, 49)])
+    def test_inverse_mapping_one_category_for_example(self, seed, soil):
+        _, maps = solution.load_data("example.txt")
+        assert solution.map_categories_inverse(maps, number=soil, source="seed", destination="soil") == seed
+
+    @pytest.mark.parametrize("seed, location", [(79, 82), (14, 43), (55, 86), (13, 35)])
+    def test_inverse_mapping_for_example(self, seed, location):
+        _, maps = solution.load_data("example.txt")
+        assert solution.map_categories_inverse(maps, number=location, source="seed", destination="location") == seed
