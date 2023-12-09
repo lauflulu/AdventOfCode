@@ -51,3 +51,14 @@ class TestPart1:
     def test_result_is_correct_for_example(self):
         hands = solution.load_data("example.txt")
         assert solution.get_result(hands) == 6440
+
+
+class TestPart2:
+    def test_that_hands_dataframe_is_ranked_correctly(self):
+        hands = solution.load_data("example.txt")
+        df_ranked = solution.rank_hands(hands)
+        assert all(df_ranked.loc[:, 'bid'].values == [765, 28, 684, 483, 220])
+
+    def test_result_is_correct_for_example(self):
+        hands = solution.load_data("example.txt")
+        assert solution.get_result(hands) == 5905
