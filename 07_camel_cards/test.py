@@ -64,6 +64,7 @@ class TestPart2:
         assert solution.get_result(hands) == 5905
 
     @pytest.mark.parametrize("cards, type_", [
+        ('JJJJJ', HandTypes.FIVE),
         ('AJAJA', HandTypes.FIVE),
         ('JA8JA', HandTypes.FOUR),
         ('233J2', HandTypes.FULL_HOUSE),
