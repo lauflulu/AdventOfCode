@@ -29,3 +29,11 @@ class TestPart1:
     ])
     def test_that_cards_are_valued_correctly(self, cards, values):
         assert solution.Hand(cards, 1).values() == values
+
+    @pytest.mark.parametrize("cards, values", [
+        ('AAAAA', [int(HandTypes.FIVE), 0, 0, 0, 0, 0]),
+        ('TTT98', [int(HandTypes.THREE), 4, 4, 4, 5, 6]),
+        ('23432', [int(HandTypes.TWO_PAIR), 12, 11, 10, 11, 12]),
+    ])
+    def test_that_cards_are_scored_correctly(self, cards, values):
+        assert solution.Hand(cards, 1).score() == values
