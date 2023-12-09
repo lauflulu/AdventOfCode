@@ -92,16 +92,31 @@ def convert_seeds(seeds):
     return seed_ranges
 
 
+def is_in_range_seeds(seed, seeds) -> bool:
+    starts = seeds[0::2]
+    lengths = seeds[1::2]
+    for start, length in zip(starts, lengths):
+        if start <= seed < start + length:
+            return True
+    return False
+
+
 def get_result(seeds, maps):
     locations = [map_categories(maps, number=seed, source="seed", destination="location") for seed in seeds]
     return min(locations)
 
 
+def get_result_2(seeds, maps):
+    for location in range(2**32):
+        seed = map_categories_inverse(maps, location, source="seed", destination="location")
+        if is_in_range_seeds(seed, seeds):
+            return location
+
+
 def main():
     seeds, maps = load_data("data.txt")
     print(get_result(seeds, maps))
-    seed_ranges = convert_seeds(seeds)
-    print(get_result(seed_ranges, maps))
+    print(get_result_2(seeds, maps))
 
 
 if __name__ == '__main__':

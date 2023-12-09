@@ -67,3 +67,7 @@ class TestResult2:
     def test_inverse_mapping_for_example(self, seed, location):
         _, maps = solution.load_data("example.txt")
         assert solution.map_categories_inverse(maps, number=location, source="seed", destination="location") == seed
+
+    def test_that_the_result_is_correct_for_example_using_inverse_algorithm(self):
+        seeds, maps = solution.load_data("example.txt")
+        assert solution.get_result_2(seeds, maps) == 46
