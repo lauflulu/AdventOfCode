@@ -1,4 +1,6 @@
 from enum import IntEnum
+
+import numpy as np
 import pandas as pd
 
 
@@ -71,8 +73,10 @@ def rank_hands(hands: list[Hand]):
     return df
 
 
-def get_result(data):
-    pass
+def get_result(hands: list[Hand]):
+    bids = np.array(rank_hands(hands).loc[:, 'bid'].values)
+    ranks = np.arange(1, len(bids)+1)
+    return np.dot(bids, ranks)
 
 
 def get_result_2(data):
