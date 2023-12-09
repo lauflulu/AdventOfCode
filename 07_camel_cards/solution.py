@@ -23,8 +23,7 @@ class Hand:
         self.bid = bid
 
     def type(self):
-        card_count = [self.cards.count(i) for i in set(self.cards)]
-        card_count.sort(reverse=True)
+        card_count = self.card_count()
         if card_count == [5]:
             return HandTypes.FIVE
         if card_count == [4, 1]:
@@ -38,6 +37,11 @@ class Hand:
         if card_count == [2, 1, 1, 1]:
             return HandTypes.ONE_PAIR
         return HandTypes.HIGH_CARD
+
+    def card_count(self):
+        card_count = [self.cards.count(i) for i in set(self.cards)]
+        card_count.sort(reverse=True)
+        return card_count
 
     def values(self):
         return [CARD_STRENGTHS.index(card) for card in self.cards]
