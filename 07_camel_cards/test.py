@@ -62,3 +62,15 @@ class TestPart2:
     def test_result_is_correct_for_example(self):
         hands = solution.load_data("example.txt")
         assert solution.get_result(hands) == 5905
+
+    @pytest.mark.parametrize("cards, type_", [
+        ('AJAJA', HandTypes.FIVE),
+        ('JA8JA', HandTypes.FOUR),
+        ('233J2', HandTypes.FULL_HOUSE),
+        ('TTJ98', HandTypes.THREE),
+        ('23132', HandTypes.TWO_PAIR),
+        ('A23J4', HandTypes.ONE_PAIR),
+        ('23456', HandTypes.HIGH_CARD),
+    ])
+    def test_that_types_are_correct_for_examples(self, cards, type_):
+        assert solution.HandJoker(cards, 1).type() == type_

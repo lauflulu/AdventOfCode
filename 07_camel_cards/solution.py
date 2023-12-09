@@ -1,3 +1,4 @@
+import re
 from enum import IntEnum
 
 import numpy as np
@@ -15,6 +16,7 @@ class HandTypes(IntEnum):
 
 
 CARD_STRENGTHS = ('A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2')
+CARD_STRENGTHS_JOKER = ('A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J')
 
 
 class Hand:
@@ -55,6 +57,19 @@ class Hand:
             dict_[f"{i}"] = s
         dict_["bid"] = self.bid
         return dict_
+
+
+class HandJoker(Hand):
+    def card_count(self):
+        number_of_jokers = len(re.findall(r'J', self.cards))
+        cards_without_jokers = self.cards.replace('J', '')
+        card_count = [cards_without_jokers.count(i) for i in set(cards_without_jokers)]
+        card_count.sort(reverse=True)
+        card_count[0] += number_of_jokers
+        return card_count
+
+    def values(self):
+        return [CARD_STRENGTHS_JOKER.index(card) for card in self.cards]
 
 
 def load_data(filename):
