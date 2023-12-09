@@ -39,6 +39,9 @@ class Hand:
     def values(self):
         return [CARD_STRENGTHS.index(card) for card in self.cards]
 
+    def score(self):
+        return [int(self.type())] + self.values()
+
 
 def load_data(filename):
     with open(filename, 'r') as file:
