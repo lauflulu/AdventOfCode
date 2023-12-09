@@ -5,7 +5,12 @@ class Hand:
 
 
 def load_data(filename):
-    pass
+    with open(filename, 'r') as file:
+        hands = []
+        for line in file:
+            cards, bid = line.split(' ')
+            hands.append(Hand(cards.strip(), int(bid.strip())))
+        return hands
 
 
 def get_result(data):
