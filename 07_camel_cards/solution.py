@@ -1,3 +1,9 @@
+class Hand:
+    def __init__(self, cards: str, bid: int):
+        self.cards = cards
+        self.bid = bid
+
+
 def load_data(filename):
     pass
 
