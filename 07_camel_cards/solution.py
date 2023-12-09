@@ -98,14 +98,20 @@ def get_result(hands: list[Hand]):
     return np.dot(bids, ranks)
 
 
-def get_result_2(data):
-    pass
+def load_data_2(filename):
+    with open(filename, 'r') as file:
+        hands = []
+        for line in file:
+            cards, bid = line.split(' ')
+            hands.append(HandJoker(cards.strip(), int(bid.strip())))
+        return hands
 
 
 def main():
     data = load_data("data.txt")
     print(get_result(data))
-    print(get_result_2(data))
+    data_2 = load_data_2("data.txt")
+    print(get_result(data_2))
 
 
 if __name__ == '__main__':
