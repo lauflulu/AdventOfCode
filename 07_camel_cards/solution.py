@@ -23,7 +23,7 @@ class Hand:
         pass
 
     def values(self):
-        pass
+        return [CARD_STRENGTHS.index(card) for card in self.cards]
 
 
 def load_data(filename):
