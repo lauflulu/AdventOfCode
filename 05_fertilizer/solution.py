@@ -15,6 +15,13 @@ class Map:
                 return destination_number
         return source_number
 
+    def map_inverse(self, destination_number):
+        for range_ in self.ranges:
+            source_number = range_.source(destination_number)
+            if source_number is not None:
+                return source_number
+        return destination_number
+
 
 class Range:
     def __init__(self, destination_start: int, source_start: int, length: int):
@@ -25,6 +32,10 @@ class Range:
     def destination(self, source_number) -> int | None:
         if self.source_start <= source_number < self.source_start + self.length:
             return source_number - self.source_start + self.destination_start
+
+    def source(self, destination_number) -> int | None:
+        if self.destination_start <= destination_number < self.destination_start + self.length:
+            return destination_number - self.destination_start + self.source_start
 
 
 def load_data(filename) -> tuple[list[int], list[Map]]:
@@ -61,6 +72,17 @@ def map_categories(maps, number, source, destination) -> int:
     raise ValueError
 
 
+def map_categories_inverse(maps, number, source, destination) -> int:
+    n = number
+    for map_ in reversed(maps):
+        if map_.destination == destination:
+            n = map_.map_inverse(n)
+            destination = map_.source
+            if map_.source == source:
+                return n
+    raise ValueError
+
+
 def convert_seeds(seeds):
     starts = seeds[0::2]
     lengths = seeds[1::2]
@@ -78,6 +100,8 @@ def get_result(seeds, maps):
 def main():
     seeds, maps = load_data("data.txt")
     print(get_result(seeds, maps))
+    seed_ranges = convert_seeds(seeds)
+    print(get_result(seed_ranges, maps))
 
 
 if __name__ == '__main__':
