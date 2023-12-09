@@ -66,7 +66,7 @@ def to_dataframe(hands: list[Hand]):
 
 def rank_hands(hands: list[Hand]):
     df = to_dataframe(hands)
-    df = df.sort_values([str(i) for i in range(6)])
+    df = df.sort_values([str(i) for i in range(6)], ascending=[False]*6)
     df = df.reset_index()
     return df
 
