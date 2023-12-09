@@ -22,6 +22,9 @@ class Hand:
     def type(self):
         pass
 
+    def values(self):
+        pass
+
 
 def load_data(filename):
     with open(filename, 'r') as file:

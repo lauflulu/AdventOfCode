@@ -21,3 +21,11 @@ class TestPart1:
     ])
     def test_that_types_are_correct_for_examples(self, cards, type_):
         assert solution.Hand(cards, 1).type() == type_
+
+    @pytest.mark.parametrize("cards, values", [
+        ('AAAAA', [0, 0, 0, 0, 0]),
+        ('TTT98', [4, 4, 4, 5, 6]),
+        ('23432', [12, 11, 10, 11, 12]),
+    ])
+    def test_that_cards_are_valued_correctly(self, cards, values):
+        assert solution.Hand(cards, 1).values() == values
