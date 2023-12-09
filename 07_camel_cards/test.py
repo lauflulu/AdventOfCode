@@ -37,3 +37,13 @@ class TestPart1:
     ])
     def test_that_cards_are_scored_correctly(self, cards, values):
         assert solution.Hand(cards, 1).score() == values
+
+    def test_that_hands_are_converted_to_dataframe(self):
+        hands = solution.load_data("example.txt")
+        df = solution.to_dataframe(hands)
+        assert all(df.loc[:, 'bid'].values == [765, 684,  28, 220, 483])
+
+    def test_that_hands_dataframe_is_ranked_correctly(self):
+        hands = solution.load_data("example.txt")
+        df_ranked = solution.rank_hands(hands)
+        assert all(df_ranked.loc[:, 'bid'].values == [483, 684,  28, 220, 765])

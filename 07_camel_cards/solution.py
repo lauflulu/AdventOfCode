@@ -1,4 +1,5 @@
 from enum import IntEnum
+import pandas as pd
 
 
 class HandTypes(IntEnum):
@@ -42,6 +43,13 @@ class Hand:
     def score(self):
         return [int(self.type())] + self.values()
 
+    def to_dict(self):
+        dict_ = {}
+        for i, s in enumerate(self.score()):
+            dict_[f"{i}"] = s
+        dict_["bid"] = self.bid
+        return dict_
+
 
 def load_data(filename):
     with open(filename, 'r') as file:
@@ -50,6 +58,17 @@ def load_data(filename):
             cards, bid = line.split(' ')
             hands.append(Hand(cards.strip(), int(bid.strip())))
         return hands
+
+
+def to_dataframe(hands: list[Hand]):
+    return pd.DataFrame([hand.to_dict() for hand in hands])
+
+
+def rank_hands(hands: list[Hand]):
+    df = to_dataframe(hands)
+    df = df.sort_values([str(i) for i in range(6)])
+    df = df.reset_index()
+    return df
 
 
 def get_result(data):
