@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class HandTypes(Enum):
+class HandTypes(IntEnum):
     FIVE = 0
     FOUR = 1
     FULL_HOUSE = 2
@@ -20,7 +20,21 @@ class Hand:
         self.bid = bid
 
     def type(self):
-        pass
+        card_count = [self.cards.count(i) for i in set(self.cards)]
+        card_count.sort(reverse=True)
+        if card_count == [5]:
+            return HandTypes.FIVE
+        if card_count == [4, 1]:
+            return HandTypes.FOUR
+        if card_count == [3, 2]:
+            return HandTypes.FULL_HOUSE
+        if card_count == [3, 1, 1]:
+            return HandTypes.THREE
+        if card_count == [2, 2, 1]:
+            return HandTypes.TWO_PAIR
+        if card_count == [2, 1, 1, 1]:
+            return HandTypes.ONE_PAIR
+        return HandTypes.HIGH_CARD
 
     def values(self):
         return [CARD_STRENGTHS.index(card) for card in self.cards]
