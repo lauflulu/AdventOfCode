@@ -1,13 +1,21 @@
+import re
 
 
-class Instruction:
+class Map:
     def __init__(self, right, left):
         self.right = right
         self.left = left
 
 
 def load_data(filename):
-    pass
+    with open(filename, 'r') as file:
+        instructions = file.readline().strip()
+        file.readline()
+        maps = {}
+        for line in file.readlines():
+            start, left, right = re.findall(r'[A-Z]{3}', line)
+            maps[start] = Map(right, left)
+        return instructions, maps
 
 
 def get_result(instructions, maps):
