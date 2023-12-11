@@ -1,3 +1,4 @@
+import math
 import re
 from sympy import primefactors
 
@@ -41,13 +42,8 @@ def _count_steps_until(start_location, abort_condition, instructions, maps):
 def get_result_2(instructions, maps):
     current_locations = [location for location in maps if location.endswith('A')]
     counts = [_count_steps_until(start_location, 'Z', instructions, maps) for start_location in current_locations]
-
-    result = 1
-    for count in counts:
-        print(primefactors(count))
-        result *= primefactors(count)[0]
-    result *= len(instructions)
-    return result
+    prime_factors = set([prime for count in counts for prime in primefactors(count)])
+    return math.prod(prime_factors)
 
 
 def _all_end_with_z(current_locations):
