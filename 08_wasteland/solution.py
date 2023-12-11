@@ -19,7 +19,18 @@ def load_data(filename):
 
 
 def get_result(instructions, maps):
-    pass
+    current_location = 'AAA'
+    count = 0
+    while not current_location == 'ZZZ':
+        for i in instructions:
+            if i == 'R':
+                current_location = maps[current_location].right
+            else:
+                current_location = maps[current_location].left
+            count += 1
+            if current_location == 'ZZZ':
+                break
+    return count
 
 
 def get_result_2(instructions, maps):
@@ -27,9 +38,9 @@ def get_result_2(instructions, maps):
 
 
 def main():
-    data = load_data("data.txt")
-    print(get_result(data))
-    print(get_result_2(data))
+    instructions, maps = load_data("data.txt")
+    print(get_result(instructions, maps))
+    print(get_result_2(instructions, maps))
 
 
 if __name__ == '__main__':
