@@ -15,3 +15,9 @@ class TestPart1:
     def test_that_result_is_correct_for_example(self, filename, result):
         instructions, maps = solution.load_data(filename)
         assert solution.get_result(instructions, maps) == result
+
+
+class TestPart2:
+    def test_that_result_is_correct_for_example(self):
+        instructions, maps = solution.load_data("example_3.txt")
+        assert solution.get_result_2(instructions, maps) == 6
