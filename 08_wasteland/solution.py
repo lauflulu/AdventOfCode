@@ -13,7 +13,7 @@ def load_data(filename):
         file.readline()
         maps = {}
         for line in file.readlines():
-            start, left, right = re.findall(r'[A-Z]{3}', line)
+            start, left, right = re.findall(r'[A-Z0-9]{3}', line)
             maps[start] = Map(right, left)
         return instructions, maps
 
