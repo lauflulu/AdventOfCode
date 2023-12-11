@@ -1,4 +1,5 @@
 import re
+from sympy import primefactors
 
 
 class Map:
@@ -35,18 +36,28 @@ def get_result(instructions, maps):
 
 def get_result_2(instructions, maps):
     current_locations = [location for location in maps if location.endswith('A')]
-    count = 0
-    while not _all_end_with_z(current_locations):
-        for i in instructions:
-            for x, location in enumerate(current_locations):
+
+    counts = []
+    for start_location in current_locations:
+        current_location = start_location
+        count = 0
+        while not current_location.endswith('Z'):
+            for i in instructions:
                 if i == 'R':
-                    current_locations[x] = maps[current_locations[x]].right
+                    current_location = maps[current_location].right
                 else:
-                    current_locations[x] = maps[current_locations[x]].left
-            count += 1
-            if _all_end_with_z(current_locations):
-                break
-    return count
+                    current_location = maps[current_location].left
+                count += 1
+                if current_location.endswith('Z'):
+                    break
+        counts.append(count)
+    print(counts)
+    result = 1
+    for count in counts:
+        print(primefactors(count))
+        result *= primefactors(count)[0]
+    result *= len(instructions)
+    return result
 
 
 def _all_end_with_z(current_locations):
