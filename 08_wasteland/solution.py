@@ -34,7 +34,23 @@ def get_result(instructions, maps):
 
 
 def get_result_2(instructions, maps):
-    pass
+    current_locations = [location for location in maps if location.endswith('A')]
+    count = 0
+    while not _all_end_with_z(current_locations):
+        for i in instructions:
+            for x, location in enumerate(current_locations):
+                if i == 'R':
+                    current_locations[x] = maps[current_locations[x]].right
+                else:
+                    current_locations[x] = maps[current_locations[x]].left
+            count += 1
+            if _all_end_with_z(current_locations):
+                break
+    return count
+
+
+def _all_end_with_z(current_locations):
+    return all([location.endswith('Z') for location in current_locations])
 
 
 def main():
