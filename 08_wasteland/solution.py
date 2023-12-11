@@ -20,16 +20,20 @@ def load_data(filename):
 
 
 def get_result(instructions, maps):
-    current_location = 'AAA'
+    return _count_steps_until('AAA', 'ZZZ', instructions, maps)
+
+
+def _count_steps_until(start_location, abort_condition, instructions, maps):
+    current_location = start_location
     count = 0
-    while not current_location == 'ZZZ':
+    while not current_location.endswith(abort_condition):
         for i in instructions:
             if i == 'R':
                 current_location = maps[current_location].right
             else:
                 current_location = maps[current_location].left
             count += 1
-            if current_location == 'ZZZ':
+            if current_location.endswith(abort_condition):
                 break
     return count
 
@@ -39,18 +43,7 @@ def get_result_2(instructions, maps):
 
     counts = []
     for start_location in current_locations:
-        current_location = start_location
-        count = 0
-        while not current_location.endswith('Z'):
-            for i in instructions:
-                if i == 'R':
-                    current_location = maps[current_location].right
-                else:
-                    current_location = maps[current_location].left
-                count += 1
-                if current_location.endswith('Z'):
-                    break
-        counts.append(count)
+        counts.append(_count_steps_until(start_location, 'Z', instructions, maps))
     print(counts)
     result = 1
     for count in counts:
