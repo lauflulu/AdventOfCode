@@ -35,8 +35,7 @@ def _count_steps_until(start_location, abort_condition, instructions, maps):
                 current_location = maps[current_location].left
             count += 1
             if current_location.endswith(abort_condition):
-                break
-    return count
+                return count
 
 
 def get_result_2(instructions, maps):
