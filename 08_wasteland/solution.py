@@ -40,11 +40,8 @@ def _count_steps_until(start_location, abort_condition, instructions, maps):
 
 def get_result_2(instructions, maps):
     current_locations = [location for location in maps if location.endswith('A')]
+    counts = [_count_steps_until(start_location, 'Z', instructions, maps) for start_location in current_locations]
 
-    counts = []
-    for start_location in current_locations:
-        counts.append(_count_steps_until(start_location, 'Z', instructions, maps))
-    print(counts)
     result = 1
     for count in counts:
         print(primefactors(count))
