@@ -13,7 +13,8 @@ HISTORIES = [
 class TestPart1:
     def test_that_loaded_histories_is_list_of_numpy_arrays(self):
         histories = solution.load_data("example.txt")
-        assert histories == HISTORIES
+        for i in range(len(histories)):
+            assert np.all(histories[0] == HISTORIES[0])
 
     @pytest.mark.parametrize("history, diff_to_next", [(HISTORIES[0], 3), (HISTORIES[1], 7), (HISTORIES[2], 23)])
     def test_that_get_difference_to_next_value_is_correct(self, history, diff_to_next):

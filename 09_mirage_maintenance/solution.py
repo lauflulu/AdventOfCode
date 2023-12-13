@@ -1,5 +1,13 @@
+import numpy as np
+
+
 def load_data(filename):
-    pass
+    with open(filename, 'r') as file:
+        histories = []
+        for line in file:
+            history = line.split(' ')
+            histories.append(np.array([int(point.strip()) for point in history]))
+        return histories
 
 
 def _get_difference_to_next_value(history):
