@@ -22,3 +22,12 @@ class TestPart1:
 
     def test_that_result_for_example_data_is_correct(self):
         assert solution.get_result(HISTORIES) == 114
+
+
+class TestPart2:
+    @pytest.mark.parametrize("history, previous_value", [(HISTORIES[0], -3), (HISTORIES[1], 0), (HISTORIES[2], 5)])
+    def test_that_get_previous_value_is_correct(self, history, previous_value):
+        assert solution._get_previous_value(history) == previous_value
+
+    def test_that_result_for_example_data_is_correct(self):
+        assert solution.get_result_2(HISTORIES) == 2

@@ -19,6 +19,10 @@ def _get_next_value(history):
     return sum_of_last_value
 
 
+def _get_previous_value(history):
+    return None
+
+
 def get_result(histories):
     next_values = [_get_next_value(history) for history in histories]
     return sum(next_values)
@@ -36,3 +40,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
