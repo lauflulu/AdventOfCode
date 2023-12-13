@@ -16,13 +16,9 @@ class TestPart1:
         for i in range(len(histories)):
             assert np.all(histories[0] == HISTORIES[0])
 
-    @pytest.mark.parametrize("history, diff_to_next", [(HISTORIES[0], 3), (HISTORIES[1], 7), (HISTORIES[2], 23)])
-    def test_that_get_difference_to_next_value_is_correct(self, history, diff_to_next):
-        assert solution._get_difference_to_next_value(history) == diff_to_next
-
-    @pytest.mark.parametrize("history, diff_to_next", [(HISTORIES[0], 18), (HISTORIES[1], 28), (HISTORIES[2], 68)])
-    def test_that_get_next_value_is_correct(self, history, diff_to_next):
-        assert solution._get_next_value(history) == diff_to_next
+    @pytest.mark.parametrize("history, next_value", [(HISTORIES[0], 18), (HISTORIES[1], 28), (HISTORIES[2], 68)])
+    def test_that_get_next_value_is_correct(self, history, next_value):
+        assert solution._get_next_value(history) == next_value
 
     def test_that_result_for_example_data_is_correct(self):
         assert solution.get_result(HISTORIES) == 114
