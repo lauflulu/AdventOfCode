@@ -10,16 +10,18 @@ def load_data(filename):
         return histories
 
 
-def _get_difference_to_next_value(history):
-    return None
-
-
 def _get_next_value(history):
-    return None
+    current_diff = history
+    sum_of_last_value = 0
+    while not np.all(current_diff == 0):
+        sum_of_last_value += current_diff[-1]
+        current_diff = np.diff(current_diff)
+    return sum_of_last_value
 
 
-def get_result(data):
-    pass
+def get_result(histories):
+    next_values = [_get_next_value(history) for history in histories]
+    return sum(next_values)
 
 
 def get_result_2(data):
