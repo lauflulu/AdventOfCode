@@ -14,7 +14,11 @@ class Maze:
 
 
 def load_data(filename: str) -> Maze:
-    pass
+    with open(filename, 'r') as file:
+        data = []
+        for line in file:
+            data.append([tile for tile in line.strip()])
+    return Maze(np.array(data))
 
 
 def get_result(maze):
