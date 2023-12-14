@@ -1,14 +1,24 @@
+import numpy as np
+
 
 class Maze:
+
+    def __init__(self, tiles: np.array):
+        self._tiles = tiles
+        self._current_x = 0
+        self._current_y = 0
+        self._last_direction = None
+
+    def solve(self) -> int:
+        pass
+
+
+def load_data(filename: str) -> Maze:
     pass
 
 
-def load_data(filename) -> Maze:
-    pass
-
-
-def get_result(data):
-    pass
+def get_result(maze):
+    return maze.solve()
 
 
 def get_result_2(data):
