@@ -2,6 +2,23 @@ from timeit import timeit
 
 import numpy as np
 
+TILES = {
+    '-': ("left", "right"),
+    '|': ("up", "down"),
+    'F': ("down", "right"),
+    'L': ("up", "right"),
+    'J': ("up", "left"),
+    '7': ("down", "left"),
+}
+
+DIRECTION_TO_YX = {
+    'up': (-1, 0),
+    'down': (1, 0),
+    'left': (0, -1),
+    'right': (0, 1),
+}
+YX_TO_DIRECTION = {value: key for key, value in DIRECTION_TO_YX.items()}
+
 
 class Maze:
 
@@ -25,29 +42,12 @@ class Maze:
             self._check_start_position()
             return
 
-        for _y, _x in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
-            if self._last_direction == (-_y, -_x):
-                continue
-            if not 0 <= self._current_y + _y < self._tiles.shape[0]:
-                continue
-            if not 0 <= self._current_x + _x < self._tiles.shape[1]:
-                continue
-            if (_y == 1 and self._current_tile() in ['|', 'F', '7']
-                    and self._neighboring_tile(_y, _x) in ['|', 'J', 'L', 'S']):
-                self._update_position(_y, _x)
-                return
-            if (_x == 1 and self._current_tile() in ['-', 'F', 'L']
-                    and self._neighboring_tile(_y, _x) in ['-', 'J', '7', 'S']):
-                self._update_position(_y, _x)
-                return
-            if (_y == -1 and self._current_tile() in ['|', 'L', 'J']
-                    and self._neighboring_tile(_y, _x) in ['|', '7', 'F', 'S']):
-                self._update_position(_y, _x)
-                return
-            if (_x == -1 and self._current_tile() in ['-', 'J', '7']
-                    and self._neighboring_tile(_y, _x) in ['-', 'F', 'L', 'S']):
-                self._update_position(_y, _x)
-                return
+        _in_direction = tuple(- np.array(self._last_direction))
+        _out_direction = [direction for direction in TILES[self._current_tile()]
+                          if direction != YX_TO_DIRECTION[_in_direction]][0]
+        _y, _x = DIRECTION_TO_YX[_out_direction]
+        self._update_position(_y, _x)
+
 
     def _update_position(self, _y, _x):
         self._current_y += _y
