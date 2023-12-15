@@ -38,17 +38,13 @@ class Maze:
         return c
 
     def _walk_through_main_loop(self):
-        self.move()
+        self._move_from_start()
         self._main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):
             self.move()
             self._main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
 
     def move(self):
-        if self._current_tile() == 'S':
-            self._check_start_position()
-            return
-
         _in_direction = tuple(- np.array(self._last_direction))
         _out_direction = [direction for direction in TILES[self._current_tile()]
                           if direction != YX_TO_DIRECTION[_in_direction]][0]
@@ -69,7 +65,7 @@ class Maze:
     def _start_index(self):
         return np.argwhere(self._tiles == 'S')[0]
 
-    def _check_start_position(self):
+    def _move_from_start(self):
         for _y, _x in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
             if not 0 <= self._current_y + _y < self._tiles.shape[0]:
                 continue
