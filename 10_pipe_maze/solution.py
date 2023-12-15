@@ -1,3 +1,5 @@
+from timeit import timeit
+
 import numpy as np
 
 
@@ -90,7 +92,7 @@ def load_data(filename: str) -> Maze:
 
 
 def get_result(maze):
-    return int(maze.count_loop_tiles()/2 + 1)
+    return int(maze.count_loop_tiles() / 2 + 1)
 
 
 def get_result_2(data):
@@ -104,4 +106,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    print(timeit(main, number=1))
