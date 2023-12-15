@@ -30,12 +30,19 @@ class Maze:
         self._last_direction = None
 
     def count_loop_tiles(self) -> int:
+        self._walk_through_main_loop()
         c = 0
-        self.move()
-        while not all((self._current_y, self._current_x) == self._start_index()):
-            c += 1
-            self.move()
+        symbols = ['S', *list(TILES.keys())]
+        for symbol in symbols:
+            c += np.count_nonzero(self._main_loop_tiles == symbol.encode())
         return c
+
+    def _walk_through_main_loop(self):
+        self.move()
+        self._main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
+        while not all((self._current_y, self._current_x) == self._start_index()):
+            self.move()
+            self._main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
 
     def move(self):
         if self._current_tile() == 'S':
@@ -47,7 +54,6 @@ class Maze:
                           if direction != YX_TO_DIRECTION[_in_direction]][0]
         _y, _x = DIRECTION_TO_YX[_out_direction]
         self._update_position(_y, _x)
-
 
     def _update_position(self, _y, _x):
         self._current_y += _y
@@ -92,7 +98,7 @@ def load_data(filename: str) -> Maze:
 
 
 def get_result(maze):
-    return int(maze.count_loop_tiles() / 2 + 1)
+    return int(maze.count_loop_tiles() / 2)
 
 
 def get_result_2(data):
