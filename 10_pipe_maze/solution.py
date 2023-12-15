@@ -19,6 +19,9 @@ class Maze:
         return c
 
     def move(self):
+        if self._current_tile() == 'S':
+            pass
+
         for _y, _x in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
             if self._last_direction == (-_y, -_x):
                 continue
@@ -28,28 +31,25 @@ class Maze:
                 continue
             if (_y == 1 and self._current_tile() in ['|', 'F', '7', 'S']
                     and self._neighboring_tile(_y, _x) in ['|', 'J', 'L', 'S']):
-                self._current_y += _y
-                self._current_x += _x
-                self._last_direction = (_y, _x)
+                self._update_position(_y, _x)
                 return
             if (_x == 1 and self._current_tile() in ['-', 'F', 'L', 'S']
                     and self._neighboring_tile(_y, _x) in ['-', 'J', '7', 'S']):
-                self._current_y += _y
-                self._current_x += _x
-                self._last_direction = (_y, _x)
+                self._update_position(_y, _x)
                 return
             if (_y == -1 and self._current_tile() in ['|', 'L', 'J', 'S']
                     and self._neighboring_tile(_y, _x) in ['|', '7', 'F', 'S']):
-                self._current_y += _y
-                self._current_x += _x
-                self._last_direction = (_y, _x)
+                self._update_position(_y, _x)
                 return
             if (_x == -1 and self._current_tile() in ['-', 'J', '7', 'S']
                     and self._neighboring_tile(_y, _x) in ['-', 'F', 'L', 'S']):
-                self._current_y += _y
-                self._current_x += _x
-                self._last_direction = (_y, _x)
+                self._update_position(_y, _x)
                 return
+
+    def _update_position(self, _y, _x):
+        self._current_y += _y
+        self._current_x += _x
+        self._last_direction = (_y, _x)
 
     def _neighboring_tile(self, _y, _x):
         return self._tiles[self._current_y + _y, self._current_x + _x]
