@@ -17,3 +17,7 @@ class TestPart1:
     def test_that_result_is_correct_for_example_data(self, filename, result):
         maze = solution.load_data(filename)
         assert solution.get_result(maze) == result
+
+
+class TestPart2:
+    pass
