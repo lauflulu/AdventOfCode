@@ -1,6 +1,7 @@
 from timeit import timeit
 
 import numpy as np
+import pandas as pd
 
 TILES = {
     '-': ("left", "right"),
@@ -188,6 +189,7 @@ def get_result(maze):
 
 
 def get_result_2(maze):
+    pd.DataFrame(maze._inner_outer_tiles).to_csv("data_filled_2.csv")
     return maze.count_inner_tiles()
 
 
