@@ -52,4 +52,6 @@ class TestPart2:
     def test_that_sides_are_marked_on_main_loop_tiles(self):
         maze = solution.load_data("example_1.txt")
         maze_marked = solution.load_data("example_1_marked.txt")
-        assert np.all(maze._inner_outer_tiles == maze_marked._main_loop_tiles)
+        non_loop_tiles_in_maze_marked = maze_marked._tiles[np.where(maze._main_loop_tiles == '.')]
+        non_loop_tiles_in_maze_inner_outer = maze._inner_outer_tiles[np.where(maze._main_loop_tiles == '.')]
+        assert np.all(non_loop_tiles_in_maze_marked == non_loop_tiles_in_maze_inner_outer)
