@@ -33,12 +33,12 @@ class Maze:
         c = 0
         symbols = ['S', *list(TILES.keys())]
         for symbol in symbols:
-            c += np.count_nonzero(self._main_loop_tiles == symbol.encode())
+            c += np.count_nonzero(self._main_loop_tiles == symbol)
         return c
 
     def _find_main_loop_tiles(self):
         """Walk through the main loop."""
-        _main_loop_tiles = np.zeros(self._tiles.shape, dtype='S1')
+        _main_loop_tiles = np.char.add(np.zeros(self._tiles.shape, dtype='<U1'), '.')
         self._move_from_start()
         _main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):

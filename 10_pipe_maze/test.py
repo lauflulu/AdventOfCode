@@ -1,5 +1,6 @@
 import pytest
 import solution
+import numpy as np
 
 
 class TestPart1:
@@ -30,3 +31,8 @@ class TestPart2:
     def test_that_result_is_correct_for_example_data(self, filename, result):
         maze = solution.load_data(filename)
         assert solution.get_result_2(maze) == result
+
+    def test_that_main_loop_tiles_is_free_of_junk_pipes(self):
+        maze_with_junk = solution.load_data("example_3_with_junk.txt")
+        maze = solution.load_data("example_3.txt")
+        assert np.all(maze_with_junk._main_loop_tiles == maze._tiles)
