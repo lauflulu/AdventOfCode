@@ -28,7 +28,6 @@ class Maze:
 
         self._current_y, self._current_x = self._start_index()
         self._last_direction = None
-        self._start_direction = None
         self._loop_direction = 0
 
         self._main_loop_tiles = self._find_main_loop_tiles()
@@ -51,7 +50,7 @@ class Maze:
         self._current_y, self._current_x = self._start_index()
         self._mark_neighbors()
         self._last_direction = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
-                                if direction != YX_TO_DIRECTION[self._start_direction]][0]
+                                if direction != YX_TO_DIRECTION[self._start_direction()]][0]
         self._move_to_next_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):
             self._mark_neighbors()
@@ -108,7 +107,9 @@ class Maze:
     def _find_main_loop_tiles(self):
         """Walk through the main loop."""
         _main_loop_tiles = np.char.add(np.zeros(self._tiles.shape, dtype='<U1'), '.')
-        self._move_from_start()
+        self._last_direction = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
+                                if direction != YX_TO_DIRECTION[self._start_direction()]][0]
+        self._move_to_next_tile()
         _main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):
             self._move_to_next_tile()
@@ -151,28 +152,20 @@ class Maze:
     def _start_index(self):
         return np.argwhere(self._tiles == 'S')[0]
 
-    def _move_from_start(self):
+    def _start_direction(self):
         for _y, _x in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
             if not 0 <= self._current_y + _y < self._tiles.shape[0]:
                 continue
             if not 0 <= self._current_x + _x < self._tiles.shape[1]:
                 continue
             if _y == 1 and self._neighboring_tile(_y, _x) in ['|', 'J', 'L']:
-                self._start_direction = (_y, _x)
-                self._update_position(_y, _x)
-                return
+                return _y, _x
             if _x == 1 and self._neighboring_tile(_y, _x) in ['-', 'J', '7']:
-                self._start_direction = (_y, _x)
-                self._update_position(_y, _x)
-                return
+                return _y, _x
             if _y == -1 and self._neighboring_tile(_y, _x) in ['|', '7', 'F']:
-                self._start_direction = (_y, _x)
-                self._update_position(_y, _x)
-                return
+                return _y, _x
             if _x == -1 and self._neighboring_tile(_y, _x) in ['-', 'F', 'L']:
-                self._start_direction = (_y, _x)
-                self._update_position(_y, _x)
-                return
+                return _y, _x
 
     def _identify_start_tile(self):
         directions = []
