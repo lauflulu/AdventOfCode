@@ -42,11 +42,11 @@ class Maze:
         self._move_from_start()
         _main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):
-            self.move()
+            self._move_to_next_tile()
             _main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
         return _main_loop_tiles
 
-    def move(self):
+    def _move_to_next_tile(self):
         _in_direction = tuple(- np.array(self._last_direction))
         _out_direction = [direction for direction in TILES[self._current_tile()]
                           if direction != YX_TO_DIRECTION[_in_direction]][0]
