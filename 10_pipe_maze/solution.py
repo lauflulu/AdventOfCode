@@ -10,6 +10,7 @@ TILES = {
     'J': ("up", "left"),
     '7': ("down", "left"),
 }
+DIRECTIONS_TO_TILE = {value: key for key, value in TILES.items()}
 
 DIRECTION_TO_YX = {
     'up': (-1, 0),
@@ -26,9 +27,10 @@ class Maze:
         self._tiles = tiles
         self._current_y, self._current_x = self._start_index()
         self._last_direction = None
+        self._start_direction = None
 
         self._main_loop_tiles = self._find_main_loop_tiles()
-        self._mark_inner_outer_tiles()
+        self._inner_outer_tiles = self._mark_inner_outer_tiles()
 
     def count_loop_tiles(self) -> int:
         c = 0
@@ -41,13 +43,19 @@ class Maze:
         # it is not known at this point, if left/right tiles are inner/outer,
         # but we could count the rotation while going through the main loop,
         # or check for the border later
-        self._move_from_start()
+        self._inner_outer_tiles = self._main_loop_tiles
+        self._current_y, self._current_x = self._start_index()
+        self._mark_neighbors()
+        self._last_direction = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
+                                if direction != YX_TO_DIRECTION[self._start_direction]][0]
+        self._move_to_next_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):
             self._mark_neighbors()
             self._move_to_next_tile()
+        return self._inner_outer_tiles
 
     def _mark_neighbors(self):
-        side = 'O'
+        side = 'I'
         start_direction = YX_TO_DIRECTION[self._current_in_direction()]
         out_direction = self._current_out_direction()
         directions_clockwise = ['up', 'right', 'down', 'left']
@@ -56,9 +64,9 @@ class Maze:
             direction = directions_clockwise[(i + start_index) % 4]
             _y, _x = DIRECTION_TO_YX[direction]
             if direction == out_direction:
-                side = 'I'
-            if self._main_loop_tiles[self._current_y + _y, self._current_x + _x] == '.':
-                self._main_loop_tiles[self._current_y + _y, self._current_x + _x] = side
+                side = 'O'
+            if self._inner_outer_tiles[self._current_y + _y, self._current_x + _x] == '.':
+                self._inner_outer_tiles[self._current_y + _y, self._current_x + _x] = side
 
     def _find_main_loop_tiles(self):
         """Walk through the main loop."""
@@ -92,7 +100,10 @@ class Maze:
         return self._tiles[self._current_y + _y, self._current_x + _x]
 
     def _current_tile(self) -> str:
-        return self._tiles[self._current_y, self._current_x]
+        tile = self._tiles[self._current_y, self._current_x]
+        if tile == 'S':
+            tile = self._identify_start_tile()
+        return tile
 
     def _start_index(self):
         return np.argwhere(self._tiles == 'S')[0]
@@ -104,17 +115,37 @@ class Maze:
             if not 0 <= self._current_x + _x < self._tiles.shape[1]:
                 continue
             if _y == 1 and self._neighboring_tile(_y, _x) in ['|', 'J', 'L']:
+                self._start_direction = (_y, _x)
                 self._update_position(_y, _x)
                 return
             if _x == 1 and self._neighboring_tile(_y, _x) in ['-', 'J', '7']:
+                self._start_direction = (_y, _x)
                 self._update_position(_y, _x)
                 return
             if _y == -1 and self._neighboring_tile(_y, _x) in ['|', '7', 'F']:
+                self._start_direction = (_y, _x)
                 self._update_position(_y, _x)
                 return
             if _x == -1 and self._neighboring_tile(_y, _x) in ['-', 'F', 'L']:
+                self._start_direction = (_y, _x)
                 self._update_position(_y, _x)
                 return
+
+    def _identify_start_tile(self):
+        directions = []
+        for direction, _yx in DIRECTION_TO_YX.items():
+            neighboring_tile = self._neighboring_tile(*_yx)
+            if neighboring_tile not in TILES:
+                continue
+            if direction == 'down' and 'up' in TILES[neighboring_tile]:
+                directions.append('down')
+            if direction == 'up' and 'down' in TILES[neighboring_tile]:
+                directions.append('up')
+            if direction == 'left' and 'right' in TILES[neighboring_tile]:
+                directions.append('left')
+            if direction == 'right' and 'left' in TILES[neighboring_tile]:
+                directions.append('right')
+        return DIRECTIONS_TO_TILE[tuple(directions)]
 
 
 def load_data(filename: str) -> Maze:

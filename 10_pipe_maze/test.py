@@ -37,7 +37,18 @@ class TestPart2:
         maze = solution.load_data("example_3.txt")
         assert np.all(maze_with_junk._main_loop_tiles == maze._tiles)
 
+    @pytest.mark.parametrize("filename, start_tile", [
+        ("example_1.txt", "F"),
+        ("example_2.txt", "F"),
+        ("example_3.txt", "F"),
+        ("example_4.txt", "F"),
+        ("example_5.txt", "7")
+    ])
+    def test_that_start_tile_is_identified(self, filename, start_tile):
+        maze = solution.load_data(filename)
+        assert maze._identify_start_tile() == start_tile
+
     def test_that_sides_are_marked_on_main_loop_tiles(self):
         maze = solution.load_data("example_1.txt")
         maze_marked = solution.load_data("example_1_marked.txt")
-        assert np.all(maze._main_loop_tiles == maze_marked._tiles)
+        assert np.all(maze._inner_outer_tiles == maze_marked._main_loop_tiles)
