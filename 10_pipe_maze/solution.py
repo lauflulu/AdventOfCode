@@ -36,6 +36,28 @@ class Maze:
             c += np.count_nonzero(self._main_loop_tiles == symbol)
         return c
 
+    def _mark_inner_outer_tiles(self):
+        # it is not known at this point, if left/right tiles are inner/outer,
+        # but we could count the rotation while going through the main loop,
+        # or check for the border later
+
+        self._move_from_start()
+        self._mark_neighbors()
+        while not all((self._current_y, self._current_x) == self._start_index()):
+            self._move_to_next_tile()
+            self._mark_neighbors()
+
+    def _mark_neighbors(self):
+        # start at in_direction
+        # side = 'O'
+        # for direction in directions_clockwise:
+        #   if direction == out_direction:
+        #       side = 'I'
+        #   if _neighboring_tile() == '.':
+        #       set neighboring tile to side (self._main_loop_tiles)
+
+        pass
+
     def _find_main_loop_tiles(self):
         """Walk through the main loop."""
         _main_loop_tiles = np.char.add(np.zeros(self._tiles.shape, dtype='<U1'), '.')
