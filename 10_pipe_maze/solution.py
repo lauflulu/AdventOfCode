@@ -153,15 +153,12 @@ class Maze:
         return np.argwhere(self._tiles == 'S')[0]
 
     def _start_direction(self):
-        for _y, _x in YX_TO_DIRECTION:
-            if _y == 1 and self._neighboring_tile(_y, _x) in ['|', 'J', 'L']:
-                return _y, _x
-            if _x == 1 and self._neighboring_tile(_y, _x) in ['-', 'J', '7']:
-                return _y, _x
-            if _y == -1 and self._neighboring_tile(_y, _x) in ['|', '7', 'F']:
-                return _y, _x
-            if _x == -1 and self._neighboring_tile(_y, _x) in ['-', 'F', 'L']:
-                return _y, _x
+        for _yx, direction in YX_TO_DIRECTION.items():
+            try:
+                if direction in TILES[self._neighboring_tile(*_yx)]:
+                    return _yx
+            except KeyError:
+                pass
 
     def _identify_start_tile(self):
         directions = []
