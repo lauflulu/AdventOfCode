@@ -117,14 +117,13 @@ class Maze:
         return _main_loop_tiles
 
     def _move_to_next_tile(self):
-        _in_yx = DIRECTION_TO_YX[self._current_in_direction()]
-        _out_yx = DIRECTION_TO_YX[self._current_out_direction()]
-        self._loop_rotation += self._angle_score(_in_yx, _out_yx)
-        self._update_position(*_out_yx)
+        self._loop_rotation += self._current_angle_score()
+        self._update_position(*(DIRECTION_TO_YX[self._current_out_direction()]))
 
-    def _angle_score(self, _in_yx, _out_yx):
-        _in = (*_in_yx, 0)
-        _out = (*_out_yx, 0)
+    def _current_angle_score(self):
+        """Return +/-1 for right/left turns."""
+        _in = (*(DIRECTION_TO_YX[self._current_in_direction()]), 0)
+        _out = (*(DIRECTION_TO_YX[self._current_out_direction()]), 0)
         return np.cross(_in, _out)[2]
 
     def _current_out_direction(self) -> str:
