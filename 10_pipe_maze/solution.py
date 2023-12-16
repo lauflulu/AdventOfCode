@@ -89,18 +89,21 @@ class Maze:
                     side = 'O'
                 else:
                     side = 'I'
-            if self._get_inner_outer_tile(_y, _x) == '.':
-                self._set_inner_outer_tile(_y, _x, side)
+            if self._get_inner_outer_tile(self._current_y + _y, self._current_x + _x) == '.':
+                self._set_inner_outer_tile(self._current_y + _y, self._current_x + _x, side)
 
-    def _set_inner_outer_tile(self, _y, _x, side):
-        if not 0 <= self._current_y + _y < self._tiles.shape[0] or not 0 <= self._current_x + _x < self._tiles.shape[1]:
+    def _set_inner_outer_tile(self, y, x, side):
+        if self._index_outside_bounds(x, y):
             return
-        self._inner_outer_tiles[self._current_y + _y, self._current_x + _x] = side
+        self._inner_outer_tiles[y, x] = side
 
-    def _get_inner_outer_tile(self, _y, _x):
-        if not 0 <= self._current_y + _y < self._tiles.shape[0] or not 0 <= self._current_x + _x < self._tiles.shape[1]:
+    def _get_inner_outer_tile(self, y, x):
+        if self._index_outside_bounds(x, y):
             return
-        return self._inner_outer_tiles[self._current_y + _y, self._current_x + _x]
+        return self._inner_outer_tiles[y, x]
+
+    def _index_outside_bounds(self, x, y):
+        return not 0 <= y < self._tiles.shape[0] or not 0 <= x < self._tiles.shape[1]
 
     def _find_main_loop_tiles(self):
         """Walk through the main loop."""
