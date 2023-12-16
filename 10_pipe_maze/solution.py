@@ -28,6 +28,7 @@ class Maze:
         self._current_y, self._current_x = self._start_index()
         self._last_direction = None
         self._start_direction = None
+        self._loop_direction = 0
 
         self._main_loop_tiles = self._find_main_loop_tiles()
         self._inner_outer_tiles = self._main_loop_tiles.copy()
@@ -71,7 +72,10 @@ class Maze:
                 return
 
     def _mark_neighbors(self):
-        side = 'I'
+        if self._loop_direction < 0:
+            side = 'I'
+        else:
+            side = 'O'
         start_direction = YX_TO_DIRECTION[self._current_in_direction()]
         out_direction = self._current_out_direction()
         directions_clockwise = ['up', 'right', 'down', 'left']
@@ -80,7 +84,10 @@ class Maze:
             direction = directions_clockwise[(i + start_index) % 4]
             _y, _x = DIRECTION_TO_YX[direction]
             if direction == out_direction:
-                side = 'O'
+                if self._loop_direction < 0:
+                    side = 'O'
+                else:
+                    side = 'I'
             if self._get_inner_outer_tile(_y, _x) == '.':
                 self._set_inner_outer_tile(_y, _x, side)
 
@@ -106,9 +113,15 @@ class Maze:
 
     def _move_to_next_tile(self):
         _in_direction = self._current_in_direction()
-        _out_direction = self._current_out_direction()
-        _y, _x = DIRECTION_TO_YX[_out_direction]
+        _out_direction = DIRECTION_TO_YX[self._current_out_direction()]
+        self._loop_direction += self._angle_score(_in_direction, _out_direction)
+        _y, _x = _out_direction
         self._update_position(_y, _x)
+
+    def _angle_score(self, _in_direction, _out_direction):
+        _in = (*_in_direction, 0)
+        _out = (*_out_direction, 0)
+        return np.cross(_in, _out)[2]
 
     def _current_out_direction(self):
         return [direction for direction in TILES[self._current_tile()]
