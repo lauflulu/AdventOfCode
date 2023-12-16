@@ -76,7 +76,7 @@ class Maze:
             side = 'I'
         else:
             side = 'O'
-        start_direction = YX_TO_DIRECTION[self._current_in_direction()]
+        start_direction = self._current_in_direction()
         out_direction = self._current_out_direction()
         directions_clockwise = ['up', 'right', 'down', 'left']
         start_index = directions_clockwise.index(start_direction)
@@ -117,7 +117,7 @@ class Maze:
         return _main_loop_tiles
 
     def _move_to_next_tile(self):
-        _in_direction = self._current_in_direction()
+        _in_direction = DIRECTION_TO_YX[self._current_in_direction()]
         _out_direction = DIRECTION_TO_YX[self._current_out_direction()]
         self._loop_direction += self._angle_score(_in_direction, _out_direction)
         _y, _x = _out_direction
@@ -128,12 +128,12 @@ class Maze:
         _out = (*_out_direction, 0)
         return np.cross(_in, _out)[2]
 
-    def _current_out_direction(self):
+    def _current_out_direction(self) -> str:
         return [direction for direction in TILES[self._current_tile()]
-                if direction != YX_TO_DIRECTION[self._current_in_direction()]][0]
+                if direction != self._current_in_direction()][0]
 
-    def _current_in_direction(self):
-        return tuple(- np.array(self._last_direction))
+    def _current_in_direction(self) -> str:
+        return YX_TO_DIRECTION[tuple(- np.array(self._last_direction))]
 
     def _update_position(self, _y, _x):
         self._current_y += _y
