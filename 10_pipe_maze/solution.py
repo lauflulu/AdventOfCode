@@ -146,7 +146,7 @@ class Maze:
     def _current_tile(self) -> str:
         tile = self._tiles[self._current_y, self._current_x]
         if tile == 'S':
-            tile = self._identify_start_tile()
+            tile = self._start_tile_symbol()
         return tile
 
     def _start_index(self):
@@ -160,7 +160,7 @@ class Maze:
             except KeyError:
                 pass
 
-    def _identify_start_tile(self):
+    def _start_tile_symbol(self):
         directions = []
         for direction, _yx in DIRECTION_TO_YX.items():
             neighboring_tile = self._neighboring_tile(*_yx)

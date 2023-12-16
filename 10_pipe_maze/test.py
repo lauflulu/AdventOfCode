@@ -45,9 +45,9 @@ class TestPart2:
         ("example_4.txt", "F"),
         ("example_5.txt", "7")
     ])
-    def test_that_start_tile_is_identified(self, filename, start_tile):
+    def test_that_start_tile_symbol_is_identified(self, filename, start_tile):
         maze = solution.load_data(filename)
-        assert maze._identify_start_tile() == start_tile
+        assert maze._start_tile_symbol() == start_tile
 
     @pytest.mark.parametrize("filename, result_filename", [
         ("example_1.txt", "example_1_marked.txt"),
