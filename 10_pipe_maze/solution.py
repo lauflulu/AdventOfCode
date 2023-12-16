@@ -46,10 +46,6 @@ class Maze:
         return np.count_nonzero(self._inner_outer_tiles == 'I')
 
     def _mark_inner_outer_tiles(self):
-        # it is not known at this point, if left/right tiles are inner/outer,
-        # but we could count the rotation while going through the main loop,
-        # or check for the border later
-
         self._current_y, self._current_x = self._start_index()
         self._mark_neighbors()
         self._last_direction = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
