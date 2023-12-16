@@ -28,6 +28,7 @@ class Maze:
         self._last_direction = None
 
         self._main_loop_tiles = self._find_main_loop_tiles()
+        self._mark_inner_outer_tiles()
 
     def count_loop_tiles(self) -> int:
         c = 0
@@ -40,23 +41,24 @@ class Maze:
         # it is not known at this point, if left/right tiles are inner/outer,
         # but we could count the rotation while going through the main loop,
         # or check for the border later
-
         self._move_from_start()
-        self._mark_neighbors()
         while not all((self._current_y, self._current_x) == self._start_index()):
-            self._move_to_next_tile()
             self._mark_neighbors()
+            self._move_to_next_tile()
 
     def _mark_neighbors(self):
-        # start at in_direction
-        # side = 'O'
-        # for direction in directions_clockwise:
-        #   if direction == out_direction:
-        #       side = 'I'
-        #   if _neighboring_tile() == '.':
-        #       set neighboring tile to side (self._main_loop_tiles)
-
-        pass
+        side = 'O'
+        start_direction = YX_TO_DIRECTION[self._current_in_direction()]
+        out_direction = self._current_out_direction()
+        directions_clockwise = ['up', 'right', 'down', 'left']
+        start_index = directions_clockwise.index(start_direction)
+        for i in range(4):
+            direction = directions_clockwise[(i + start_index) % 4]
+            _y, _x = DIRECTION_TO_YX[direction]
+            if direction == out_direction:
+                side = 'I'
+            if self._main_loop_tiles[self._current_y + _y, self._current_x + _x] == '.':
+                self._main_loop_tiles[self._current_y + _y, self._current_x + _x] = side
 
     def _find_main_loop_tiles(self):
         """Walk through the main loop."""
