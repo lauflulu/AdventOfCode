@@ -30,7 +30,9 @@ class Maze:
         self._start_direction = None
 
         self._main_loop_tiles = self._find_main_loop_tiles()
-        self._inner_outer_tiles = self._mark_inner_outer_tiles()
+        self._inner_outer_tiles = self._main_loop_tiles.copy()
+        self._mark_inner_outer_tiles()
+        self._fill_areas()
 
     def count_loop_tiles(self) -> int:
         c = 0
@@ -43,7 +45,7 @@ class Maze:
         # it is not known at this point, if left/right tiles are inner/outer,
         # but we could count the rotation while going through the main loop,
         # or check for the border later
-        self._inner_outer_tiles = self._main_loop_tiles.copy()
+
         self._current_y, self._current_x = self._start_index()
         self._mark_neighbors()
         self._last_direction = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
@@ -52,7 +54,21 @@ class Maze:
         while not all((self._current_y, self._current_x) == self._start_index()):
             self._mark_neighbors()
             self._move_to_next_tile()
-        return self._inner_outer_tiles
+
+    def _fill_areas(self):
+        for y in range(self._tiles.shape[0]):
+            for x in range(self._tiles.shape[1]):
+                if self._inner_outer_tiles[y, x] == '.':
+                    self._update_tile_based_on_neighbors(y, x)
+
+    def _update_tile_based_on_neighbors(self, y, x):
+        directions = ['left', 'up', 'right', 'down']
+        for direction in directions:
+            _y, _x = DIRECTION_TO_YX[direction]
+            neighboring_tile = self._inner_outer_tiles[y + _y, x + _x]
+            if neighboring_tile in ['I', 'O']:
+                self._inner_outer_tiles[y, x] = neighboring_tile
+                return
 
     def _mark_neighbors(self):
         side = 'I'
