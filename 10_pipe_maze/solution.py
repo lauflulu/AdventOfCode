@@ -42,6 +42,9 @@ class Maze:
             c += np.count_nonzero(self._main_loop_tiles == symbol)
         return c
 
+    def count_inner_tiles(self) -> int:
+        return np.count_nonzero(self._inner_outer_tiles == 'I')
+
     def _mark_inner_outer_tiles(self):
         # it is not known at this point, if left/right tiles are inner/outer,
         # but we could count the rotation while going through the main loop,
@@ -199,8 +202,8 @@ def get_result(maze):
     return int(maze.count_loop_tiles() / 2)
 
 
-def get_result_2(data):
-    pass
+def get_result_2(maze):
+    return maze.count_inner_tiles()
 
 
 def main():
