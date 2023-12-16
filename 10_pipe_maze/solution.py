@@ -25,12 +25,14 @@ class Maze:
 
     def __init__(self, tiles: np.array):
         self._tiles = tiles
+
         self._current_y, self._current_x = self._start_index()
         self._last_direction = None
         self._start_direction = None
         self._loop_direction = 0
 
         self._main_loop_tiles = self._find_main_loop_tiles()
+
         self._inner_outer_tiles = self._main_loop_tiles.copy()
         self._mark_inner_outer_tiles()
         self._fill_areas()
