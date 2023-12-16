@@ -154,10 +154,6 @@ class Maze:
 
     def _start_direction(self):
         for _y, _x in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
-            if not 0 <= self._current_y + _y < self._tiles.shape[0]:
-                continue
-            if not 0 <= self._current_x + _x < self._tiles.shape[1]:
-                continue
             if _y == 1 and self._neighboring_tile(_y, _x) in ['|', 'J', 'L']:
                 return _y, _x
             if _x == 1 and self._neighboring_tile(_y, _x) in ['-', 'J', '7']:
