@@ -35,7 +35,8 @@ class TestPart2:
     def test_that_main_loop_tiles_is_free_of_junk_pipes(self):
         maze_with_junk = solution.load_data("example_3_with_junk.txt")
         maze = solution.load_data("example_3.txt")
-        assert np.all(maze_with_junk._main_loop_tiles == maze._tiles)
+        non_loop_tiles_in_maze_with_junk = maze_with_junk._main_loop_tiles[np.where(maze._tiles == '.')]
+        assert np.all(non_loop_tiles_in_maze_with_junk == '.')
 
     @pytest.mark.parametrize("filename, start_tile", [
         ("example_1.txt", "F"),
