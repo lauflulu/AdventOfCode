@@ -27,8 +27,8 @@ class Maze:
         self._tiles = tiles
 
         self._current_y, self._current_x = self._start_index()
-        self._last_direction = None
-        self._loop_direction = 0
+        self._last_yx = None
+        self._loop_rotation = 0
 
         self._main_loop_tiles = self._find_main_loop_tiles()
 
@@ -49,8 +49,8 @@ class Maze:
     def _mark_inner_outer_tiles(self):
         self._current_y, self._current_x = self._start_index()
         self._mark_neighbors()
-        self._last_direction = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
-                                if direction != YX_TO_DIRECTION[self._start_direction()]][0]
+        self._last_yx = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
+                         if direction != self._start_direction()][0]
         self._move_to_next_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):
             self._mark_neighbors()
@@ -72,7 +72,7 @@ class Maze:
                 return
 
     def _mark_neighbors(self):
-        if self._loop_direction < 0:
+        if self._loop_rotation < 0:
             side = 'I'
         else:
             side = 'O'
@@ -84,7 +84,7 @@ class Maze:
             direction = directions_clockwise[(i + start_index) % 4]
             _y, _x = DIRECTION_TO_YX[direction]
             if direction == out_direction:
-                if self._loop_direction < 0:
+                if self._loop_rotation < 0:
                     side = 'O'
                 else:
                     side = 'I'
@@ -107,8 +107,8 @@ class Maze:
     def _find_main_loop_tiles(self):
         """Walk through the main loop."""
         _main_loop_tiles = np.char.add(np.zeros(self._tiles.shape, dtype='<U1'), '.')
-        self._last_direction = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
-                                if direction != YX_TO_DIRECTION[self._start_direction()]][0]
+        self._last_yx = [DIRECTION_TO_YX[direction] for direction in TILES[self._current_tile()]
+                         if direction != self._start_direction()][0]
         self._move_to_next_tile()
         _main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):
@@ -117,15 +117,14 @@ class Maze:
         return _main_loop_tiles
 
     def _move_to_next_tile(self):
-        _in_direction = DIRECTION_TO_YX[self._current_in_direction()]
-        _out_direction = DIRECTION_TO_YX[self._current_out_direction()]
-        self._loop_direction += self._angle_score(_in_direction, _out_direction)
-        _y, _x = _out_direction
-        self._update_position(_y, _x)
+        _in_yx = DIRECTION_TO_YX[self._current_in_direction()]
+        _out_yx = DIRECTION_TO_YX[self._current_out_direction()]
+        self._loop_rotation += self._angle_score(_in_yx, _out_yx)
+        self._update_position(*_out_yx)
 
-    def _angle_score(self, _in_direction, _out_direction):
-        _in = (*_in_direction, 0)
-        _out = (*_out_direction, 0)
+    def _angle_score(self, _in_yx, _out_yx):
+        _in = (*_in_yx, 0)
+        _out = (*_out_yx, 0)
         return np.cross(_in, _out)[2]
 
     def _current_out_direction(self) -> str:
@@ -133,12 +132,12 @@ class Maze:
                 if direction != self._current_in_direction()][0]
 
     def _current_in_direction(self) -> str:
-        return YX_TO_DIRECTION[tuple(- np.array(self._last_direction))]
+        return YX_TO_DIRECTION[tuple(- np.array(self._last_yx))]
 
     def _update_position(self, _y, _x):
         self._current_y += _y
         self._current_x += _x
-        self._last_direction = (_y, _x)
+        self._last_yx = (_y, _x)
 
     def _neighboring_tile(self, _y, _x):
         return self._tiles[self._current_y + _y, self._current_x + _x]
@@ -156,7 +155,7 @@ class Maze:
         for _yx, direction in YX_TO_DIRECTION.items():
             try:
                 if direction in TILES[self._neighboring_tile(*_yx)]:
-                    return _yx
+                    return YX_TO_DIRECTION[_yx]
             except KeyError:
                 pass
 

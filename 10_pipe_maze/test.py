@@ -62,4 +62,4 @@ class TestPart2:
 
     def test_loop_direction(self):
         maze = solution.load_data("example_5.txt")
-        assert maze._loop_direction > 0
+        assert maze._loop_rotation > 0
