@@ -59,3 +59,7 @@ class TestPart2:
         non_loop_tiles_in_maze_marked = maze_marked._tiles[np.where(maze._main_loop_tiles == '.')]
         non_loop_tiles_in_maze_inner_outer = maze._inner_outer_tiles[np.where(maze._main_loop_tiles == '.')]
         assert np.all(non_loop_tiles_in_maze_marked == non_loop_tiles_in_maze_inner_outer)
+
+    def test_loop_direction(self):
+        maze = solution.load_data("example_5.txt")
+        assert maze._loop_direction > 0
