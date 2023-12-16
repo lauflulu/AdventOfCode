@@ -69,11 +69,17 @@ class Maze:
         return _main_loop_tiles
 
     def _move_to_next_tile(self):
-        _in_direction = tuple(- np.array(self._last_direction))
-        _out_direction = [direction for direction in TILES[self._current_tile()]
-                          if direction != YX_TO_DIRECTION[_in_direction]][0]
+        _in_direction = self._current_in_direction()
+        _out_direction = self._current_out_direction()
         _y, _x = DIRECTION_TO_YX[_out_direction]
         self._update_position(_y, _x)
+
+    def _current_out_direction(self):
+        return [direction for direction in TILES[self._current_tile()]
+                if direction != YX_TO_DIRECTION[self._current_in_direction()]][0]
+
+    def _current_in_direction(self):
+        return tuple(- np.array(self._last_direction))
 
     def _update_position(self, _y, _x):
         self._current_y += _y
