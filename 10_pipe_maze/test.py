@@ -20,4 +20,13 @@ class TestPart1:
 
 
 class TestPart2:
-    pass
+    @pytest.mark.parametrize("filename, result", [
+        ("example.txt", 1),
+        ("example_2.txt", 1),
+        ("example_3.txt", 4),
+        ("example_4.txt", 8),
+        ("example_5.txt", 10)
+    ])
+    def test_that_result_is_correct_for_example_data(self, filename, result):
+        maze = solution.load_data(filename)
+        assert solution.get_result_2(maze) == result
