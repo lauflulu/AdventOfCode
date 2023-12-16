@@ -65,8 +65,18 @@ class Maze:
             _y, _x = DIRECTION_TO_YX[direction]
             if direction == out_direction:
                 side = 'O'
-            if self._inner_outer_tiles[self._current_y + _y, self._current_x + _x] == '.':
-                self._inner_outer_tiles[self._current_y + _y, self._current_x + _x] = side
+            if self._get_inner_outer_tile(_y, _x) == '.':
+                self._set_inner_outer_tile(_y, _x, side)
+
+    def _set_inner_outer_tile(self, _y, _x, side):
+        if not 0 <= self._current_y + _y < self._tiles.shape[0] or not 0 <= self._current_x + _x < self._tiles.shape[1]:
+            return
+        self._inner_outer_tiles[self._current_y + _y, self._current_x + _x] = side
+
+    def _get_inner_outer_tile(self, _y, _x):
+        if not 0 <= self._current_y + _y < self._tiles.shape[0] or not 0 <= self._current_x + _x < self._tiles.shape[1]:
+            return
+        return self._inner_outer_tiles[self._current_y + _y, self._current_x + _x]
 
     def _find_main_loop_tiles(self):
         """Walk through the main loop."""
