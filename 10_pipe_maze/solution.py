@@ -30,14 +30,15 @@ class Maze:
         self._last_direction = None
 
     def count_loop_tiles(self) -> int:
-        self._walk_through_main_loop()
+        self._find_main_loop_tiles()
         c = 0
         symbols = ['S', *list(TILES.keys())]
         for symbol in symbols:
             c += np.count_nonzero(self._main_loop_tiles == symbol.encode())
         return c
 
-    def _walk_through_main_loop(self):
+    def _find_main_loop_tiles(self):
+        """Walk through the main loop."""
         self._move_from_start()
         self._main_loop_tiles[self._current_y, self._current_x] = self._current_tile()
         while not all((self._current_y, self._current_x) == self._start_index()):
