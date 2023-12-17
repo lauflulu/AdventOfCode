@@ -13,7 +13,7 @@ class Record:
         # check if self._groups fits in boxes
         fit_indices = [self._fit_indices(n) for n in self._groups]
         count = 0
-        for permutation in list(set(list(itertools.product(*fit_indices)))):
+        for permutation in itertools.product(*fit_indices):
             valid = True
             for i in range(len(permutation) - 1):
                 if not permutation[i + 1] > permutation[i] + self._groups[i]:
