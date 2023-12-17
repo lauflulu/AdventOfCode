@@ -1,3 +1,20 @@
+import numpy as np
+
+
+class Universe:
+    def __init__(self, map_of_the_universe: np.array):
+        self._map = map_of_the_universe
+
+    def expand(self):
+        pass
+
+    def galaxy_indices(self):
+        pass
+
+    def lengths_of_shortest_paths(self):
+        pass
+
+
 def load_data(filename):
     pass
 
