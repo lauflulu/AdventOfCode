@@ -4,7 +4,7 @@ import solution
 class TestPart1:
     def test_that_data_is_loaded_as_numpy_array(self):
         universe = solution.load_data("example.txt")
-        print(universe)
+        assert universe._map.shape == (10, 10)
 
     def test_that_the_example_universe_is_expanded(self):
         universe = solution.load_data("example.txt")

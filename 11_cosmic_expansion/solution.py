@@ -16,7 +16,11 @@ class Universe:
 
 
 def load_data(filename):
-    pass
+    with open(filename, 'r') as file:
+        data = []
+        for row in file:
+            data.append([col for col in row.strip()])
+    return Universe(np.array(data))
 
 
 def get_result(data):
