@@ -33,6 +33,9 @@ class Universe:
                 paths.append(distance)
         return paths
 
+    def total_distance(self) -> int:
+        return sum(self._galaxy_distances())
+
 
 def load_data(filename):
     with open(filename, 'r') as file:
@@ -42,8 +45,8 @@ def load_data(filename):
     return Universe(np.array(data))
 
 
-def get_result(data):
-    pass
+def get_result(universe):
+    return universe.total_distance()
 
 
 def get_result_2(data):

@@ -28,5 +28,6 @@ class TestPart1:
         assert len(universe._galaxy_distances()) == 36
 
     def test_that_the_result_is_correct_for_example(self, universe):
-        print(solution.get_result(universe))
+        assert solution.get_result(universe) ==374
+
 
