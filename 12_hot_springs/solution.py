@@ -1,5 +1,4 @@
 import itertools
-import re
 
 
 class Record:
@@ -19,11 +18,14 @@ class Record:
             for i in range(len(permutation) - 1):
                 if not permutation[i + 1] > permutation[i] + self._groups[i]:
                     valid = False
-            if not all([i in permutation for i in self._forced_indices()]):
-                valid = False
+            if valid:
+                permutation_indices = []
+                for i, g in zip(permutation, self._groups):
+                    permutation_indices += list(range(i, i + g) )
+                if not all([i in permutation_indices for i in self._forced_indices()]):
+                    valid = False
             if valid:
                 count += int(valid)
-                print(permutation)
         return count
 
     def _fit_indices(self, n):
