@@ -1,4 +1,5 @@
 import itertools
+import re
 
 
 class Record:
@@ -18,7 +19,11 @@ class Record:
             for i in range(len(permutation) - 1):
                 if not permutation[i + 1] > permutation[i] + self._groups[i]:
                     valid = False
-            count += int(valid)
+            if not all([i in permutation for i in self._forced_indices()]):
+                valid = False
+            if valid:
+                count += int(valid)
+                print(permutation)
         return count
 
     def _fit_indices(self, n):
@@ -27,6 +32,9 @@ class Record:
             if self._matches(n, i):
                 indices.append(i)
         return indices
+
+    def _forced_indices(self):
+        return [i-1 for i in range(len(self._springs)) if self._springs[i] == '#']
 
     def _matches(self, n, i):
         group = self._spring_group(n)
@@ -54,8 +62,12 @@ def load_data(filename):
 
 
 def get_result(records):
-
-    return sum([record.number_of_arrangements() for record in records])
+    count = 0
+    for i, record in enumerate(records):
+        c = record.number_of_arrangements()
+        count += c
+        print(i+1, c)
+    return count
 
 
 def get_result_2(data):

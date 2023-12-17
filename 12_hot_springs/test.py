@@ -30,6 +30,18 @@ class TestPart1:
         records = solution.load_data("example.txt")
         assert records[row_index].number_of_arrangements() == number_of_arrangements
 
+    @pytest.mark.parametrize("springs, groups, number", [
+        ('.?#??#??.???????', [1, 1, 1, 1, 3], 7),  # first two indices need to be forced
+        ('.##?##???.???', [2, 2, 2], 3)  # consecutive forced indices
+    ])
+    def test_number_of_arrangements_for_additional_examples(self, springs, groups, number):
+        record = Record(springs, groups)
+        assert record.number_of_arrangements() == number
+
+    def test_forced_indices(self):
+        record = Record('.?#??#??.???????', [1, 1, 1, 1, 3])
+        assert record._forced_indices() == [2, 5]
+
     def test_that_result_is_correct_for_example(self):
         records = solution.load_data("example.txt")
         assert solution.get_result(records) == 21
