@@ -1,12 +1,13 @@
 import pytest
 
 import solution
+from solution import Record
 
 
 class TestPart1:
     def test_load_data_returns_list_of_records(self):
         records = solution.load_data("example.txt")
-        assert isinstance(records[0], solution.Record)
+        assert isinstance(records[0], Record)
         assert records[0]._springs == "???.###"
         assert records[2]._groups == [1, 3, 1, 6]
 
