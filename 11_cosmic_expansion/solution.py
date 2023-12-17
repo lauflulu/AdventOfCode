@@ -44,7 +44,7 @@ def load_data(filename):
         data = []
         for row in file:
             data.append([col for col in row.strip()])
-    return Universe(np.array(data))
+    return np.array(data)
 
 
 def get_result(universe):
@@ -57,8 +57,9 @@ def get_result_2(universe, expansion_factor):
 
 def main():
     data = load_data("data.txt")
-    print(get_result(data))
-    print(get_result_2(data, 1_000_000))
+    universe = Universe(data)
+    print(get_result(universe))
+    print(get_result_2(universe, 1_000_000))
 
 
 if __name__ == '__main__':

@@ -2,11 +2,12 @@ import numpy as np
 import pytest
 
 import solution
+from solution import Universe
 
 
 @pytest.fixture
 def universe():
-    yield solution.load_data("example.txt")
+    yield Universe(solution.load_data("example.txt"))
 
 
 class TestPart1:
@@ -14,7 +15,7 @@ class TestPart1:
         assert universe._map.shape == (10, 10)
 
     def test_that_the_example_universe_is_expanded(self, universe):
-        expanded_universe = solution.load_data("example_expanded.txt")
+        expanded_universe = Universe(solution.load_data("example_expanded.txt"))
         assert np.all(universe._expand() == expanded_universe._map)
 
     def test_that_galaxy_coordinates_are_complete_for_example(self, universe):
