@@ -21,8 +21,8 @@ class Universe:
 
         return np.array(expanded_cols).T
 
-    def galaxy_indices(self):
-        pass
+    def _galaxy_coordinates(self) -> list[tuple]:
+        return [tuple(yx) for yx in np.argwhere(self._map_expanded == '#')]
 
     def lengths_of_shortest_paths(self):
         pass

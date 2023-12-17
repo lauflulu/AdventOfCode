@@ -13,9 +13,14 @@ class TestPart1:
         expanded_universe = solution.load_data("example_expanded.txt")
         assert np.all(universe._map_expanded == expanded_universe._map)
 
-    def test_that_galaxy_indices_are_complete_for_example(self):
+    def test_that_galaxy_coordinates_are_complete_for_example(self):
         universe = solution.load_data("example.txt")
-        print(universe.galaxy_indices())
+        assert len(universe._galaxy_coordinates()) == 9
+
+    def test_that_galaxy_coordinates_are_found_for_example(self):
+        universe = solution.load_data("example.txt")
+        assert (0, 4) in universe._galaxy_coordinates()
+        assert (11, 5) in universe._galaxy_coordinates()
 
     def test_that_shortest_paths_are_correct_for_example(self):
         universe = solution.load_data("example.txt")
