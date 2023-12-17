@@ -4,9 +4,22 @@ import numpy as np
 class Universe:
     def __init__(self, map_of_the_universe: np.array):
         self._map = map_of_the_universe
+        self._map_expanded = self._expand()
 
-    def expand(self):
-        pass
+    def _expand(self):
+        expanded_rows = []
+        for row in range(self._map.shape[0]):
+            expanded_rows.append(self._map[row, :])
+            if np.all(self._map[row, :] == '.'):
+                expanded_rows.append(self._map[row, :])
+        expanded_rows = np.array(expanded_rows)
+        expanded_cols = []
+        for col in range(expanded_rows.shape[1]):
+            expanded_cols.append(expanded_rows[:, col])
+            if np.all(expanded_rows[:, col] == '.'):
+                expanded_cols.append(expanded_rows[:, col])
+
+        return np.array(expanded_cols).T
 
     def galaxy_indices(self):
         pass

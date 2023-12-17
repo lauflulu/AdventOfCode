@@ -1,3 +1,5 @@
+import numpy as np
+
 import solution
 
 
@@ -8,7 +10,8 @@ class TestPart1:
 
     def test_that_the_example_universe_is_expanded(self):
         universe = solution.load_data("example.txt")
-        print(universe.expand())
+        expanded_universe = solution.load_data("example_expanded.txt")
+        assert np.all(universe._map_expanded == expanded_universe._map)
 
     def test_that_galaxy_indices_are_complete_for_example(self):
         universe = solution.load_data("example.txt")
