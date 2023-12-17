@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 import solution
-from solution import Universe
+from solution import Universe, VirtualUniverse
 
 
 @pytest.fixture
@@ -35,4 +35,11 @@ class TestPart1:
 class TestPart2:
     @pytest.mark.parametrize("expansion_factor, result", [(10, 1030), (100, 8410)])
     def test_that_the_result_is_correct_for_example_with_expansion_factor(self, expansion_factor, result, universe):
+        assert solution.get_result_2(universe, expansion_factor) == result
+
+
+class TestPart2Virtual:
+    @pytest.mark.parametrize("expansion_factor, result", [(10, 1030), (100, 8410)])
+    def test_that_the_result_is_correct_for_example_with_expansion_factor(self, expansion_factor, result):
+        universe = VirtualUniverse(solution.load_data("example.txt"))
         assert solution.get_result_2(universe, expansion_factor) == result
