@@ -4,7 +4,6 @@ import numpy as np
 class Universe:
     def __init__(self, map_of_the_universe: np.array):
         self._map = map_of_the_universe
-        self._map_expanded = self._expand()
 
     def _expand(self):
         expanded_rows = []
@@ -22,7 +21,7 @@ class Universe:
         return np.array(expanded_cols).T
 
     def _galaxy_coordinates(self) -> list[tuple]:
-        return [tuple(yx) for yx in np.argwhere(self._map_expanded == '#')]
+        return [tuple(yx) for yx in np.argwhere(self._expand() == '#')]
 
     def _galaxy_distances(self) -> list[int]:
         paths = []
