@@ -1,3 +1,4 @@
+import itertools
 
 
 class Record:
@@ -7,12 +8,18 @@ class Record:
         self._n_springs = len(springs)
         self._groups = groups
 
-    def _number_of_arrangements(self):
+    def number_of_arrangements(self):
         # compute potential _boxes(self._springs)
         # check if self._groups fits in boxes
-        fit_indices = []
-        for n in self._groups:
-            fit_indices.append(self._fit_indices(self._springs, n))
+        fit_indices = [self._fit_indices(n) for n in self._groups]
+        count = 0
+        for permutation in list(set(list(itertools.product(*fit_indices)))):
+            valid = True
+            for i in range(len(permutation) - 1):
+                if not permutation[i + 1] > permutation[i] + self._groups[i]:
+                    valid = False
+            count += int(valid)
+        return count
 
     def _fit_indices(self, n):
         indices = []
@@ -46,8 +53,9 @@ def load_data(filename):
         return records
 
 
-def get_result(data):
-    pass
+def get_result(records):
+
+    return sum([record.number_of_arrangements() for record in records])
 
 
 def get_result_2(data):
