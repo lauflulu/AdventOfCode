@@ -28,6 +28,10 @@ class TestPart1:
         assert len(universe._galaxy_distances()) == 36
 
     def test_that_the_result_is_correct_for_example(self, universe):
-        assert solution.get_result(universe) ==374
+        assert solution.get_result(universe) == 374
 
 
+class TestPart2:
+    @pytest.mark.parametrize("expansion_factor, result", [(10, 1030), (100, 8410)])
+    def test_that_the_result_is_correct_for_example_with_expansion_factor(self, expansion_factor, result, universe):
+        assert solution.get_result_2(universe) == result
