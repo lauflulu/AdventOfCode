@@ -25,7 +25,7 @@ class TestPart1:
         assert (11, 5) in universe._galaxy_coordinates()
 
     def test_that_shortest_paths_are_correct_for_example(self, universe):
-        print(universe.lengths_of_shortest_paths())
+        assert len(universe._galaxy_distances()) == 36
 
     def test_that_the_result_is_correct_for_example(self, universe):
         print(solution.get_result(universe))

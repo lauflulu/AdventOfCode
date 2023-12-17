@@ -24,8 +24,14 @@ class Universe:
     def _galaxy_coordinates(self) -> list[tuple]:
         return [tuple(yx) for yx in np.argwhere(self._map_expanded == '#')]
 
-    def lengths_of_shortest_paths(self):
-        pass
+    def _galaxy_distances(self) -> list[int]:
+        paths = []
+        galaxies = self._galaxy_coordinates()
+        for i in range(len(galaxies)):
+            for j in range(i + 1, len(galaxies)):
+                distance = abs(galaxies[i][0] - galaxies[j][0]) + abs(galaxies[i][1] - galaxies[j][1])
+                paths.append(distance)
+        return paths
 
 
 def load_data(filename):
