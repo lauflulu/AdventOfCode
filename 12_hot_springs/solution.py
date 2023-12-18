@@ -52,6 +52,13 @@ class Record:
     def _pad(self, springs: str) -> str:
         return '.' + springs + '.'
 
+    def _unfolded_groups(self):
+        return self._groups * 5
+
+    def _unfolded_springs(self):
+        springs = self._springs[1:-1]
+        return self._pad((springs + '?') * 4 + springs)
+
 
 def load_data(filename):
     with open(filename, 'r') as file:
