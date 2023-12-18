@@ -59,6 +59,9 @@ class Record:
         springs = self._springs[1:-1]
         return self._pad((springs + '?') * 4 + springs)
 
+    def unfolded_arrangements(self):
+        return 1
+
 
 def load_data(filename):
     with open(filename, 'r') as file:
