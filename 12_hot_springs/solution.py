@@ -46,7 +46,7 @@ class Record:
         count = 0
 
         for permutation in product(fit_indices):
-            valid = self._groups_do_not_overlap(permutation)
+            valid = True
             if valid:
                 permutation_indices = []
                 for i, g in zip(permutation, self._groups):
