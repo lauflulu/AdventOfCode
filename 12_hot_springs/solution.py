@@ -35,6 +35,7 @@ class Record:
                             continue
                         temp_result.append(branch_up_to_current_depth)
                 result = temp_result
+            print(len(result))
 
             for prod in result:
                 yield tuple(prod)
@@ -43,10 +44,7 @@ class Record:
         count = 0
 
         for permutation in product(fit_indices):
-            valid = True
-            for i in range(len(permutation) - 1):
-                if not permutation[i + 1] > permutation[i] + self._groups[i]:
-                    valid = False
+            valid = self._groups_do_not_overlap(permutation)
             if valid:
                 permutation_indices = []
                 for i, g in zip(permutation, self._groups):
@@ -56,6 +54,12 @@ class Record:
             if valid:
                 count += int(valid)
         return count
+
+    def _groups_do_not_overlap(self, permutation):
+        for i in range(len(permutation) - 1):
+            if not permutation[i + 1] > permutation[i] + self._groups[i]:
+                return False
+        return True
 
     def _fit_indices(self, n):
         indices = []
