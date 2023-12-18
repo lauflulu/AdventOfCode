@@ -46,9 +46,7 @@ class Record:
         count = 0
 
         for permutation in product(fit_indices):
-            valid = True
-            if valid:
-                valid = self._forced_indices_are_not_skipped(permutation)
+            valid = self._forced_indices_are_not_skipped(permutation)
             if valid:
                 count += int(valid)
         return count
