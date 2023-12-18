@@ -8,9 +8,7 @@ class Record:
         self._n_springs = len(springs)
         self._groups = groups
 
-    def number_of_arrangements(self):
-        # compute potential _boxes(self._springs)
-        # check if self._groups fits in boxes
+    def count_arrangements(self):
         fit_indices = [self._fit_indices(n) for n in self._groups]
         count = 0
         for permutation in itertools.product(*fit_indices):
@@ -76,7 +74,7 @@ def load_data(filename):
 def get_result(records):
     count = 0
     for i, record in enumerate(records):
-        c = record.number_of_arrangements()
+        c = record.count_arrangements()
         count += c
         print(i+1, c)
     return count

@@ -28,7 +28,7 @@ class TestPart1:
     @pytest.mark.parametrize("row_index, number_of_arrangements", enumerate([1, 4, 1, 1, 4, 10]))
     def test_that_correct_number_of_combinations_is_computed_for_each_row(self, row_index, number_of_arrangements):
         records = solution.load_data("example.txt")
-        assert records[row_index].number_of_arrangements() == number_of_arrangements
+        assert records[row_index].count_arrangements() == number_of_arrangements
 
     @pytest.mark.parametrize("springs, groups, number", [
         ('.?#??#??.???????', [1, 1, 1, 1, 3], 7),  # first two indices need to be forced
@@ -36,7 +36,7 @@ class TestPart1:
     ])
     def test_number_of_arrangements_for_additional_examples(self, springs, groups, number):
         record = Record(springs, groups)
-        assert record.number_of_arrangements() == number
+        assert record.count_arrangements() == number
 
     def test_forced_indices(self):
         record = Record('.?#??#??.???????', [1, 1, 1, 1, 3])
