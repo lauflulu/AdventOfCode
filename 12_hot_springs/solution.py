@@ -1,4 +1,3 @@
-import itertools
 
 
 class Record:
@@ -23,9 +22,20 @@ class Record:
         return self._count_arrangements()
 
     def _count_arrangements(self):
+
+        def product(pools):
+            result = [[]]
+
+            for pool in pools:
+                result = [x + [y] for x in result for y in pool]  # do the conditions here
+
+            for prod in result:
+                yield tuple(prod)
+
         fit_indices = [self._fit_indices(n) for n in self._groups]
         count = 0
-        for permutation in itertools.product(*fit_indices):
+
+        for permutation in product(fit_indices):
             valid = True
             for i in range(len(permutation) - 1):
                 if not permutation[i + 1] > permutation[i] + self._groups[i]:
