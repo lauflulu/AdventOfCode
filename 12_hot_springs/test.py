@@ -45,3 +45,14 @@ class TestPart1:
     def test_that_result_is_correct_for_example(self):
         records = solution.load_data("example.txt")
         assert solution.get_result(records) == 21
+
+
+class TestPart2:
+    @pytest.mark.parametrize("springs, groups, unfolded_springs, unfolded_groups", [
+        (".#", [1], "..#?.#?.#?.#?.#.", [1, 1, 1, 1, 1]),
+        ("???.###", [1, 1, 3], ".???.###????.###????.###????.###????.###.", [1, 1, 3] * 5)
+    ])
+    def test_that_springs_and_groups_unfold_and_are_padded(self, springs, groups, unfolded_springs, unfolded_groups):
+        record = Record(springs, groups)
+        assert record._unfolded_springs() == unfolded_springs
+        assert record._unfolded_groups() == unfolded_groups
