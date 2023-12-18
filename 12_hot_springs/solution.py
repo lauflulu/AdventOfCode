@@ -48,14 +48,18 @@ class Record:
         for permutation in product(fit_indices):
             valid = True
             if valid:
-                permutation_indices = []
-                for i, g in zip(permutation, self._groups):
-                    permutation_indices += list(range(i, i + g))
-                if not all([i in permutation_indices for i in self._forced_indices()]):
-                    valid = False
+                valid = self._forced_indices_are_not_skipped(permutation)
             if valid:
                 count += int(valid)
         return count
+
+    def _forced_indices_are_not_skipped(self, permutation):
+        permutation_indices = []
+        for i, g in zip(permutation, self._groups):
+            permutation_indices += list(range(i, i + g))
+        if not all([i in permutation_indices for i in self._forced_indices()]):
+            return False
+        return True
 
     def _groups_do_not_overlap(self, permutation):
         for i in range(len(permutation) - 1):
