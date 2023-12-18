@@ -57,6 +57,10 @@ class TestPart2:
         assert record._unfolded_springs() == unfolded_springs
         assert record._unfolded_groups() == unfolded_groups
 
+    def test_that_correct_number_of_combinations_is_computed_for_unfolded_springs_for_simple_example(self):
+        record = Record(".??", [1])
+        assert record.unfolded_arrangements() == 534
+
     @pytest.mark.parametrize("row_index, unfolded_arrangements", enumerate([1, 16384, 1, 16, 2500, 506250]))
     def test_that_correct_number_of_combinations_is_computed_for_unfolded_springs(
             self, row_index, unfolded_arrangements):
