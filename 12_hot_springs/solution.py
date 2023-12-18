@@ -9,6 +9,9 @@ class Record:
         self._groups = groups
 
     def count_arrangements(self):
+        return self._count_arrangements()
+
+    def _count_arrangements(self):
         fit_indices = [self._fit_indices(n) for n in self._groups]
         count = 0
         for permutation in itertools.product(*fit_indices):
@@ -19,7 +22,7 @@ class Record:
             if valid:
                 permutation_indices = []
                 for i, g in zip(permutation, self._groups):
-                    permutation_indices += list(range(i, i + g) )
+                    permutation_indices += list(range(i, i + g))
                 if not all([i in permutation_indices for i in self._forced_indices()]):
                     valid = False
             if valid:
