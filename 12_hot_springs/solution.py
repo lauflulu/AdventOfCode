@@ -72,7 +72,8 @@ class Record:
         return self._pad((springs + '?') * 4 + springs)
 
     def unfolded_arrangements(self):
-        return 1
+        self._unfold()
+        return self._count_arrangements()
 
 
 def load_data(filename):
@@ -94,8 +95,13 @@ def get_result(records):
     return count
 
 
-def get_result_2(data):
-    pass
+def get_result_2(records):
+    count = 0
+    for i, record in enumerate(records):
+        c = record.unfolded_arrangements()
+        count += c
+        print(i + 1, c)
+    return count
 
 
 def main():
