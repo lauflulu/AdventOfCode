@@ -4,11 +4,22 @@ import itertools
 class Record:
 
     def __init__(self, springs: str, groups: list[int]):
-        self._springs = self._pad(springs)
-        self._n_springs = len(springs)
-        self._groups = groups
+        self._folded_springs = self._pad(springs)
+        self._folded_groups = groups
+
+        self._springs = self._folded_springs
+        self._groups = self._folded_groups
+
+    def _fold(self):
+        self._springs = self._folded_springs
+        self._groups = self._folded_groups
+
+    def _unfold(self):
+        self._springs = self._unfolded_springs()
+        self._groups = self._unfolded_groups()
 
     def count_arrangements(self):
+        self._fold()
         return self._count_arrangements()
 
     def _count_arrangements(self):
