@@ -27,7 +27,11 @@ class Record:
             result = [[]]
 
             for pool in pools:
-                result = [x + [y] for x in result for y in pool]  # do the conditions here
+                temp_result = []
+                for x in result:
+                    for y in pool:
+                        temp_result.append(x + [y])
+                result = temp_result
 
             for prod in result:
                 yield tuple(prod)
