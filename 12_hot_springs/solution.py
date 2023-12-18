@@ -30,7 +30,10 @@ class Record:
                 temp_result = []
                 for x in result:
                     for y in pool:
-                        temp_result.append(x + [y])
+                        branch_up_to_current_depth = x + [y]
+                        if not branch_up_to_current_depth == sorted(branch_up_to_current_depth):
+                            continue
+                        temp_result.append(branch_up_to_current_depth)
                 result = temp_result
 
             for prod in result:
