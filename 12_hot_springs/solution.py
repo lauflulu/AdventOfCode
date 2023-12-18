@@ -33,6 +33,8 @@ class Record:
                         branch_up_to_current_depth = x + [y]
                         if not branch_up_to_current_depth == sorted(branch_up_to_current_depth):
                             continue
+                        if not self._groups_do_not_overlap(branch_up_to_current_depth):
+                            continue
                         temp_result.append(branch_up_to_current_depth)
                 result = temp_result
             print(len(result))
