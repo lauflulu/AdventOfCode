@@ -8,14 +8,17 @@ class Record:
 
         self._springs = self._folded_springs
         self._groups = self._folded_groups
+        self._forced_indices = self._get_forced_indices()
 
     def _fold(self):
         self._springs = self._folded_springs
         self._groups = self._folded_groups
+        self._forced_indices = self._get_forced_indices()
 
     def _unfold(self):
         self._springs = self._unfolded_springs()
         self._groups = self._unfolded_groups()
+        self._forced_indices = self._get_forced_indices()
 
     def count_arrangements(self):
         self._fold()
@@ -42,7 +45,7 @@ class Record:
 
     def _forced_indices_can_be_filled(self, partial_product):
         already_filled_indices = [i for g, p in zip(self._groups, partial_product) for i in range(p, p+g)]
-        forced_indices = self._forced_indices()
+        forced_indices = self._forced_indices
         remaining_groups = self._groups[len(partial_product):]
         remaining_forced_indices = list(set(forced_indices) - set(already_filled_indices))
         if sum(remaining_groups) < len(remaining_forced_indices):
@@ -53,7 +56,7 @@ class Record:
         permutation_indices = []
         for i, g in zip(permutation, self._groups):
             permutation_indices += list(range(i, i + g))
-        if not all([i in permutation_indices for i in self._forced_indices()]):
+        if not all([i in permutation_indices for i in self._forced_indices]):
             return False
         return True
 
@@ -70,7 +73,7 @@ class Record:
                 indices.append(i)
         return indices
 
-    def _forced_indices(self):
+    def _get_forced_indices(self):
         return [i-1 for i in range(len(self._springs)) if self._springs[i] == '#']
 
     def _matches(self, n, i):

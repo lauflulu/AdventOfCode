@@ -40,7 +40,7 @@ class TestPart1:
 
     def test_forced_indices(self):
         record = Record('.?#??#??.???????', [1, 1, 1, 1, 3])
-        assert record._forced_indices() == [2, 5]
+        assert record._get_forced_indices() == [2, 5]
 
     def test_that_result_is_correct_for_example(self):
         records = solution.load_data("example.txt")
