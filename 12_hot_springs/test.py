@@ -73,10 +73,11 @@ class TestPart2:
         assert record.unfolded_arrangements() == 1
 
     @pytest.mark.parametrize("springs, groups, locked", [
-        # ("?#?#?#?#?#?#?#?", [1,3,1,6], True),
-        # ("?###????????", [3, 2, 1], True)
+        ("?#?#?#?#?#?#?#?", [1, 3, 1, 6], True),
+        ("?###????????", [3, 2, 1], True),
+        ("?#??????????", [3, 2, 1], False)
     ])
-    def test_that_springs_fit_folded_groups_give_correct_result(self, springs, groups, locked):
+    def test_that_locked_determines_whether_folds_are_locked(self, springs, groups, locked):
         record = Record(springs, groups)
         assert record._locked() is locked
 

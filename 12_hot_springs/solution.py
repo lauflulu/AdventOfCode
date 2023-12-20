@@ -100,6 +100,18 @@ class Record:
         self._unfold(folds)
         return self._count_arrangements()
 
+    def _locked(self):
+        one_fold_arrangements = self.count_arrangements()
+        two_fold_arrangements = self.unfolded_arrangements(2)
+        self._springs = self._unfolded_left_spring()
+        self._groups = self._folded_groups
+        self._forced_indices = self._get_forced_indices()
+        left_fold_arrangements = self._count_arrangements()
+        print(one_fold_arrangements, two_fold_arrangements, left_fold_arrangements)
+        if one_fold_arrangements*left_fold_arrangements == two_fold_arrangements:
+            return True
+        return False
+
 
 def load_data(filename):
     with open(filename, 'r') as file:
