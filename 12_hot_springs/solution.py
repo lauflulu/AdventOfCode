@@ -24,6 +24,12 @@ class Record:
         self._fold()
         return self._count_arrangements()
 
+    def count_unfolded_arrangements(self):
+        locked, one_arrangements, left_arrangements = self._locked()
+        if locked:
+            return left_arrangements**4*one_arrangements
+        return self._unfolded_arrangements()
+
     def _count_arrangements(self):
         pools = [self._fit_indices(n) for n in self._groups]
 
@@ -96,21 +102,33 @@ class Record:
         springs = self._folded_springs[1:-1]
         return self._pad(springs + '?')
 
-    def unfolded_arrangements(self, folds: int = 5):
+    def _unfolded_right_spring(self):
+        springs = self._folded_springs[1:-1]
+        return self._pad('?' + springs)
+
+    def _unfolded_arrangements(self, folds: int = 5):
         self._unfold(folds)
         return self._count_arrangements()
 
     def _locked(self):
         one_fold_arrangements = self.count_arrangements()
-        two_fold_arrangements = self.unfolded_arrangements(2)
+        two_fold_arrangements = self._unfolded_arrangements(2)
         self._springs = self._unfolded_left_spring()
         self._groups = self._folded_groups
         self._forced_indices = self._get_forced_indices()
         left_fold_arrangements = self._count_arrangements()
-        print(one_fold_arrangements, two_fold_arrangements, left_fold_arrangements)
+        print(one_fold_arrangements, left_fold_arrangements, two_fold_arrangements)
         if one_fold_arrangements*left_fold_arrangements == two_fold_arrangements:
-            return True
-        return False
+            return True, one_fold_arrangements, left_fold_arrangements
+        self._springs = self._unfolded_right_spring()
+        self._groups = self._folded_groups
+        self._forced_indices = self._get_forced_indices()
+        right_fold_arrangements = self._count_arrangements()
+        print(one_fold_arrangements, right_fold_arrangements, two_fold_arrangements)
+        if one_fold_arrangements * right_fold_arrangements == two_fold_arrangements:
+            return True, one_fold_arrangements, right_fold_arrangements
+
+        return False, None, None
 
 
 def load_data(filename):
@@ -135,7 +153,7 @@ def get_result(records):
 def get_result_2(records):
     count = 0
     for i, record in enumerate(records):
-        c = record.unfolded_arrangements()
+        c = record.count_unfolded_arrangements()
         count += c
         print(i + 1, c)
     return count

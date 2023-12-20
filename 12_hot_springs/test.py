@@ -59,7 +59,7 @@ class TestPart2:
 
     def test_that_correct_number_of_combinations_is_computed_fast_enough_when_order_matters(self):
         record = Record(".??", [1])
-        assert record.unfolded_arrangements() == 534
+        assert record._unfolded_arrangements() == 534
 
     @pytest.mark.parametrize("partial_indices, result", [
         ([1], True), ([1, 3], False), ([1, 9], True)])
@@ -70,7 +70,7 @@ class TestPart2:
 
     def test_that_correct_number_of_combinations_is_computed_fast_enough_when_forced_indices_matter(self):
         record = Record(".#?????", [1])
-        assert record.unfolded_arrangements() == 1
+        assert record._unfolded_arrangements() == 1
 
     @pytest.mark.parametrize("springs, groups, locked", [
         ("?#?#?#?#?#?#?#?", [1, 3, 1, 6], True),
@@ -79,17 +79,17 @@ class TestPart2:
     ])
     def test_that_locked_determines_whether_folds_are_locked(self, springs, groups, locked):
         record = Record(springs, groups)
-        assert record._locked() is locked
+        assert record._locked()[0] is locked
 
     @pytest.mark.parametrize("springs, groups, unfolded_arrangements", [
         ("???.###", [1, 1, 3], 1),  # 41 ms
         (".??..??...?##.", [1, 1, 3], 16384),  # 2.7 s, if locking condition: first_fold*second_fold**4=4*8**4
-        # ("?#?#?#?#?#?#?#?", [1,3,1,6], 1),  # 2:40 min, locked: 1*1**4
+        ("?#?#?#?#?#?#?#?", [1,3,1,6], 1),  # 2:40 min, locked: 1*1**4
         ("????.#...#...", [4, 1, 1], 16),  # 650 ms
         ("????.######..#####.", [1, 6, 5], 2500),  # 450 ms
-        # ("?###????????", [3, 2, 1], 506250)  # 4:40 min 15**4*10
+        ("?###????????", [3, 2, 1], 506250)  # 4:40 min 15**4*10
     ])
     def test_that_correct_number_of_combinations_is_computed_for_unfolded_springs(
             self, springs, groups, unfolded_arrangements):
         record = Record(springs, groups)
-        assert record.unfolded_arrangements() == unfolded_arrangements
+        assert record.count_unfolded_arrangements() == unfolded_arrangements
