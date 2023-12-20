@@ -15,9 +15,9 @@ class Record:
         self._groups = self._folded_groups
         self._forced_indices = self._get_forced_indices()
 
-    def _unfold(self):
-        self._springs = self._unfolded_springs()
-        self._groups = self._unfolded_groups()
+    def _unfold(self, folds):
+        self._springs = self._unfolded_springs(folds)
+        self._groups = self._unfolded_groups(folds)
         self._forced_indices = self._get_forced_indices()
 
     def count_arrangements(self):
@@ -85,15 +85,19 @@ class Record:
     def _pad(self, springs: str) -> str:
         return '.' + springs + '.'
 
-    def _unfolded_groups(self):
-        return self._groups * 5
+    def _unfolded_groups(self, folds):
+        return self._folded_groups * folds
 
-    def _unfolded_springs(self):
-        springs = self._springs[1:-1]
-        return self._pad((springs + '?') * 4 + springs)
+    def _unfolded_springs(self, folds):
+        springs = self._folded_springs[1:-1]
+        return self._pad((springs + '?') * (folds - 1) + springs)
 
-    def unfolded_arrangements(self):
-        self._unfold()
+    def _unfolded_left_spring(self):
+        springs = self._folded_springs[1:-1]
+        return self._pad(springs + '?')
+
+    def unfolded_arrangements(self, folds: int = 5):
+        self._unfold(folds)
         return self._count_arrangements()
 
 

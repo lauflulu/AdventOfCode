@@ -54,8 +54,8 @@ class TestPart2:
     ])
     def test_that_springs_and_groups_unfold_and_are_padded(self, springs, groups, unfolded_springs, unfolded_groups):
         record = Record(springs, groups)
-        assert record._unfolded_springs() == unfolded_springs
-        assert record._unfolded_groups() == unfolded_groups
+        assert record._unfolded_springs(5) == unfolded_springs
+        assert record._unfolded_groups(5) == unfolded_groups
 
     def test_that_correct_number_of_combinations_is_computed_fast_enough_when_order_matters(self):
         record = Record(".??", [1])
@@ -65,12 +65,20 @@ class TestPart2:
         ([1], True), ([1, 3], False), ([1, 9], True)])
     def test_that_forced_indices_condition_can_be_fulfilled(self, partial_indices, result):
         record = Record(".#?????", [1])
-        record._unfold()
+        record._unfold(5)
         assert record._forced_indices_can_be_filled([1, 3]) is False
 
     def test_that_correct_number_of_combinations_is_computed_fast_enough_when_forced_indices_matter(self):
         record = Record(".#?????", [1])
         assert record.unfolded_arrangements() == 1
+
+    @pytest.mark.parametrize("springs, groups, locked", [
+        # ("?#?#?#?#?#?#?#?", [1,3,1,6], True),
+        # ("?###????????", [3, 2, 1], True)
+    ])
+    def test_that_springs_fit_folded_groups_give_correct_result(self, springs, groups, locked):
+        record = Record(springs, groups)
+        assert record._locked() is locked
 
     @pytest.mark.parametrize("springs, groups, unfolded_arrangements", [
         ("???.###", [1, 1, 3], 1),  # 41 ms
