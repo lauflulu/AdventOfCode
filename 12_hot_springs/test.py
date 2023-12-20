@@ -74,11 +74,11 @@ class TestPart2:
 
     @pytest.mark.parametrize("springs, groups, unfolded_arrangements", [
         ("???.###", [1, 1, 3], 1),  # 41 ms
-        (".??..??...?##.", [1, 1, 3], 16384),  # 2.7 s
-        # ("?#?#?#?#?#?#?#?", [1,3,1,6], 1),  # 2:40 min
+        (".??..??...?##.", [1, 1, 3], 16384),  # 2.7 s, if locking condition: first_fold*second_fold**4=4*8**4
+        # ("?#?#?#?#?#?#?#?", [1,3,1,6], 1),  # 2:40 min, locked: 1*1**4
         ("????.#...#...", [4, 1, 1], 16),  # 650 ms
         ("????.######..#####.", [1, 6, 5], 2500),  # 450 ms
-        # ("?###????????", [3, 2, 1], 506250)  # 4:40 min
+        # ("?###????????", [3, 2, 1], 506250)  # 4:40 min 15**4*10
     ])
     def test_that_correct_number_of_combinations_is_computed_for_unfolded_springs(
             self, springs, groups, unfolded_arrangements):
