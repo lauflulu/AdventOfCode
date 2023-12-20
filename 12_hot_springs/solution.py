@@ -46,12 +46,11 @@ class Record:
         count = 0
 
         for permutation in product(fit_indices):
-            valid = self._forced_indices_are_not_skipped(permutation)
-            if valid:
-                count += int(valid)
+            if self._forced_indices_are_included(permutation):
+                count += 1
         return count
 
-    def _forced_indices_are_not_skipped(self, permutation):
+    def _forced_indices_are_included(self, permutation):
         permutation_indices = []
         for i, g in zip(permutation, self._groups):
             permutation_indices += list(range(i, i + g))
