@@ -33,7 +33,7 @@ class Record:
             for x in result:
                 for y in pool:
                     partial_product = x + [y]
-                    if not partial_product == sorted(partial_product):
+                    if not self._groups_are_in_correct_order(partial_product):
                         continue
                     if not self._groups_do_not_overlap(partial_product):
                         continue
@@ -42,6 +42,9 @@ class Record:
                     temp_result.append(partial_product)
             result = temp_result
         return len(result)
+
+    def _groups_are_in_correct_order(self, partial_product):
+        return partial_product == sorted(partial_product)
 
     def _forced_indices_can_be_filled(self, partial_product):
         already_filled_indices = [i for g, p in zip(self._groups, partial_product) for i in range(p, p+g)]
