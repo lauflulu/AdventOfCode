@@ -35,6 +35,8 @@ class Record:
                             continue
                         if not self._groups_do_not_overlap(branch_up_to_current_depth):
                             continue
+                        if not self._forced_indices_can_be_filled(branch_up_to_current_depth):
+                            continue
                         temp_result.append(branch_up_to_current_depth)
                 result = temp_result
             print(len(result))
@@ -49,6 +51,15 @@ class Record:
             if self._forced_indices_are_included(permutation):
                 count += 1
         return count
+
+    def _forced_indices_can_be_filled(self, partial_product):
+        already_filled_indices = [i for g, p in zip(self._groups, partial_product) for i in range(p, p+g)]
+        forced_indices = self._forced_indices()
+        remaining_groups = self._groups[len(partial_product):]
+        remaining_forced_indices = list(set(forced_indices) - set(already_filled_indices))
+        if sum(remaining_groups) < len(remaining_forced_indices):
+            return False
+        return True
 
     def _forced_indices_are_included(self, permutation):
         permutation_indices = []
