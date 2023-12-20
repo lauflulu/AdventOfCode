@@ -22,35 +22,23 @@ class Record:
         return self._count_arrangements()
 
     def _count_arrangements(self):
+        pools = [self._fit_indices(n) for n in self._groups]
 
-        def product(pools):
-            result = [[]]
-
-            for pool in pools:
-                temp_result = []
-                for x in result:
-                    for y in pool:
-                        branch_up_to_current_depth = x + [y]
-                        if not branch_up_to_current_depth == sorted(branch_up_to_current_depth):
-                            continue
-                        if not self._groups_do_not_overlap(branch_up_to_current_depth):
-                            continue
-                        if not self._forced_indices_can_be_filled(branch_up_to_current_depth):
-                            continue
-                        temp_result.append(branch_up_to_current_depth)
-                result = temp_result
-            print(len(result))
-
-            for prod in result:
-                yield tuple(prod)
-
-        fit_indices = [self._fit_indices(n) for n in self._groups]
-        count = 0
-
-        for permutation in product(fit_indices):
-            if self._forced_indices_are_included(permutation):
-                count += 1
-        return count
+        result = [[]]
+        for pool in pools:
+            temp_result = []
+            for x in result:
+                for y in pool:
+                    branch_up_to_current_depth = x + [y]
+                    if not branch_up_to_current_depth == sorted(branch_up_to_current_depth):
+                        continue
+                    if not self._groups_do_not_overlap(branch_up_to_current_depth):
+                        continue
+                    if not self._forced_indices_can_be_filled(branch_up_to_current_depth):
+                        continue
+                    temp_result.append(branch_up_to_current_depth)
+            result = temp_result
+        return len(result)
 
     def _forced_indices_can_be_filled(self, partial_product):
         already_filled_indices = [i for g, p in zip(self._groups, partial_product) for i in range(p, p+g)]
