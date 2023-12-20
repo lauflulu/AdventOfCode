@@ -72,15 +72,15 @@ class TestPart2:
         record = Record(".#?????", [1])
         assert record.unfolded_arrangements() == 1
 
-    @pytest.mark.parametrize("row_index, unfolded_arrangements", [
-        (0, 1),
-        (1, 16384),
-        # (2, 1),
-        (3, 16),
-        (4, 2500),
-        # (5, 506250)
+    @pytest.mark.parametrize("springs, groups, unfolded_arrangements", [
+        ("???.###", [1, 1, 3], 1),  # 41 ms
+        (".??..??...?##.", [1, 1, 3], 16384),  # 2.7 s
+        # ("?#?#?#?#?#?#?#?", [1,3,1,6], 1),  # 2:40 min
+        ("????.#...#...", [4, 1, 1], 16),  # 650 ms
+        ("????.######..#####.", [1, 6, 5], 2500),  # 450 ms
+        # ("?###????????", [3, 2, 1], 506250)  # 4:40 min
     ])
     def test_that_correct_number_of_combinations_is_computed_for_unfolded_springs(
-            self, row_index, unfolded_arrangements):
-        records = solution.load_data("example.txt")
-        assert records[row_index].unfolded_arrangements() == unfolded_arrangements
+            self, springs, groups, unfolded_arrangements):
+        record = Record(springs, groups)
+        assert record.unfolded_arrangements() == unfolded_arrangements
