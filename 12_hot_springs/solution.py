@@ -32,14 +32,14 @@ class Record:
             temp_result = []
             for x in result:
                 for y in pool:
-                    branch_up_to_current_depth = x + [y]
-                    if not branch_up_to_current_depth == sorted(branch_up_to_current_depth):
+                    partial_product = x + [y]
+                    if not partial_product == sorted(partial_product):
                         continue
-                    if not self._groups_do_not_overlap(branch_up_to_current_depth):
+                    if not self._groups_do_not_overlap(partial_product):
                         continue
-                    if not self._forced_indices_can_be_filled(branch_up_to_current_depth):
+                    if not self._forced_indices_can_be_filled(partial_product):
                         continue
-                    temp_result.append(branch_up_to_current_depth)
+                    temp_result.append(partial_product)
             result = temp_result
         return len(result)
 
