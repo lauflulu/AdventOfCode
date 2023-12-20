@@ -52,14 +52,6 @@ class Record:
             return False
         return True
 
-    def _forced_indices_are_included(self, permutation):
-        permutation_indices = []
-        for i, g in zip(permutation, self._groups):
-            permutation_indices += list(range(i, i + g))
-        if not all([i in permutation_indices for i in self._forced_indices]):
-            return False
-        return True
-
     def _groups_do_not_overlap(self, permutation):
         for i in range(len(permutation) - 1):
             if not permutation[i + 1] > permutation[i] + self._groups[i]:
