@@ -98,3 +98,7 @@ class TestPart2:
             self, springs, groups, unfolded_arrangements):
         record = Record(springs, groups)
         assert record.count_unfolded_arrangements() == unfolded_arrangements
+
+    def test_another_slow_case_from_data(self):
+        record = Record("?????????#?#", [1, 1, 7])
+        print(record._locked()[0])
