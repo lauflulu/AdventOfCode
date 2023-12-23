@@ -98,11 +98,11 @@ class Record:
         springs = self._folded_springs[1:-1]
         return self._pad((springs + '?') * (folds - 1) + springs)
 
-    def _unfolded_left_spring(self):
+    def _unfolded_right_spring(self):
         springs = self._folded_springs[1:-1]
         return self._pad(springs + '?')
 
-    def _unfolded_right_spring(self):
+    def _unfolded_left_spring(self):
         springs = self._folded_springs[1:-1]
         return self._pad('?' + springs)
 
@@ -113,22 +113,29 @@ class Record:
     def _locked(self):
         one_fold_arrangements = self.count_arrangements()
         two_fold_arrangements = self._unfolded_arrangements(2)
-        self._springs = self._unfolded_left_spring()
-        self._groups = self._folded_groups
-        self._forced_indices = self._get_forced_indices()
-        left_fold_arrangements = self._count_arrangements()
-        print(one_fold_arrangements, left_fold_arrangements, two_fold_arrangements)
+        left_fold_arrangements = self._count_left_arrangements()
+        right_fold_arrangements = self._count_right_arrangements()
+        print(self._folded_springs, one_fold_arrangements, left_fold_arrangements, right_fold_arrangements, two_fold_arrangements)
         if one_fold_arrangements*left_fold_arrangements == two_fold_arrangements:
             return True, one_fold_arrangements, left_fold_arrangements
-        self._springs = self._unfolded_right_spring()
-        self._groups = self._folded_groups
-        self._forced_indices = self._get_forced_indices()
-        right_fold_arrangements = self._count_arrangements()
-        print(one_fold_arrangements, right_fold_arrangements, two_fold_arrangements)
         if one_fold_arrangements * right_fold_arrangements == two_fold_arrangements:
             return True, one_fold_arrangements, right_fold_arrangements
 
         return False, None, None
+
+    def _count_right_arrangements(self):
+        self._springs = self._unfolded_right_spring()
+        self._groups = self._folded_groups
+        self._forced_indices = self._get_forced_indices()
+        right_fold_arrangements = self._count_arrangements()
+        return right_fold_arrangements
+
+    def _count_left_arrangements(self):
+        self._springs = self._unfolded_left_spring()
+        self._groups = self._folded_groups
+        self._forced_indices = self._get_forced_indices()
+        left_fold_arrangements = self._count_arrangements()
+        return left_fold_arrangements
 
 
 def load_data(filename):
