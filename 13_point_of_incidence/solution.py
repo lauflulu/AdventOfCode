@@ -20,9 +20,9 @@ class Terrain:
                 return c
         return 0
 
-
-
-
+    def result(self):
+        mirror_indices = self.mirror_indices()
+        return mirror_indices[0] * 100 + mirror_indices[1]
 
 
 def load_data(filename):
@@ -38,8 +38,8 @@ def load_data(filename):
     terrains.append(Terrain(np.array(current_terrain)))
     return terrains
 
-def get_result(data):
-    pass
+def get_result(terrains):
+    return sum([terrain.result() for terrain in terrains])
 
 
 def get_result_2(data):
