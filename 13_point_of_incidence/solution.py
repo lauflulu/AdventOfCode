@@ -6,17 +6,17 @@ class Terrain:
         self.pattern = pattern
 
     def mirror_indices(self) -> tuple[int, int]:
-        column_mirror_index = self._mirror_index(self.pattern)
-        row_mirror_index = self._mirror_index(self.pattern.T)
+        column_mirror_index = self._mirror_index(self.pattern, np.all)
+        row_mirror_index = self._mirror_index(self.pattern.T, np.all)
         return row_mirror_index, column_mirror_index
 
-    def _mirror_index(self, pattern) -> int:
+    def _mirror_index(self, pattern, condition_func) -> int:
         n_rows, n_columns = pattern.shape
         for c in range(1, n_columns):
             min_width = min([c, n_columns-c])
             left_pattern = pattern[: ,c-min_width:c]
             right_pattern = pattern[:, c:c+min_width]
-            if np.all(left_pattern[:, ::-1] == right_pattern):
+            if condition_func(left_pattern[:, ::-1] == right_pattern):
                 return c
         return 0
 
