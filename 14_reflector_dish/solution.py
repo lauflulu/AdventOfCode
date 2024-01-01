@@ -37,18 +37,21 @@ class Platform:
         self.tilt()
         return sum([m.start()+1 for row in self.platform for m in re.finditer(r'O', row)])
 
+    def result_2(self):
+        pass
+
 
 def load_data(filename):
     with open(filename, 'r') as file:
         return Platform([row.strip() for row in file])
 
 
-def get_result(platfrom: Platform):
-    return platfrom.result()
+def get_result(platform: Platform):
+    return platform.result()
 
 
-def get_result_2(data):
-    pass
+def get_result_2(platform: Platform):
+    return platform.result_2()
 
 
 def main():
