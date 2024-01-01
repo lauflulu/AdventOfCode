@@ -1,3 +1,4 @@
+import pytest
 import solution
 
 
@@ -8,10 +9,13 @@ class TestPart1:
         assert data[0].pattern.shape == (7, 9)
         assert data[1].pattern.shape == (7, 9)
 
-    def test_that_correct_mirror_indices_are_found_for_example_data(self):
+    @pytest.mark.parametrize("terrain_index, mirror_indices", [
+        (0, (0, 5)),
+        (1, (4, 0)),
+    ])
+    def test_that_correct_mirror_indices_are_found_for_example_data(self, terrain_index, mirror_indices):
         data = solution.load_data("example.txt")
-        assert data[0].mirror_indices == (0, 5)
-        assert data[1].mirror_indices == (4, 0)
+        assert data[terrain_index].mirror_indices() == mirror_indices
 
     def test_that_result_is_correct_for_example_data(self):
         data = solution.load_data("example.txt")
