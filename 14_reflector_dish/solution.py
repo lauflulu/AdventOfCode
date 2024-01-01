@@ -35,7 +35,10 @@ class Platform:
 
     def result(self):
         self.tilt()
-        return sum([m.start()+1 for row in self.platform for m in re.finditer(r'O', row)])
+        return self._load()
+
+    def _load(self):
+        return sum([m.start() + 1 for row in self.platform for m in re.finditer(r'O', row)])
 
     def result_2(self):
         pass
