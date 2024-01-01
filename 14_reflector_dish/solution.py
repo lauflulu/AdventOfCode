@@ -14,8 +14,22 @@ class Platform:
         self.platform = rotated_platform
 
     def tilt(self):
-        pass
+        """Sort all O to the right until they reach # or border."""
+        self.platform = [self._tilt_row(row) for row in self.platform]
 
+    def _tilt_row(self, row: str) -> str:
+        row = [c for c in row]
+        n = len(row)
+        for _ in range(n):
+            fully_sorted = True
+            for i in range(n-1):
+                if row[i] == 'O' and row[i+1] == '.':
+                    fully_sorted = False
+                    row[i] = '.'
+                    row[i + 1] = 'O'
+            if fully_sorted:
+                break
+        return "".join(row)
 
 
 def load_data(filename):
