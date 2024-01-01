@@ -1,5 +1,6 @@
 import re
 
+import plotly.express as px
 
 class Platform:
     def __init__(self, platform):
@@ -41,7 +42,18 @@ class Platform:
         return sum([m.start() + 1 for row in self.platform for m in re.finditer(r'O', row)])
 
     def result_2(self):
-        pass
+        loads = [self._load()]
+        for _ in range(100):
+            self._spin_cycle()
+            loads.append(self._load())
+        fig = px.line(loads)
+        fig.show()
+        return self._load()
+
+    def _spin_cycle(self):
+        for _ in range(4):
+            self.tilt()
+            self.rotate_right()
 
 
 def load_data(filename):
