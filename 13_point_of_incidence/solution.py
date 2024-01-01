@@ -1,3 +1,14 @@
+import numpy as np
+
+
+class Terrain:
+    def __init__(self, pattern: np.array):
+        self.pattern = pattern
+
+    def mirror_indices(self) -> tuple[int, int]:
+        pass
+
+
 def load_data(filename):
     pass
 
