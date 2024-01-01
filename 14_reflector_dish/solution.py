@@ -1,6 +1,5 @@
 import re
 
-import plotly.express as px
 
 class Platform:
     def __init__(self, platform):
@@ -43,12 +42,22 @@ class Platform:
 
     def result_2(self):
         loads = [self._load()]
-        for _ in range(100):
+        for cycle_count in range(10_000):
             self._spin_cycle()
-            loads.append(self._load())
-        fig = px.line(loads)
-        fig.show()
-        return self._load()
+            load = self._load()
+            loads.append(load)
+            if self._converged(load, loads):
+                break
+        period = 11 # self._period(loads)
+        offset = 1_000_000_000 % period
+
+        return loads[-offset+1]
+
+    def _converged(self, load, loads):
+        load_indices = [i for i, l in enumerate(loads) if l == load]
+        if len(load_indices) < 10:
+            return False
+        return True
 
     def _spin_cycle(self):
         for _ in range(4):
