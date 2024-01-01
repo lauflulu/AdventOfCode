@@ -24,6 +24,17 @@ class Terrain:
         mirror_indices = self.mirror_indices()
         return mirror_indices[0] * 100 + mirror_indices[1]
 
+    def result_2(self):
+        mirror_indices = self.smudge_mirror_indices()
+        return mirror_indices[0] * 100 + mirror_indices[1]
+
+    def smudge_mirror_indices(self):
+        def one_field_does_not_match(bool_array: np.array):
+            return np.count_nonzero(bool_array == False) == 1
+        column_mirror_index = self._mirror_index(self.pattern, one_field_does_not_match)
+        row_mirror_index = self._mirror_index(self.pattern.T, one_field_does_not_match)
+        return row_mirror_index, column_mirror_index
+
 
 def load_data(filename):
     with open(filename, 'r') as file:
@@ -42,8 +53,8 @@ def get_result(terrains):
     return sum([terrain.result() for terrain in terrains])
 
 
-def get_result_2(data):
-    pass
+def get_result_2(terrains):
+    return sum([terrain.result_2() for terrain in terrains])
 
 
 def main():
