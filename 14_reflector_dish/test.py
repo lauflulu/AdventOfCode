@@ -10,8 +10,9 @@ class TestPart1:
 
     def test_that_data_is_tilted_correctly(self):
         data = solution.load_data("example.txt")
-        tilted_data = solution.load_data("example_tilted.txt")
-        for d, t in zip(data, tilted_data):
+        data.tilt()
+        expected_data = solution.load_data("example_tilted.txt")
+        for d, t in zip(data.platform, expected_data.platform):
             assert d == t
 
     def test_that_result_is_correct_for_example(self):
