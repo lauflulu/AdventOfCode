@@ -10,8 +10,17 @@ class Terrain:
 
 
 def load_data(filename):
-    pass
-
+    with open(filename, 'r') as file:
+        terrains = []
+        current_terrain = []
+        for line in file:
+            if line == '\n':
+                terrains.append(Terrain(np.array(current_terrain)))
+                current_terrain = []
+                continue
+            current_terrain.append([x for x in line.strip()])
+    terrains.append(Terrain(np.array(current_terrain)))
+    return terrains
 
 def get_result(data):
     pass
