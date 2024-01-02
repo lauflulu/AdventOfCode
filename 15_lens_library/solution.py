@@ -11,7 +11,9 @@ class Boxes:
             focal_length = int(instruction[3])
             self._boxes[box_index][label] = focal_length
         if operation == "-":
-            self._boxes[box_index].pop(label)
+            if label in self._boxes[box_index].keys():
+                self._boxes[box_index].pop(label)
+
 
     def get_box(self, index):
         return self._boxes[index]
