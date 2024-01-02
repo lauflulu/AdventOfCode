@@ -1,4 +1,15 @@
-def load_data(filename):
+import numpy as np
+
+
+class Beam:
+    def __init__(self, contraption: list[str]):
+        self.contraption = self._set_contraption(contraption)
+
+    def _set_contraption(self, contraption) -> np.array:
+        pass
+
+
+def load_data(filename) -> Beam:
     pass
 
 
