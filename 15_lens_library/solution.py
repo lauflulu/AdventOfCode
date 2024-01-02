@@ -1,3 +1,8 @@
+
+def evaluate(instruction):
+    return None
+
+
 def load_data(filename):
     pass
 
