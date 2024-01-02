@@ -4,6 +4,7 @@ import numpy as np
 class Beam:
     def __init__(self, contraption: list[str]):
         self.contraption = self._set_contraption(contraption)
+        self.beam_tips = [(0,0, ">")]
 
     def _set_contraption(self, contraption) -> np.array:
         data = []
