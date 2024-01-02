@@ -41,6 +41,11 @@ class TestPart2:
         boxes.process("rn-")
         assert boxes.get_box(0) == {}
 
+    def test_that_nothing_happens_if_lens_is_removed_but_not_in_box(self):
+        boxes = solution.Boxes()
+        boxes.process("rn-")
+        assert boxes.get_box(0) == {}
+
     def test_that_lens_is_replaced_in_box(self):
         boxes = solution.Boxes()
         boxes.process("rn=1")
