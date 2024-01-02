@@ -4,7 +4,8 @@ def evaluate(instruction):
 
 
 def load_data(filename):
-    pass
+    with open(filename, "r") as file:
+        return file.readline().strip().split(",")
 
 
 def get_result(data):
