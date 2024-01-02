@@ -12,7 +12,7 @@ DIRECTIONS = {
 class Beam:
     def __init__(self, contraption: list[str]):
         self.contraption = self._set_contraption(contraption)
-        self.beam_tips = [(0,0, ">")]
+        self.tips = [(0, 0, ">")]
 
     def _set_contraption(self, contraption) -> np.array:
         data = []
@@ -20,11 +20,11 @@ class Beam:
             data.append([col for col in row.strip()])
         return np.array(data, dtype="U8")
 
-    def _process_tips(self):
+    def process_tips(self):
         new_tips = []
-        for tip in self.beam_tips:
+        for tip in self.tips:
             new_tips.append(self._walk(tip))
-        self.beam_tips = new_tips
+        self.tips = new_tips
 
     def _walk(self, tip):
         y = tip[0]
