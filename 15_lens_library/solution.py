@@ -14,7 +14,8 @@ def load_data(filename):
 
 
 def get_result(data):
-    pass
+    return sum([evaluate(instruction) for instruction in data])
+
 
 
 def get_result_2(data):
