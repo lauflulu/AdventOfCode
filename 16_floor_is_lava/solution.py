@@ -27,9 +27,7 @@ class Beam:
         self.tips = new_tips
 
     def _walk(self, tip):
-        y = tip[0]
-        x = tip[1]
-        direction = tip[2]
+        y, x, direction = tip
         if direction in self.contraption[y, x]:
             return
         self.contraption[y, x] += direction
