@@ -6,11 +6,15 @@ class Beam:
         self.contraption = self._set_contraption(contraption)
 
     def _set_contraption(self, contraption) -> np.array:
-        pass
+        data = []
+        for row in contraption:
+            data.append([col for col in row.strip()])
+        return np.array(data)
 
 
 def load_data(filename) -> Beam:
-    pass
+    with open(filename, 'r') as file:
+        return Beam(file.readlines())
 
 
 def get_result(data):
