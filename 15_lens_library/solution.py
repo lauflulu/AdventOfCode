@@ -1,6 +1,11 @@
 
-def evaluate(instruction):
-    return None
+def evaluate(instruction: str):
+    current_value = 0
+    for char in instruction:
+        current_value += ord(char)
+        current_value *= 17
+        current_value %= 256
+    return current_value
 
 
 def load_data(filename):
