@@ -27,25 +27,25 @@ class TestPart2:
     def test_that_lens_is_added_in_empty_box(self):
         boxes = solution.Boxes()
         boxes.process("rn=1")
-        assert boxes.get_box(0) == [("rn", 1)]
+        assert boxes.get_box(0) == {"rn": 1}
 
     def test_that_lens_is_appended_to_existing_box(self):
         boxes = solution.Boxes()
         boxes.process("rn=1")
         boxes.process("cm=2")
-        assert boxes.get_box(0) == [("rn", 1), ("cm", 2)]
+        assert boxes.get_box(0) == {"rn": 1, "cm": 2}
 
     def test_that_lens_is_removed_from_box(self):
         boxes = solution.Boxes()
         boxes.process("rn=1")
         boxes.process("rn-")
-        assert boxes.get_box(0) == []
+        assert boxes.get_box(0) == {}
 
     def test_that_lens_is_replaced_in_box(self):
         boxes = solution.Boxes()
         boxes.process("rn=1")
         boxes.process("rn=2")
-        assert boxes.get_box(0) == [("rn", 2)]
+        assert boxes.get_box(0) == {"rn": 2}
 
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")

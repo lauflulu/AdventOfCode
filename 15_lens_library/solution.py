@@ -1,7 +1,7 @@
 
 class Boxes:
     def __init__(self):
-        self._boxes = {i: [] for i in range(256)}
+        self._boxes = {i: {} for i in range(256)}
 
     def process(self, instruction):
         label = instruction[:2]
@@ -9,7 +9,7 @@ class Boxes:
         operation = instruction[2]
         if operation == "=":
             focal_length = int(instruction[3])
-            self._boxes[box_index].append((label, focal_length))
+            self._boxes[box_index][label] = focal_length
 
     def get_box(self, index):
         return self._boxes[index]
