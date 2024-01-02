@@ -1,4 +1,16 @@
 
+class Boxes:
+    def __init__(self):
+        self._boxes = {i: [] for i in range(256)}
+
+    def process(self, instruction):
+        pass
+
+    @classmethod
+    def get_box(cls, index):
+        pass
+
+
 def evaluate(instruction: str):
     current_value = 0
     for char in instruction:
