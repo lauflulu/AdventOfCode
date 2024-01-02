@@ -4,11 +4,15 @@ class Boxes:
         self._boxes = {i: [] for i in range(256)}
 
     def process(self, instruction):
-        pass
+        label = instruction[:2]
+        box_index = evaluate(label)
+        operation = instruction[2]
+        if operation == "=":
+            focal_length = int(instruction[3])
+            self._boxes[box_index].append((label, focal_length))
 
-    @classmethod
-    def get_box(cls, index):
-        pass
+    def get_box(self, index):
+        return self._boxes[index]
 
 
 def evaluate(instruction: str):
