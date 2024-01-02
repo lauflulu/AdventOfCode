@@ -24,10 +24,14 @@ class TestPart1:
 
 class TestPart2:
 
-    def test_that_lens_is_added_in_empty_box(self):
+    @pytest.mark.parametrize("instruction, result, box_index", [
+        ("rn=1", {"rn": 1}, 0),
+        ("xmxf=1", {"xmxf": 1}, 147)
+    ])
+    def test_that_lens_is_added_in_empty_box(self, instruction, result, box_index):
         boxes = solution.Boxes()
-        boxes.process("rn=1")
-        assert boxes.get_box(0) == {"rn": 1}
+        boxes.process(instruction)
+        assert boxes.get_box(box_index) == result
 
     def test_that_lens_is_appended_to_existing_box(self):
         boxes = solution.Boxes()
