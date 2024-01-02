@@ -18,6 +18,17 @@ class Boxes:
     def get_box(self, index):
         return self._boxes[index]
 
+    def focusing_power_sum(self):
+        return sum([self._focusing_power(i, box) for i, box in self._boxes.items()])
+
+    def _focusing_power(self, i, box):
+        if box == {}:
+            return 0
+        box_power = 0
+        for slot, focal_length in enumerate(box.values()):
+            box_power += (i + 1) * (slot + 1) * focal_length
+        return box_power
+
 
 def evaluate(instruction: str):
     current_value = 0
@@ -39,7 +50,10 @@ def get_result(data):
 
 
 def get_result_2(data):
-    pass
+    boxes = Boxes()
+    for instruction in data:
+        boxes.process(instruction)
+    return boxes.focusing_power_sum()
 
 
 def main():
