@@ -1,16 +1,18 @@
+import re
+
 
 class Boxes:
     def __init__(self):
         self._boxes = {i: {} for i in range(256)}
 
     def process(self, instruction):
-        label = instruction[:2]
+        label = re.findall(r'[a-z]+', instruction)[0]
         box_index = evaluate(label)
-        operation = instruction[2]
-        if operation == "=":
-            focal_length = int(instruction[3])
+        print(box_index)
+        if "=" in instruction:
+            focal_length = int(instruction[-1])
             self._boxes[box_index][label] = focal_length
-        if operation == "-":
+        if "-" in instruction:
             if label in self._boxes[box_index].keys():
                 self._boxes[box_index].pop(label)
 
