@@ -10,7 +10,21 @@ class Beam:
         data = []
         for row in contraption:
             data.append([col for col in row.strip()])
-        return np.array(data)
+        return np.array(data, dtype="U8")
+
+    def _process_tips(self):
+        new_tips = []
+        for tip in self.beam_tips:
+            new_tips.append(self._walk(tip))
+        self.beam_tips = new_tips
+
+    def _walk(self, tip):
+        y = tip[0]
+        x = tip[1]
+        direction = tip[2]
+        if direction in self.contraption[y, x]:
+            return
+        self.contraption[y, x] += direction
 
 
 def load_data(filename) -> Beam:
