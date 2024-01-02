@@ -1,6 +1,14 @@
 import numpy as np
 
 
+DIRECTIONS = {
+    "<": (0, -1),
+    ">": (0, 1),
+    "^": (-1, 0),
+    "v": (1, 0)}
+
+
+
 class Beam:
     def __init__(self, contraption: list[str]):
         self.contraption = self._set_contraption(contraption)
@@ -25,6 +33,7 @@ class Beam:
         if direction in self.contraption[y, x]:
             return
         self.contraption[y, x] += direction
+        return (y + DIRECTIONS[direction][0]), (x + DIRECTIONS[direction][1]), direction
 
 
 def load_data(filename) -> Beam:
