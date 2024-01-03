@@ -79,5 +79,9 @@ class TestPart1:
 
 
 class TestPart2:
+    def test_that_all_start_configurations_are_computed(self, beam):
+        ny, nx = beam.contraption.shape
+        assert len(beam.all_start_configurations()) == 2 * (nx + ny)
+
     def test_that_maximum_energy_is_found(self, beam):
         assert solution.get_result_2(beam) == 51
