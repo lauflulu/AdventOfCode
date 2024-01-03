@@ -23,34 +23,40 @@ class Beam:
     def process_tips(self):
         new_tips = []
         for tip in self.tips:
-            new_tips.append(self._walk(tip))
+            for _new_tip in  self._walk(tip):
+                new_tips.append(_new_tip)
         self.tips = new_tips
 
-    def _walk(self, tip):
+    def _walk(self, tip) -> list:
         y, x, direction = tip
         current_tile = self.contraption[y, x]
         if direction in current_tile:
-            return
+            return []
         if current_tile == "/":
             if direction == "<":
-                return y + 1, x, "v"
+                return [(y + 1, x, "v")]
             if direction == ">":
-                return y - 1, x, "^"
+                return [(y - 1, x, "^")]
             if direction == "^":
-                return y, x + 1, ">"
+                return [(y, x + 1, ">")]
             if direction == "v":
-                return y, x - 1, "<"
+                return [(y, x - 1, "<")]
         if current_tile == "\\":
             if direction == "<":
-                return y - 1, x, "^"
+                return [(y - 1, x, "^")]
             if direction == ">":
-                return y + 1, x, "v"
+                return [(y + 1, x, "v")]
             if direction == "^":
-                return y, x - 1, "<"
+                return [(y, x - 1, "<")]
             if direction == "v":
-                return y, x + 1, ">"
-        self.contraption[y, x] += direction
-        return y + DIRECTIONS[direction][0], x + DIRECTIONS[direction][1], direction
+                return [(y, x + 1, ">")]
+        if current_tile == "-" and direction in ["^", "v"]:
+            return [(y, x + 1, ">"), (y, x - 1, "<")]
+        if current_tile == "|" and direction in ["<", ">"]:
+            return [(y - 1, x, "^"), (y + 1, x, "v")]
+        if "." in current_tile:
+            self.contraption[y, x] += direction
+        return [(y + DIRECTIONS[direction][0], x + DIRECTIONS[direction][1], direction)]
 
 
 def load_data(filename) -> Beam:
