@@ -11,6 +11,12 @@ DIRECTION_TO_VECTOR = {
 VECTOR_TO_DIRECTION = {value: key for key, value in DIRECTION_TO_VECTOR.items()}
 
 
+IN_OUT = {
+    "/": {"v": "<", "^": ">", "<": "v", ">": "^"},
+    "\\": {"v": ">", "^": "<", "<": "^", ">": "v"}
+}
+
+
 class Beam:
     def __init__(self, contraption: list[str]):
         self.contraption = self._set_contraption(contraption)
@@ -43,26 +49,8 @@ class Beam:
         current_tile = self.contraption[y, x]
         if direction in current_tile:
             return []
-        if current_tile == "/":
-            if direction == "<":
-                out_direction = "v"
-            if direction == ">":
-                out_direction =  "^"
-            if direction == "^":
-                out_direction =  ">"
-            if direction == "v":
-                out_direction =  "<"
-            dy, dx = DIRECTION_TO_VECTOR[out_direction]
-            return [(y + dy, x + dx, out_direction)]
-        if current_tile == "\\":
-            if direction == "<":
-                out_direction = "^"
-            if direction == ">":
-                out_direction = "v"
-            if direction == "^":
-                out_direction = "<"
-            if direction == "v":
-                out_direction = ">"
+        if current_tile in ["/", "\\"]:
+            out_direction = IN_OUT[current_tile][direction]
             dy, dx = DIRECTION_TO_VECTOR[out_direction]
             return [(y + dy, x + dx, out_direction)]
         if current_tile == "-" and direction in ["^", "v"]:
