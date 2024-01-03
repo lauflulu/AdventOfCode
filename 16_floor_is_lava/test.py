@@ -76,3 +76,8 @@ class TestPart1:
 
     def test_that_energy_is_computed(self, beam):
         assert solution.get_result(beam) == 46
+
+
+class TestPart2:
+    def test_that_maximum_energy_is_found(self, beam):
+        assert solution.get_result_2(beam) == 51
