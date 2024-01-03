@@ -13,7 +13,9 @@ VECTOR_TO_DIRECTION = {value: key for key, value in DIRECTION_TO_VECTOR.items()}
 
 IN_OUT = {
     "/": {"v": "<", "^": ">", "<": "v", ">": "^"},
-    "\\": {"v": ">", "^": "<", "<": "^", ">": "v"}
+    "\\": {"v": ">", "^": "<", "<": "^", ">": "v"},
+    "-": {"v": ["<", ">"], "^": ["<", ">"], "<": ["<"], ">": [">"]},
+    "|": {"v": ["v"], "^": ["^"], "<": ["^", "v"], ">": ["^", "v"]},
 }
 
 
@@ -49,14 +51,13 @@ class Beam:
         current_tile = self.contraption[y, x]
         if direction in current_tile:
             return []
-        if current_tile in ["/", "\\"]:
-            out_direction = IN_OUT[current_tile][direction]
-            dy, dx = DIRECTION_TO_VECTOR[out_direction]
-            return [(y + dy, x + dx, out_direction)]
-        if current_tile == "-" and direction in ["^", "v"]:
-            return [(y, x + 1, ">"), (y, x - 1, "<")]
-        if current_tile == "|" and direction in ["<", ">"]:
-            return [(y - 1, x, "^"), (y + 1, x, "v")]
+        if current_tile in ["/", "\\", "-", "|"]:
+            new_tips = []
+            for out_direction in IN_OUT[current_tile][direction]:
+                dy, dx = DIRECTION_TO_VECTOR[out_direction]
+                new_tips.append((y + dy, x + dx, out_direction))
+            return new_tips
+
         if "." in current_tile:
             self.contraption[y, x] += direction
         return [(y + DIRECTION_TO_VECTOR[direction][0], x + DIRECTION_TO_VECTOR[direction][1], direction)]
