@@ -13,6 +13,12 @@ class Beam:
     def __init__(self, contraption: list[str]):
         self.contraption = self._set_contraption(contraption)
         self.tips = [(0, 0, ">")]
+        self.energized = np.char.add(np.zeros(self.contraption.shape, dtype='U1'), '.')
+
+    def compute_energy(self):
+        while self.tips:
+            self.process_tips()
+        return np.count_nonzero(self.energized == "#")
 
     def _set_contraption(self, contraption) -> np.array:
         data = []
@@ -31,6 +37,7 @@ class Beam:
 
     def _walk(self, tip) -> list:
         y, x, direction = tip
+        self.energized[y, x] = "#"
         current_tile = self.contraption[y, x]
         if direction in current_tile:
             return []
@@ -66,8 +73,8 @@ def load_data(filename) -> Beam:
         return Beam(file.readlines())
 
 
-def get_result(data):
-    pass
+def get_result(beam):
+    return beam.compute_energy()
 
 
 def get_result_2(data):
