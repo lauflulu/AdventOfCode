@@ -21,10 +21,12 @@ class Beam:
         return np.array(data, dtype="U8")
 
     def process_tips(self):
+        ny, nx = self.contraption.shape
         new_tips = []
         for tip in self.tips:
             for _new_tip in  self._walk(tip):
-                new_tips.append(_new_tip)
+                if 0 <= _new_tip[0] < ny and 0 <= _new_tip[1] < nx:
+                    new_tips.append(_new_tip)
         self.tips = new_tips
 
     def _walk(self, tip) -> list:
