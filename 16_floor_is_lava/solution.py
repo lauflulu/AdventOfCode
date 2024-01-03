@@ -37,12 +37,14 @@ class Beam:
     def compute_maximum_energy(self):
         max_energy = 0
         for start_configuration in self.all_start_configurations():
-            self.tips = [start_configuration]
-            energy = self.compute_energy()
-            max_energy = max(energy, max_energy)
-            self.energized = self._reset_energized()
-            self.contraption = self._set_contraption(self._original_contraption)
+            self._reset(start_configuration)
+            max_energy = max(self.compute_energy(), max_energy)
         return max_energy
+
+    def _reset(self, start_configuration):
+        self.tips = [start_configuration]
+        self.energized = self._reset_energized()
+        self.contraption = self._set_contraption(self._original_contraption)
 
     def _set_contraption(self, contraption) -> np.array:
         data = []
