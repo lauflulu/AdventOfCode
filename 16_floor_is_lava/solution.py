@@ -21,6 +21,7 @@ IN_OUT = {
 
 class Beam:
     def __init__(self, contraption: list[str]):
+        self._original_contraption = contraption
         self.contraption = self._set_contraption(contraption)
         self.tips = [(0, 0, ">")]
         self.energized = self._reset_energized()
@@ -32,6 +33,16 @@ class Beam:
         while self.tips:
             self.process_tips()
         return np.count_nonzero(self.energized == "#")
+    
+    def compute_maximum_energy(self):
+        max_energy = 0
+        for start_configuration in self.all_start_configurations():
+            self.tips = [start_configuration]
+            energy = self.compute_energy()
+            max_energy = max(energy, max_energy)
+            self.energized = self._reset_energized()
+            self.contraption = self._set_contraption(self._original_contraption)
+        return max_energy
 
     def _set_contraption(self, contraption) -> np.array:
         data = []
@@ -86,8 +97,8 @@ def get_result(beam):
     return beam.compute_energy()
 
 
-def get_result_2(data):
-    pass
+def get_result_2(beam):
+    return beam.compute_maximum_energy()
 
 
 def main():
