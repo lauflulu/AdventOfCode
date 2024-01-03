@@ -23,7 +23,10 @@ class Beam:
     def __init__(self, contraption: list[str]):
         self.contraption = self._set_contraption(contraption)
         self.tips = [(0, 0, ">")]
-        self.energized = np.char.add(np.zeros(self.contraption.shape, dtype='U1'), '.')
+        self.energized = self._reset_energized()
+
+    def _reset_energized(self):
+        return np.char.add(np.zeros(self.contraption.shape, dtype='U1'), '.')
 
     def compute_energy(self):
         while self.tips:
