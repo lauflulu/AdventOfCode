@@ -1,12 +1,14 @@
 import numpy as np
 
 
-DIRECTIONS = {
+DIRECTION_TO_VECTOR = {
     "<": (0, -1),
     ">": (0, 1),
     "^": (-1, 0),
     "v": (1, 0)}
 
+
+VECTOR_TO_DIRECTION = {value: key for key, value in DIRECTION_TO_VECTOR.items()}
 
 
 class Beam:
@@ -43,29 +45,33 @@ class Beam:
             return []
         if current_tile == "/":
             if direction == "<":
-                return [(y + 1, x, "v")]
+                out_direction = "v"
             if direction == ">":
-                return [(y - 1, x, "^")]
+                out_direction =  "^"
             if direction == "^":
-                return [(y, x + 1, ">")]
+                out_direction =  ">"
             if direction == "v":
-                return [(y, x - 1, "<")]
+                out_direction =  "<"
+            dy, dx = DIRECTION_TO_VECTOR[out_direction]
+            return [(y + dy, x + dx, out_direction)]
         if current_tile == "\\":
             if direction == "<":
-                return [(y - 1, x, "^")]
+                out_direction = "^"
             if direction == ">":
-                return [(y + 1, x, "v")]
+                out_direction = "v"
             if direction == "^":
-                return [(y, x - 1, "<")]
+                out_direction = "<"
             if direction == "v":
-                return [(y, x + 1, ">")]
+                out_direction = ">"
+            dy, dx = DIRECTION_TO_VECTOR[out_direction]
+            return [(y + dy, x + dx, out_direction)]
         if current_tile == "-" and direction in ["^", "v"]:
             return [(y, x + 1, ">"), (y, x - 1, "<")]
         if current_tile == "|" and direction in ["<", ">"]:
             return [(y - 1, x, "^"), (y + 1, x, "v")]
         if "." in current_tile:
             self.contraption[y, x] += direction
-        return [(y + DIRECTIONS[direction][0], x + DIRECTIONS[direction][1], direction)]
+        return [(y + DIRECTION_TO_VECTOR[direction][0], x + DIRECTION_TO_VECTOR[direction][1], direction)]
 
 
 def load_data(filename) -> Beam:
