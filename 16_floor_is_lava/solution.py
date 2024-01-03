@@ -33,24 +33,24 @@ class Beam:
             return
         if current_tile == "/":
             if direction == "<":
-                return (y + 1), x, "v"
+                return y + 1, x, "v"
             if direction == ">":
-                return (y - 1), x, "^"
+                return y - 1, x, "^"
             if direction == "^":
-                return y, x+1, ">"
+                return y, x + 1, ">"
             if direction == "v":
-                return y, x-1, "<"
+                return y, x - 1, "<"
         if current_tile == "\\":
             if direction == "<":
-                return (y - 1), x, "^"
+                return y - 1, x, "^"
             if direction == ">":
-                return (y + 1), x, "v"
+                return y + 1, x, "v"
             if direction == "^":
-                return y, x-1, "<"
+                return y, x - 1, "<"
             if direction == "v":
-                return y, x+1, ">"
+                return y, x + 1, ">"
         self.contraption[y, x] += direction
-        return (y + DIRECTIONS[direction][0]), (x + DIRECTIONS[direction][1]), direction
+        return y + DIRECTIONS[direction][0], x + DIRECTIONS[direction][1], direction
 
 
 def load_data(filename) -> Beam:
