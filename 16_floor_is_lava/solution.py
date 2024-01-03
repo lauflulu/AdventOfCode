@@ -62,6 +62,17 @@ class Beam:
             self.contraption[y, x] += direction
         return [(y + DIRECTION_TO_VECTOR[direction][0], x + DIRECTION_TO_VECTOR[direction][1], direction)]
 
+    def all_start_configurations(self):
+        ny, nx = self.contraption.shape
+        start_configurations = []
+        for x in range(nx):
+            start_configurations.append((0, x, "v"))
+            start_configurations.append((ny-1, x, "^"))
+        for y in range(ny):
+            start_configurations.append((y, 0, ">"))
+            start_configurations.append((y, nx-1, "<"))
+        return start_configurations
+
 
 def load_data(filename) -> Beam:
     with open(filename, 'r') as file:
