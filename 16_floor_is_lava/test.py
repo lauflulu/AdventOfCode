@@ -64,5 +64,15 @@ class TestPart1:
         beam.process_tips()
         assert len(beam.tips) == 1
 
+    @pytest.mark.parametrize("in_tip", [
+        (0, 0, "<"),
+        (0, 5, "<"),
+        (3, 9, ">"),
+    ])
+    def test_that_beam_terminates_at_boundary(self, beam, in_tip):
+        beam.tips = [in_tip]
+        beam.process_tips()
+        assert len(beam.tips) == 0
+
     def test_that_energy_is_computed(self, beam):
         assert solution.get_result(beam) == 46
