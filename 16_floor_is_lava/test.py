@@ -42,5 +42,27 @@ class TestPart1:
         beam.process_tips()
         assert beam.tips[0] == out_tip
 
+    @pytest.mark.parametrize("in_tip", [
+        (1, 2, "^"),
+        (1, 2, "v"),
+        (2, 5, "<"),
+        (2, 5, ">"),
+    ])
+    def test_that_splitters_split_beam_when_orthogonal(self, beam, in_tip):
+        beam.tips = [in_tip]
+        beam.process_tips()
+        assert len(beam.tips) == 2
+
+    @pytest.mark.parametrize("in_tip", [
+        (1, 2, "<"),
+        (1, 2, ">"),
+        (2, 5, "^"),
+        (2, 5, "v"),
+    ])
+    def test_that_splitters_do_nothing_when_beam_parallel(self, beam, in_tip):
+        beam.tips = [in_tip]
+        beam.process_tips()
+        assert len(beam.tips) == 1
+
     def test_that_energy_is_computed(self, beam):
         assert solution.get_result(beam) == 46
