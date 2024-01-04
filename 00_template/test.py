@@ -6,9 +6,11 @@ class TestPart1:
         pass
 
     def test_that_result_is_correct_for_example(self):
-        assert solution.get_result() == 0
+        data = solution.load_data("example.txt")
+        assert solution.get_result(data) == 0
 
 
 class TestPart2:
     def test_that_result_is_correct_for_example(self):
-        assert solution.get_result_2() == 0
+        data = solution.load_data("example.txt")
+        assert solution.get_result_2(data) == 0
