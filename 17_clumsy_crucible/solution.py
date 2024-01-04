@@ -9,17 +9,30 @@ class Graph:
     def get_result(self):
         ny, nx = self._values.shape
         dist, prev = self._dijkstra()
+        self._visualize_shortest_path(prev)
         min_length = (dist[(ny - 1, nx - 1)] + self._values[0, 0] + self._values[ny - 1, nx - 1]) / 2
         return int(min_length)
+
+    def _visualize_shortest_path(self, prev):
+        path = np.char.add(np.zeros(self._values.shape, dtype='U1'), '.')
+        ny, nx = self._values.shape
+        source_reached = False
+        node = (ny - 1, nx - 1)
+        path[*node] = '#'
+        while not source_reached:
+            node = prev[node]
+            path[*node] = '#'
+            if node == (0, 0):
+                source_reached = True
+        print()
+        print(path)
 
     def _dijkstra(self) -> tuple[dict[tuple, int], dict[tuple, tuple]]:
         queue = {node: 2**31 for node in self.graph}
         dist = {node: 2**31 for node in self.graph}
         dist[(0, 0)] = 0
         prev = {}
-        c = 0
         while queue:
-            c+= 1
             min_queued_node = min(queue, key=queue.get)
             queue.pop(min_queued_node)
 
