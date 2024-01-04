@@ -8,10 +8,11 @@ class Graph:
 
     def get_result(self):
         ny, nx = self._values.shape
-        min_length = (self._dijkstra()[(ny - 1, nx - 1)] + self._values[0, 0] + self._values[ny - 1, nx - 1]) / 2
+        dist, prev = self._dijkstra()
+        min_length = (dist[(ny - 1, nx - 1)] + self._values[0, 0] + self._values[ny - 1, nx - 1]) / 2
         return int(min_length)
 
-    def _dijkstra(self) -> dict[tuple, int]:
+    def _dijkstra(self) -> tuple[dict[tuple, int], dict[tuple, tuple]]:
         queue = {node: 2**31 for node in self.graph}
         dist = {node: 2**31 for node in self.graph}
         dist[(0, 0)] = 0
@@ -25,12 +26,22 @@ class Graph:
             for neighbor, weight in self.graph[min_queued_node].items():
                 if neighbor not in queue:
                     continue
+                if self._last_three_moves_were_straight(min_queued_node, neighbor, prev):
+                    continue
                 new_dist = dist[min_queued_node] + weight
                 if new_dist < dist[neighbor]:
                     queue[neighbor] = new_dist
                     dist[neighbor] = new_dist
                     prev[neighbor] = min_queued_node
-        return dist
+        return dist, prev
+
+    def _last_three_moves_were_straight(self, min_queued_node, neighbor, prev):
+        try:
+            vector_to_prev3 = np.array(prev[prev[prev[min_queued_node]]]) - np.array(neighbor)
+            distance_to_prev3 = int(np.dot(vector_to_prev3, vector_to_prev3)**0.5)
+            return distance_to_prev3 == 4
+        except KeyError:
+            return False
 
     def _parse_input(self) -> dict[tuple, dict]:
         ny, nx = self._values.shape
