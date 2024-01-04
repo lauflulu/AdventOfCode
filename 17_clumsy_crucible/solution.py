@@ -1,3 +1,12 @@
+
+class Graph:
+    def __init__(self, lines: list[str]):
+        self.graph = self._parse_input(lines)
+
+    def _parse_input(self, lines) -> dict[dict]:
+        pass
+
+
 def load_data(filename):
     pass
 
