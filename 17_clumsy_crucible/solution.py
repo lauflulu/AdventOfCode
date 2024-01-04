@@ -8,7 +8,8 @@ class Graph:
 
     def get_result(self):
         ny, nx = self._values.shape
-        return self._dijkstra()[(ny - 1, nx - 1)]
+        min_length = (self._dijkstra()[(ny - 1, nx - 1)] + self._values[0, 0] + self._values[ny - 1, nx - 1]) / 2
+        return int(min_length)
 
     def _dijkstra(self) -> dict[tuple, int]:
         queue = {node: 2**31 for node in self.graph}
