@@ -6,6 +6,31 @@ class Graph:
         self._values = self._lines_to_array(lines)
         self.graph = self._parse_input()
 
+    def get_result(self):
+        ny, nx = self._values.shape
+        return self._dijkstra()[(ny - 1, nx - 1)]
+
+    def _dijkstra(self) -> dict[tuple, int]:
+        queue = {node: 2**31 for node in self.graph}
+        dist = {node: 2**31 for node in self.graph}
+        dist[(0, 0)] = 0
+        prev = {}
+        c = 0
+        while queue:
+            c+= 1
+            min_queued_node = min(queue, key=queue.get)
+            queue.pop(min_queued_node)
+
+            for neighbor, weight in self.graph[min_queued_node].items():
+                if neighbor not in queue:
+                    continue
+                new_dist = dist[min_queued_node] + weight
+                if new_dist < dist[neighbor]:
+                    queue[neighbor] = new_dist
+                    dist[neighbor] = new_dist
+                    prev[neighbor] = min_queued_node
+        return dist
+
     def _parse_input(self) -> dict[tuple, dict]:
         ny, nx = self._values.shape
         graph = {}
@@ -35,8 +60,8 @@ def load_data(filename):
         return Graph([line.strip() for line in file])
 
 
-def get_result(data):
-    pass
+def get_result(graph):
+    return graph.get_result()
 
 
 def get_result_2(data):
