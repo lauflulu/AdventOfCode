@@ -50,12 +50,21 @@ class Graph:
                 return False
             return True
 
+        def get_node(_path):
+            node = np.array((0, 0))
+            for _direction in _path:
+                node += np.array(DIRECTION_TO_VECTOR[_direction])
+            return tuple(node)
+
         ny, nx = self._values.shape
-        queue = [((0, 0), "", self.graph[(0, 0)])]
+        queue = {"": self.graph[(0, 0)]}
         dist = {node: {} for node in self.graph}
         dist[(0, 0)] = {"": self.graph[(0, 0)]}
         while queue:
-            current_node, current_path, current_dist = queue.pop(0)
+            current_path = min(queue, key=queue.get)
+            current_node = get_node(current_path)
+            queue.pop(current_path)
+            #print(current_path, current_node)
             #print(len(queue))
             #print(current_node, len(dist[current_node]), dist[current_node])
             if current_node == (ny-1, nx-1):
@@ -75,7 +84,7 @@ class Graph:
                 new_dist = dist[current_node][current_path] + weight
                 new_path = current_path + direction
 
-                queue.append((next_node, new_path, new_dist))
+                queue[new_path] = new_dist
                 dist[next_node][new_path] = new_dist
         print(len(dist[(ny-1, nx-1)]))
         min_path = min(dist[(ny-1, nx-1)], key=dist[(ny-1, nx-1)].get)
