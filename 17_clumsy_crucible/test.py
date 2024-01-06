@@ -12,8 +12,8 @@ class TestPart1:
     def test_that_data_is_loaded_as_graph(self, graph):
         assert isinstance(graph, solution.Graph)
 
-    def test_that_edge_weight_is_the_sum_of_its_neighbors_values(self, graph):
-        assert graph.graph[(0, 0)][(0, 1)] == 6
+    def test_that_edge_weight_is_the_neighbors_value(self, graph):
+        assert graph.graph[(0, 0)][(0, 1)] == 4
 
     @pytest.mark.parametrize("node, n_neighbors", [
         ((0, 0), 2),

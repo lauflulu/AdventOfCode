@@ -10,7 +10,7 @@ class Graph:
         ny, nx = self._values.shape
         dist, prev = self._dijkstra()
         self._visualize_shortest_path(prev)
-        min_length = (dist[(ny - 1, nx - 1)] + self._values[0, 0] + self._values[ny - 1, nx - 1]) / 2
+        min_length = dist[(ny - 1, nx - 1)]
         return int(min_length)
 
     def _visualize_shortest_path(self, prev):
@@ -30,7 +30,7 @@ class Graph:
     def _dijkstra(self) -> tuple[dict[tuple, int], dict[tuple, tuple]]:
         queue = {node: 2**31 for node in self.graph}
         dist = {node: 2**31 for node in self.graph}
-        dist[(0, 0)] = 0
+        dist[(0, 0)] = self.graph[(0, 1)][(0, 0)]
         prev = {}
         while queue:
             min_queued_node = min(queue, key=queue.get)
@@ -71,7 +71,7 @@ class Graph:
         for dy, dx in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             if not 0<= y+dy < ny or not 0 <= x+dx< nx:
                 continue
-            neighbors[(y+dy, x+dx)] = self._values[y, x] + self._values[y+dy, x+dx]
+            neighbors[(y+dy, x+dx)] = self._values[y+dy, x+dx]
         return neighbors
 
     def _lines_to_array(self, lines):
