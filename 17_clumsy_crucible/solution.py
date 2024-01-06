@@ -38,8 +38,47 @@ class Graph:
         print(path)
 
     def _dominance(self):
-        queue = {node: 2 ** 31 for node in self.graph}
-        dist = {node: {"rlud": 2**31} for node in self.graph}
+        def dominated(node):
+            return False
+
+        def step_valid(_current_path, _direction):
+            if len(_current_path) == 0:
+                return True
+            _current_vector = np.array(DIRECTION_TO_VECTOR[_current_path[-1]])
+            _dicection_vector = np.array(DIRECTION_TO_VECTOR[_direction])
+            if np.all(_current_vector == - _dicection_vector):
+                return False
+            if len(_current_path) <= 3:
+                return True
+            if _current_path[-3:] == _direction * 3:
+                return False
+            return True
+
+        ny, nx = self._values.shape
+        queue = [((0, 0), "", self.graph[(0, 0)])]
+        dist = {node: {"": 2**31} for node in self.graph}
+        dist[(0, 0)]= {"": self.graph[(0, 0)]}
+        for _ in range(1000):
+            current_node, current_path, current_dist = queue.pop(0)
+            print(current_node, len(dist[current_node]), dist[current_node])
+            if current_node == (ny-1, nx-1):
+                break
+            #
+            for next_node, direction in self.neighbors(*current_node):
+                weight = self._values[*next_node]
+                if not step_valid(current_path, direction):
+                    continue
+
+                if dominated(next_node):   # dist[node][-3:] are the same
+                    continue
+
+                new_dist = dist[current_node][current_path] + weight
+                new_path = current_path + direction
+
+                queue.append((next_node, new_path, new_dist))
+                dist[next_node][new_path] = new_dist
+        print(len(dist[(ny-1, nx-1)]))
+        return min([value for key, value in dist[(ny-1, nx-1)].items()])
 
     def _dijkstra(self) -> tuple[dict[tuple, int], dict[tuple, tuple]]:
         queue = {node: 2**31 for node in self.graph}
