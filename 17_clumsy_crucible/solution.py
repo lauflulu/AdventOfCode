@@ -38,8 +38,11 @@ class Graph:
         print(path)
 
     def _dominance(self):
-        def dominated(node):
-            return False
+        def remove_dominated(node, path):
+            # remove 4-step loops
+            min_distance_to_node = min(dist[node].values())
+            dist[node] = {path: d for path, d in dist[node].items() if d <= min_distance_to_node + 18}
+
 
         def step_valid(_current_path, _direction):
             if len(_current_path) == 0:
@@ -56,20 +59,24 @@ class Graph:
 
         ny, nx = self._values.shape
         queue = [((0, 0), "", self.graph[(0, 0)])]
-        dist = {node: {"": 2**31} for node in self.graph}
-        dist[(0, 0)]= {"": self.graph[(0, 0)]}
-        for _ in range(1000):
+        dist = {node: {} for node in self.graph}
+        dist[(0, 0)] = {"": self.graph[(0, 0)]}
+        while queue:
             current_node, current_path, current_dist = queue.pop(0)
-            print(current_node, len(dist[current_node]), dist[current_node])
+            print(len(queue))
+            #print(current_node, len(dist[current_node]), dist[current_node])
             if current_node == (ny-1, nx-1):
                 break
-            #
+
+            # check node for dominance
+            remove_dominated(current_node, current_path)
+            if current_path not in dist[current_node]:
+                continue
+
+            # add neighbors
             for next_node, direction in self.neighbors(*current_node):
                 weight = self._values[*next_node]
                 if not step_valid(current_path, direction):
-                    continue
-
-                if dominated(next_node):   # dist[node][-3:] are the same
                     continue
 
                 new_dist = dist[current_node][current_path] + weight
