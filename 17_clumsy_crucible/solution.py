@@ -1,6 +1,16 @@
 import numpy as np
 
 
+DIRECTION_TO_VECTOR = {
+    "<": (0, -1),
+    ">": (0, 1),
+    "^": (-1, 0),
+    "v": (1, 0)}
+
+
+VECTOR_TO_DIRECTION = {value: key for key, value in DIRECTION_TO_VECTOR.items()}
+
+
 class Graph:
     def __init__(self, lines: list[str]):
         self._values = self._lines_to_array(lines)
@@ -40,7 +50,7 @@ class Graph:
             min_queued_node = min(queue, key=queue.get)
             queue.pop(min_queued_node)
 
-            for neighbor in self._neighbors(*min_queued_node):
+            for neighbor, _ in self.neighbors(*min_queued_node):
                 weight = self._values[*neighbor]
                 if neighbor not in queue:
                     continue
@@ -65,13 +75,14 @@ class Graph:
         ny, nx = self._values.shape
         return {(y, x): int(self._values[y, x]) for y in range(ny) for x in range(nx)}
 
-    def _neighbors(self, y, x):
+    def neighbors(self, y, x):
         ny, nx = self._values.shape
         neighbors = []
-        for dy, dx in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+        for direction in DIRECTION_TO_VECTOR:
+            dy, dx = DIRECTION_TO_VECTOR[direction]
             if not 0<= y+dy < ny or not 0 <= x+dx< nx:
                 continue
-            neighbors.append((y+dy, x+dx))
+            neighbors.append(((y+dy, x+dx), direction))
         return neighbors
 
     def _lines_to_array(self, lines):

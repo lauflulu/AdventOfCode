@@ -21,7 +21,7 @@ class TestPart1:
         ((1, 1), 4),
     ])
     def test_that_node_has_correct_number_of_neighbors(self, graph, node, n_neighbors):
-        assert len(graph.graph[node]) == n_neighbors
+        assert len(graph.neighbors(*node)) == n_neighbors
 
     @pytest.mark.parametrize("_graph, min_length", [
         #(solution.load_data("example.txt"), 102),
