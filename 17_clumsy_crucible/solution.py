@@ -63,12 +63,7 @@ class Graph:
 
     def _parse_input(self) -> dict[tuple, int]:
         ny, nx = self._values.shape
-        graph = {}
-        for y in range(ny):
-            for x in range(nx):
-                node = (y, x)
-                graph[node] = int(self._values[y, x])
-        return graph
+        return {(y, x): int(self._values[y, x]) for y in range(ny) for x in range(nx)}
 
     def _neighbors(self, y, x):
         ny, nx = self._values.shape
