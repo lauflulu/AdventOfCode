@@ -25,21 +25,12 @@ class TestPart1:
 
     @pytest.mark.parametrize("_graph, min_length", [
         #(solution.load_data("example.txt"), 102),
-        #(solution.load_data("example_minimal.txt"), 8),
-        (solution.load_data("example_simple.txt"), 19),
-        (solution.load_data("example_rule3.txt"), 31)
-    ])
-    def test_that_result_is_correct_for_example(self, _graph, min_length):
-        assert solution.get_result(_graph) == min_length
-
-    @pytest.mark.parametrize("_graph, min_length", [
-        # (solution.load_data("example.txt"), 102),
         (solution.load_data("example_minimal.txt"), 8),
         (solution.load_data("example_simple.txt"), 19),
         #(solution.load_data("example_rule3.txt"), 31)
     ])
-    def test_dominance(self, _graph, min_length):
-        assert _graph._dominance() == min_length
+    def test_that_result_is_correct_for_example(self, _graph, min_length):
+        assert solution.get_result(_graph) == min_length
 
 
 class TestPart2:

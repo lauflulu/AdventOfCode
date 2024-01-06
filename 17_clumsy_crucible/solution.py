@@ -17,29 +17,22 @@ class Graph:
         self.graph = self._parse_input()
 
     def get_result(self):
-        ny, nx = self._values.shape
-        dist, prev = self._dijkstra()
-        self._visualize_shortest_path(prev)
-        min_length = dist[(ny - 1, nx - 1)]
-        return int(min_length)
+        dist, path = self._dominance()
+        self._visualize_shortest(path)
+        return dist
 
-    def _visualize_shortest_path(self, prev):
+    def _visualize_shortest(self, _path):
         path = np.char.add(np.zeros(self._values.shape, dtype='U1'), '.')
-        ny, nx = self._values.shape
-        source_reached = False
-        node = (ny - 1, nx - 1)
+        node = np.array((0, 0))
         path[*node] = '#'
-        while not source_reached:
-            node = prev[node]
+        for direction in _path:
+            node += np.array(DIRECTION_TO_VECTOR[direction])
             path[*node] = '#'
-            if node == (0, 0):
-                source_reached = True
         print()
         print(path)
 
     def _dominance(self):
         def remove_dominated(node, path):
-            # remove 4-step loops
             min_distance_to_node = min(dist[node].values())
             dist[node] = {path: d for path, d in dist[node].items() if d <= min_distance_to_node + 18}
 
@@ -63,7 +56,7 @@ class Graph:
         dist[(0, 0)] = {"": self.graph[(0, 0)]}
         while queue:
             current_node, current_path, current_dist = queue.pop(0)
-            print(len(queue))
+            #print(len(queue))
             #print(current_node, len(dist[current_node]), dist[current_node])
             if current_node == (ny-1, nx-1):
                 break
@@ -85,29 +78,9 @@ class Graph:
                 queue.append((next_node, new_path, new_dist))
                 dist[next_node][new_path] = new_dist
         print(len(dist[(ny-1, nx-1)]))
-        return min([value for key, value in dist[(ny-1, nx-1)].items()])
-
-    def _dijkstra(self) -> tuple[dict[tuple, int], dict[tuple, tuple]]:
-        queue = {node: 2**31 for node in self.graph}
-        dist = {node: 2**31 for node in self.graph}
-        dist[(0, 0)] = self.graph[(0, 0)]
-        prev = {}
-        while queue:
-            min_queued_node = min(queue, key=queue.get)
-            queue.pop(min_queued_node)
-
-            for neighbor, _ in self.neighbors(*min_queued_node):
-                weight = self._values[*neighbor]
-                if neighbor not in queue:
-                    continue
-                if self._last_three_moves_were_straight(min_queued_node, neighbor, prev):
-                    continue
-                new_dist = dist[min_queued_node] + weight
-                if new_dist < dist[neighbor]:
-                    queue[neighbor] = new_dist
-                    dist[neighbor] = new_dist
-                    prev[neighbor] = min_queued_node
-        return dist, prev
+        min_path = min(dist[(ny-1, nx-1)], key=dist[(ny-1, nx-1)].get)
+        min_dist = dist[(ny-1, nx-1)][min_path]
+        return min_dist, min_path
 
     def _last_three_moves_were_straight(self, min_queued_node, neighbor, prev):
         try:
