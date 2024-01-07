@@ -17,6 +17,11 @@ class Graph:
         self.ny, self.nx = self._values.shape
         self.graph = self._parse_input()
 
+        # for algorithm
+        self._distances = {node: {} for node in self.graph}
+        self._distances[(0, 0)] = {"": self.graph[(0, 0)]}
+
+
     def get_result(self):
         dist, path = self._dominance()
         self._visualize_shortest(path)
@@ -33,12 +38,13 @@ class Graph:
         print(path)
 
     def _dominance(self):
+
         def remove_dominated(node, path):
             new_dist_node = {}
-            node_distances = dist[node].values()
+            node_distances = self._distances[node].values()
             if node_distances:
                 min_distance_to_node = min(node_distances)
-                for p, d in dist[node].items():
+                for p, d in self._distances[node].items():
                     if d > min_distance_to_node + 18:
                         continue
                     if d > min_distance_to_target:
@@ -48,7 +54,7 @@ class Graph:
                     if self._best_case_score(d, node) > minimum_score:
                         continue
                     new_dist_node[p] = d
-            dist[node] = new_dist_node
+            self._distances[node] = new_dist_node
 
         def get_node(_path):
             node = np.array((0, 0))
@@ -57,8 +63,6 @@ class Graph:
             return tuple(node)
 
         queue = {"": 5}  # path: score
-        dist = {node: {} for node in self.graph}
-        dist[(0, 0)] = {"": self.graph[(0, 0)]}
         min_distance_to_target = 9 * (self.nx + self.ny)  # worst case scenario
         minimum_score = 9
         while queue:
@@ -68,14 +72,14 @@ class Graph:
             print(len(queue))
 
             if current_node == (self.ny-1, self.nx-1):
-                min_distance_to_target = min(dist[current_node].values())
+                min_distance_to_target = min(self._distances[current_node].values())
                 minimum_score = self._worst_case_score(min_distance_to_target, current_node)
                 _queue = {}
                 for p in queue:
                     _node = get_node(p)
-                    if p not in dist[_node]:
+                    if p not in self._distances[_node]:
                         continue
-                    _dist = dist[_node][p]
+                    _dist = self._distances[_node][p]
                     s = self._best_case_score(_dist, _node)
                     print(minimum_score, s)
                     if s <= minimum_score:
@@ -84,18 +88,18 @@ class Graph:
 
             # check node for dominance
             remove_dominated(current_node, current_path)
-            if current_path not in dist[current_node]:
+            if current_path not in self._distances[current_node]:
                 continue
 
             # add neighbors
             for next_node, direction in self.valid_neighbors(*current_node, current_path):
-                new_dist = dist[current_node][current_path] + self._values[*next_node]
+                new_dist = self._distances[current_node][current_path] + self._values[*next_node]
                 new_path = current_path + direction
 
                 queue[new_path] = self._worst_case_score(new_dist, next_node)
-                dist[next_node][new_path] = new_dist
+                self._distances[next_node][new_path] = new_dist
 
-        min_path = min(dist[(self.ny-1, self.nx-1)], key=dist[(self.ny-1, self.nx-1)].get)
+        min_path = min(self._distances[(self.ny - 1, self.nx - 1)], key=self._distances[(self.ny - 1, self.nx - 1)].get)
         return min_distance_to_target, min_path
 
     def _score(self, _distance, _node):
