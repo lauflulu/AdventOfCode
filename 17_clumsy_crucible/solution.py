@@ -50,20 +50,6 @@ class Graph:
                     new_dist_node[p] = d
             dist[node] = new_dist_node
 
-
-        def step_valid(_current_path, _direction):
-            if len(_current_path) == 0:
-                return True
-            _current_vector = np.array(DIRECTION_TO_VECTOR[_current_path[-1]])
-            _dicection_vector = np.array(DIRECTION_TO_VECTOR[_direction])
-            if np.all(_current_vector == - _dicection_vector):
-                return False
-            if len(_current_path) <= 3:
-                return True
-            if _current_path[-3:] == _direction * 3:
-                return False
-            return True
-
         def get_node(_path):
             node = np.array((0, 0))
             for _direction in _path:
@@ -109,10 +95,8 @@ class Graph:
                 continue
 
             # add neighbors
-            for next_node, direction in self.neighbors(*current_node):
+            for next_node, direction in self.valid_neighbors(*current_node, current_path):
                 weight = self._values[*next_node]
-                if not step_valid(current_path, direction):
-                    continue
 
                 new_dist = dist[current_node][current_path] + weight
                 new_path = current_path + direction
@@ -125,13 +109,27 @@ class Graph:
     def _parse_input(self) -> dict[tuple, int]:
         return {(y, x): int(self._values[y, x]) for y in range(self.ny) for x in range(self.nx)}
 
-    def neighbors(self, y, x):
+    def valid_neighbors(self, y, x, path):
+        def valid(_current_path, _direction):
+            if not 0 <= y + dy < self.ny or not 0 <= x + dx < self.nx:
+                return False
+            if len(_current_path) == 0:
+                return True
+            _current_vector = np.array(DIRECTION_TO_VECTOR[_current_path[-1]])
+            _dicection_vector = np.array(DIRECTION_TO_VECTOR[_direction])
+            if np.all(_current_vector == - _dicection_vector):
+                return False
+            if len(_current_path) <= 3:
+                return True
+            if _current_path[-3:] == _direction * 3:
+                return False
+            return True
+
         neighbors = []
         for direction in DIRECTION_TO_VECTOR:
             dy, dx = DIRECTION_TO_VECTOR[direction]
-            if not 0<= y+dy < self.ny or not 0 <= x+dx< self.nx:
-                continue
-            neighbors.append(((y+dy, x+dx), direction))
+            if valid(path, direction):
+                neighbors.append(((y+dy, x+dx), direction))
         return neighbors
 
     def _lines_to_array(self, lines):
