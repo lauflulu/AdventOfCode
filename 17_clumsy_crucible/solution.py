@@ -45,7 +45,7 @@ class Graph:
                         continue
                     if len(set(path[-4:])) == 4:  # small 4-node loops can be discarded
                         continue
-                    if minimum_achievable_score(d, node) > minimum_score:
+                    if self._best_case_score(d, node) > minimum_score:
                         continue
                     new_dist_node[p] = d
             dist[node] = new_dist_node
@@ -55,13 +55,6 @@ class Graph:
             for _direction in _path:
                 node += np.array(DIRECTION_TO_VECTOR[_direction])
             return tuple(node)
-
-        def score(_distance, _node):
-            return _distance / sum(_node)
-
-        def minimum_achievable_score(_distance, _node):
-            minimum_achievable_distance = self.ny-1 - _node[0] + self.nx-1 - _node[1]
-            return score(minimum_achievable_distance, (self.ny-1, self.nx-1))
 
         queue = {"": 5}  # path: score
         dist = {node: {} for node in self.graph}
@@ -76,17 +69,17 @@ class Graph:
 
             if current_node == (self.ny-1, self.nx-1):
                 min_distance_to_target = min(dist[current_node].values())
-                minimum_score = score(min_distance_to_target, current_node)
+                minimum_score = self._score(min_distance_to_target, current_node)
                 _queue = {}
                 for p in queue:
                     _node = get_node(p)
                     if p not in dist[_node]:
                         continue
                     _dist = dist[_node][p]
-                    s = minimum_achievable_score(_dist, _node)
+                    s = self._best_case_score(_dist, _node)
                     print(minimum_score, s)
                     if s <= minimum_score:
-                        _queue[p] = score(_dist, _node)
+                        _queue[p] = self._score(_dist, _node)
                 queue = _queue
 
             # check node for dominance
@@ -99,11 +92,18 @@ class Graph:
                 new_dist = dist[current_node][current_path] + self._values[*next_node]
                 new_path = current_path + direction
 
-                queue[new_path] = score(new_dist, next_node)
+                queue[new_path] = self._score(new_dist, next_node)
                 dist[next_node][new_path] = new_dist
 
         min_path = min(dist[(self.ny-1, self.nx-1)], key=dist[(self.ny-1, self.nx-1)].get)
         return min_distance_to_target, min_path
+
+    def _score(self, _distance, _node):
+        return _distance / sum(_node)
+
+    def _best_case_score(self, _distance, _node):
+        smallest_possible_distance = _distance + self.ny - 1 - _node[0] + self.nx - 1 - _node[1]
+        return self._score(smallest_possible_distance, (self.ny - 1, self.nx - 1))
 
     def _parse_input(self) -> dict[tuple, int]:
         return {(y, x): int(self._values[y, x]) for y in range(self.ny) for x in range(self.nx)}
