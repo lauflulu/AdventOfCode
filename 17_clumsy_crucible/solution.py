@@ -22,6 +22,7 @@ class Graph:
         self._distances[(0, 0)] = {"": self.graph[(0, 0)]}
         self._best_score = 9
         self._queue = {"": 5}
+        self.path_to_node = {"": (0, 0)}
 
 
     def get_result(self):
@@ -40,14 +41,13 @@ class Graph:
         print(path)
 
     def _dominance(self):
-        path_to_node = {"": (0, 0)}
+
         min_distance_to_target = 9 * (self.nx + self.ny)  # worst case scenario
 
         while self._queue:
             current_path = min(self._queue, key=self._queue.get)
-            current_node = path_to_node[current_path]
+            current_node = self.path_to_node[current_path]
             self._queue.pop(current_path)
-            path_to_node.pop(current_path)
 
             if current_node == (self.ny-1, self.nx-1):
                 min_distance_to_target = min(self._distances[current_node].values())
@@ -55,7 +55,7 @@ class Graph:
                 print(min_distance_to_target)
                 _queue = {}
                 for p in self._queue:
-                    _node = path_to_node[p]
+                    _node = self.path_to_node[p]
                     if p not in self._distances[_node]:
                         continue
                     _dist = self._distances[_node][p]
@@ -70,33 +70,35 @@ class Graph:
                 new_path = current_path + direction
 
                 self._distances[next_node][new_path] = new_dist
-                self._remove_dominated(next_node)
-                if new_path in self._distances[next_node]:
-                    self._queue[new_path] = self._worst_case_score(new_dist, next_node)
-                    path_to_node[new_path] = next_node
+                self._remove_dominated(next_node, new_path, new_dist)
 
         min_path = min(self._distances[(self.ny - 1, self.nx - 1)], key=self._distances[(self.ny - 1, self.nx - 1)].get)
         return min_distance_to_target, min_path
 
-    def _remove_dominated(self, node):
+    def _remove_dominated(self, node, new_path, new_dist):
         new_dist_node = {}
         node_distances = self._distances[node].values()
-        if node_distances:
-            min_distance_to_node = min(node_distances)
-            for p, d in self._distances[node].items():
-                dominated = False
-                if d > min_distance_to_node + 18:
-                    dominated = True
-                if len(set(p[-4:])) == 4:  # small 4-node loops can be discarded
-                    dominated = True
-                if self._best_case_score(d, node) > self._best_score:
-                    dominated = True
-                if dominated:
-                    if p in self._queue:
-                        self._queue.pop(p)
-                else:
-                    new_dist_node[p] = d
-        self._distances[node] = new_dist_node
+        if not node_distances:
+            return
+        min_distance_to_node = min(node_distances)
+        for p, d in self._distances[node].items():
+            dominated = False
+            if d > min_distance_to_node + 18:
+                dominated = True
+            if len(set(p[-4:])) == 4:  # small 4-node loops can be discarded
+                dominated = True
+            if self._best_case_score(d, node) > self._best_score:
+                dominated = True
+            if dominated:
+                if p in self._queue:
+                    self._queue.pop(p)
+            else:
+                if p == new_path and new_path not in self.path_to_node:
+                    print(self._best_score, len(self.path_to_node), len(self._queue))
+                    self._queue[new_path] = self._worst_case_score(new_dist, node)
+                    self.path_to_node[new_path] = node
+                new_dist_node[p] = d
+            self._distances[node] = new_dist_node
 
     def _score(self, _distance, _node):
         return _distance / sum(_node)
