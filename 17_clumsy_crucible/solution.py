@@ -96,9 +96,10 @@ class Graph:
     def _dominated(self, d, min_distance_to_node, node, p):
         if d > min_distance_to_node + 18:
             return True
-        if len(set(p[-4:])) == 4:  # small 4-node loops can be discarded
+        momentum = sum([1 if m in ["v", ">"] else -1 for m in p[-4:] ])
+        if momentum <= 0:
             return True
-        if self._best_case_score(d, node) > self._best_score:
+        if self._best_case_score(d, node) >= self._best_score:
             return True
         return False
 
@@ -106,7 +107,7 @@ class Graph:
         return _distance / sum(_node)
 
     def _best_case_score(self, _distance, _node):
-        smallest_possible_distance = _distance + self.ny - 1 - _node[0] + self.nx - 1 - _node[1]
+        smallest_possible_distance = _distance + 1 * ( self.ny - 1 - _node[0] + self.nx - 1 - _node[1])
         return self._score(smallest_possible_distance, (self.ny - 1, self.nx - 1))
 
     def _worst_case_score(self, _distance, _node):
