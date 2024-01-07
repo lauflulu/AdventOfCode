@@ -47,7 +47,8 @@ class Graph:
         while self._queue:
             current_path = min(self._queue, key=self._queue.get)
             current_node = self.path_to_node[current_path]
-            self._queue.pop(current_path)
+            _ = self._queue.pop(current_path)
+            print(self._best_score, len(self.path_to_node), current_path, _, current_node)
 
             if current_node == (self.ny-1, self.nx-1):
                 min_distance_to_target = min(self._distances[current_node].values())
