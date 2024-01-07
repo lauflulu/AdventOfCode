@@ -40,18 +40,14 @@ class Graph:
 
     def _dominance(self):
 
-        def get_node(_path):
-            node = np.array((0, 0))
-            for _direction in _path:
-                node += np.array(DIRECTION_TO_VECTOR[_direction])
-            return tuple(node)
-
         queue = {"": 5}  # path: score
+        path_to_node = {"": (0, 0)}
         min_distance_to_target = 9 * (self.nx + self.ny)  # worst case scenario
         while queue:
             current_path = min(queue, key=queue.get)
-            current_node = get_node(current_path)
+            current_node = path_to_node[current_path]
             queue.pop(current_path)
+            path_to_node.pop(current_path)
             print(len(queue))
 
             if current_node == (self.ny-1, self.nx-1):
@@ -59,7 +55,7 @@ class Graph:
                 self._best_score = self._score(min_distance_to_target, current_node)
                 _queue = {}
                 for p in queue:
-                    _node = get_node(p)
+                    _node = path_to_node[p]
                     if p not in self._distances[_node]:
                         continue
                     _dist = self._distances[_node][p]
@@ -77,6 +73,7 @@ class Graph:
                 self._remove_dominated(next_node)
                 if new_path in self._distances[next_node]:
                     queue[new_path] = self._worst_case_score(new_dist, next_node)
+                    path_to_node[new_path] = next_node
 
         min_path = min(self._distances[(self.ny - 1, self.nx - 1)], key=self._distances[(self.ny - 1, self.nx - 1)].get)
         return min_distance_to_target, min_path
