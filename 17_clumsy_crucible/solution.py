@@ -57,7 +57,10 @@ class Graph:
                 node += np.array(DIRECTION_TO_VECTOR[_direction])
             return tuple(node)
 
-        queue = {"": self.graph[(0, 0)]}
+        def score(_distance, _node):
+            return _distance
+
+        queue = {"": 5}  # path: score
         dist = {node: {} for node in self.graph}
         dist[(0, 0)] = {"": self.graph[(0, 0)]}
         while queue:
@@ -84,7 +87,7 @@ class Graph:
                 new_dist = dist[current_node][current_path] + weight
                 new_path = current_path + direction
 
-                queue[new_path] = new_dist
+                queue[new_path] = score(new_dist, next_node)
                 dist[next_node][new_path] = new_dist
         print(len(dist[(self.ny-1, self.nx-1)]))
         min_path = min(dist[(self.ny-1, self.nx-1)], key=dist[(self.ny-1, self.nx-1)].get)
