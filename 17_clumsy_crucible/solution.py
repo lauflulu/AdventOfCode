@@ -87,7 +87,6 @@ class Graph:
                     self._queue.pop(path)
             else:
                 if path == new_path and new_path not in self.path_to_node:
-                    print(self._best_score, len(self.path_to_node), len(self._queue))
                     self._queue[new_path] = self._worst_case_score(new_dist, node)
                     self.path_to_node[new_path] = node
                 new_dist_node[path] = distance
@@ -126,7 +125,7 @@ class Graph:
             _dicection_vector = np.array(DIRECTION_TO_VECTOR[_direction])
             if np.all(_current_vector == - _dicection_vector):
                 return False
-            if len(_current_path) <= 3:
+            if len(_current_path) < 3:
                 return True
             if _current_path[-3:] == _direction * 3:
                 return False
