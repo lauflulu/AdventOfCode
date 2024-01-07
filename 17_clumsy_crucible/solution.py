@@ -58,7 +58,7 @@ class Graph:
             return tuple(node)
 
         def score(_distance, _node):
-            return _distance
+            return _distance / sum(_node)
 
         queue = {"": 5}  # path: score
         dist = {node: {} for node in self.graph}
