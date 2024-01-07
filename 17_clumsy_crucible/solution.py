@@ -48,11 +48,11 @@ class Graph:
             current_node = path_to_node[current_path]
             self._queue.pop(current_path)
             path_to_node.pop(current_path)
-            print(len(self._queue))
 
             if current_node == (self.ny-1, self.nx-1):
                 min_distance_to_target = min(self._distances[current_node].values())
                 self._best_score = self._score(min_distance_to_target, current_node)
+                print(min_distance_to_target)
                 _queue = {}
                 for p in self._queue:
                     _node = path_to_node[p]
@@ -84,13 +84,18 @@ class Graph:
         if node_distances:
             min_distance_to_node = min(node_distances)
             for p, d in self._distances[node].items():
+                dominated = False
                 if d > min_distance_to_node + 18:
-                    continue
+                    dominated = True
                 if len(set(p[-4:])) == 4:  # small 4-node loops can be discarded
-                    continue
+                    dominated = True
                 if self._best_case_score(d, node) > self._best_score:
-                    continue
-                new_dist_node[p] = d
+                    dominated = True
+                if dominated:
+                    if p in self._queue:
+                        self._queue.pop(p)
+                else:
+                    new_dist_node[p] = d
         self._distances[node] = new_dist_node
 
     def _score(self, _distance, _node):
