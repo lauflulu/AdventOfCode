@@ -81,24 +81,26 @@ class Graph:
         if not node_distances:
             return
         min_distance_to_node = min(node_distances)
-        for p, d in self._distances[node].items():
-            dominated = False
-            if d > min_distance_to_node + 18:
-                dominated = True
-            if len(set(p[-4:])) == 4:  # small 4-node loops can be discarded
-                dominated = True
-            if self._best_case_score(d, node) > self._best_score:
-                dominated = True
-            if dominated:
-                if p in self._queue:
-                    self._queue.pop(p)
+        for path, distance in self._distances[node].items():
+            if self._dominated(distance, min_distance_to_node, node, path):
+                if path in self._queue:
+                    self._queue.pop(path)
             else:
-                if p == new_path and new_path not in self.path_to_node:
+                if path == new_path and new_path not in self.path_to_node:
                     print(self._best_score, len(self.path_to_node), len(self._queue))
                     self._queue[new_path] = self._worst_case_score(new_dist, node)
                     self.path_to_node[new_path] = node
-                new_dist_node[p] = d
+                new_dist_node[path] = distance
             self._distances[node] = new_dist_node
+
+    def _dominated(self, d, min_distance_to_node, node, p):
+        if d > min_distance_to_node + 18:
+            return True
+        if len(set(p[-4:])) == 4:  # small 4-node loops can be discarded
+            return True
+        if self._best_case_score(d, node) > self._best_score:
+            return True
+        return False
 
     def _score(self, _distance, _node):
         return _distance / sum(_node)
