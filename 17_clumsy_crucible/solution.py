@@ -68,18 +68,15 @@ class Graph:
                         _queue[p] = self._worst_case_score(_dist, _node)
                 queue = _queue
 
-            # check node for dominance
-            self._remove_dominated(current_node)
-            if current_path not in self._distances[current_node]:
-                continue
-
             # add neighbors
             for next_node, direction in self.valid_neighbors(*current_node, current_path):
                 new_dist = self._distances[current_node][current_path] + self._values[*next_node]
                 new_path = current_path + direction
 
-                queue[new_path] = self._worst_case_score(new_dist, next_node)
                 self._distances[next_node][new_path] = new_dist
+                self._remove_dominated(next_node)
+                if new_path in self._distances[next_node]:
+                    queue[new_path] = self._worst_case_score(new_dist, next_node)
 
         min_path = min(self._distances[(self.ny - 1, self.nx - 1)], key=self._distances[(self.ny - 1, self.nx - 1)].get)
         return min_distance_to_target, min_path
