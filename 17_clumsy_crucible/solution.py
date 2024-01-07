@@ -34,8 +34,17 @@ class Graph:
 
     def _dominance(self):
         def remove_dominated(node, path):
-            min_distance_to_node = min(dist[node].values())
-            dist[node] = {path: d for path, d in dist[node].items() if d <= min_distance_to_node + 18}
+            new_dist_node = {}
+            node_distances = dist[node].values()
+            if node_distances:
+                min_distance_to_node = min(node_distances)
+                for p, d in dist[node].items():
+                    if d > min_distance_to_node + 18:
+                        continue
+                    if d > min_distance_to_target:
+                        continue
+                    new_dist_node[p] = d
+            dist[node] = new_dist_node
 
 
         def step_valid(_current_path, _direction):
@@ -63,6 +72,7 @@ class Graph:
         queue = {"": 5}  # path: score
         dist = {node: {} for node in self.graph}
         dist[(0, 0)] = {"": self.graph[(0, 0)]}
+        min_distance_to_target = 9 * (self.nx + self.ny)  # worst case scenario
         while queue:
             current_path = min(queue, key=queue.get)
             current_node = get_node(current_path)
@@ -71,7 +81,7 @@ class Graph:
             #print(len(queue))
             #print(current_node, len(dist[current_node]), dist[current_node])
             if current_node == (self.ny-1, self.nx-1):
-                break
+                min_distance_to_target = min(dist[current_node].values())
 
             # check node for dominance
             remove_dominated(current_node, current_path)
@@ -89,10 +99,8 @@ class Graph:
 
                 queue[new_path] = score(new_dist, next_node)
                 dist[next_node][new_path] = new_dist
-        print(len(dist[(self.ny-1, self.nx-1)]))
         min_path = min(dist[(self.ny-1, self.nx-1)], key=dist[(self.ny-1, self.nx-1)].get)
-        min_dist = dist[(self.ny-1, self.nx-1)][min_path]
-        return min_dist, min_path
+        return min_distance_to_target, min_path
 
     def _parse_input(self) -> dict[tuple, int]:
         return {(y, x): int(self._values[y, x]) for y in range(self.ny) for x in range(self.nx)}
