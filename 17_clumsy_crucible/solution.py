@@ -43,6 +43,8 @@ class Graph:
                         continue
                     if d > min_distance_to_target:
                         continue
+                    if len(set(path[-4:])) == 4:  # small 4-node loops can be discarded
+                        continue
                     new_dist_node[p] = d
             dist[node] = new_dist_node
 
