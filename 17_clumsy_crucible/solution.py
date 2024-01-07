@@ -14,6 +14,7 @@ VECTOR_TO_DIRECTION = {value: key for key, value in DIRECTION_TO_VECTOR.items()}
 class Graph:
     def __init__(self, lines: list[str]):
         self._values = self._lines_to_array(lines)
+        self.ny, self.nx = self._values.shape
         self.graph = self._parse_input()
 
     def get_result(self):
@@ -56,7 +57,6 @@ class Graph:
                 node += np.array(DIRECTION_TO_VECTOR[_direction])
             return tuple(node)
 
-        ny, nx = self._values.shape
         queue = {"": self.graph[(0, 0)]}
         dist = {node: {} for node in self.graph}
         dist[(0, 0)] = {"": self.graph[(0, 0)]}
@@ -67,7 +67,7 @@ class Graph:
             #print(current_path, current_node)
             #print(len(queue))
             #print(current_node, len(dist[current_node]), dist[current_node])
-            if current_node == (ny-1, nx-1):
+            if current_node == (self.ny-1, self.nx-1):
                 break
 
             # check node for dominance
@@ -86,29 +86,19 @@ class Graph:
 
                 queue[new_path] = new_dist
                 dist[next_node][new_path] = new_dist
-        print(len(dist[(ny-1, nx-1)]))
-        min_path = min(dist[(ny-1, nx-1)], key=dist[(ny-1, nx-1)].get)
-        min_dist = dist[(ny-1, nx-1)][min_path]
+        print(len(dist[(self.ny-1, self.nx-1)]))
+        min_path = min(dist[(self.ny-1, self.nx-1)], key=dist[(self.ny-1, self.nx-1)].get)
+        min_dist = dist[(self.ny-1, self.nx-1)][min_path]
         return min_dist, min_path
 
-    def _last_three_moves_were_straight(self, min_queued_node, neighbor, prev):
-        try:
-            vector_to_prev3 = np.array(prev[prev[prev[min_queued_node]]]) - np.array(neighbor)
-            distance_to_prev3 = int(np.dot(vector_to_prev3, vector_to_prev3)**0.5)
-            return distance_to_prev3 == 4
-        except KeyError:
-            return False
-
     def _parse_input(self) -> dict[tuple, int]:
-        ny, nx = self._values.shape
-        return {(y, x): int(self._values[y, x]) for y in range(ny) for x in range(nx)}
+        return {(y, x): int(self._values[y, x]) for y in range(self.ny) for x in range(self.nx)}
 
     def neighbors(self, y, x):
-        ny, nx = self._values.shape
         neighbors = []
         for direction in DIRECTION_TO_VECTOR:
             dy, dx = DIRECTION_TO_VECTOR[direction]
-            if not 0<= y+dy < ny or not 0 <= x+dx< nx:
+            if not 0<= y+dy < self.ny or not 0 <= x+dx< self.nx:
                 continue
             neighbors.append(((y+dy, x+dx), direction))
         return neighbors
