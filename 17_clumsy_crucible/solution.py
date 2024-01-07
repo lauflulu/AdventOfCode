@@ -96,13 +96,12 @@ class Graph:
 
             # add neighbors
             for next_node, direction in self.valid_neighbors(*current_node, current_path):
-                weight = self._values[*next_node]
-
-                new_dist = dist[current_node][current_path] + weight
+                new_dist = dist[current_node][current_path] + self._values[*next_node]
                 new_path = current_path + direction
 
                 queue[new_path] = score(new_dist, next_node)
                 dist[next_node][new_path] = new_dist
+
         min_path = min(dist[(self.ny-1, self.nx-1)], key=dist[(self.ny-1, self.nx-1)].get)
         return min_distance_to_target, min_path
 
