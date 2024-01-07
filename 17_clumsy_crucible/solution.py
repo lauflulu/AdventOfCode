@@ -45,6 +45,8 @@ class Graph:
                         continue
                     if len(set(path[-4:])) == 4:  # small 4-node loops can be discarded
                         continue
+                    if minimum_achievable_score(d, node) > minimum_score:
+                        continue
                     new_dist_node[p] = d
             dist[node] = new_dist_node
 
@@ -71,19 +73,35 @@ class Graph:
         def score(_distance, _node):
             return _distance / sum(_node)
 
+        def minimum_achievable_score(_distance, _node):
+            minimum_achievable_distance = self.ny-1 - _node[0] + self.nx-1 - _node[1]
+            return score(minimum_achievable_distance, (self.ny-1, self.nx-1))
+
         queue = {"": 5}  # path: score
         dist = {node: {} for node in self.graph}
         dist[(0, 0)] = {"": self.graph[(0, 0)]}
         min_distance_to_target = 9 * (self.nx + self.ny)  # worst case scenario
+        minimum_score = 9
         while queue:
             current_path = min(queue, key=queue.get)
             current_node = get_node(current_path)
             queue.pop(current_path)
-            #print(current_path, current_node)
-            #print(len(queue))
-            #print(current_node, len(dist[current_node]), dist[current_node])
+            print(len(queue))
+
             if current_node == (self.ny-1, self.nx-1):
                 min_distance_to_target = min(dist[current_node].values())
+                minimum_score = score(min_distance_to_target, current_node)
+                _queue = {}
+                for p in queue:
+                    _node = get_node(p)
+                    if p not in dist[_node]:
+                        continue
+                    _dist = dist[_node][p]
+                    s = minimum_achievable_score(_dist, _node)
+                    print(minimum_score, s)
+                    if s <= minimum_score:
+                        _queue[p] = score(_dist, _node)
+                queue = _queue
 
             # check node for dominance
             remove_dominated(current_node, current_path)
@@ -136,7 +154,7 @@ def get_result_2(data):
 
 
 def main():
-    data = load_data("data.txt")
+    data = load_data("example.txt")
     print(get_result(data))
     print(get_result_2(data))
 
