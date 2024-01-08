@@ -27,7 +27,6 @@ class TestPart1:
         lagoon.dig_outline()
         assert np.all(lagoon._yx == np.array((0, 0)))
 
-    @pytest.mark.skip
     def test_that_the_outline_has_correct_volume(self, lagoon):
         lagoon.dig_outline()
         assert lagoon.volume() == 38

@@ -51,7 +51,7 @@ class Lagoon:
                 self._grid[*self._yx] = "#"
 
     def volume(self) -> int:
-        pass
+        return np.count_nonzero(self._grid == '#')
 
 
 def load_data(filename):
