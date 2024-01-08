@@ -20,7 +20,6 @@ class TestPart1:
     def test_that_shape_can_be_pre_calculated(self, lagoon):
         assert lagoon.shape == (10, 7)
 
-    @pytest.mark.skip
     def test_that_start_coordinates_can_be_precalculated(self, lagoon):
         assert lagoon.start == (0, 0)
 
