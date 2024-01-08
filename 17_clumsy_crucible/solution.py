@@ -48,22 +48,12 @@ class Graph:
             current_path = min(self._queue, key=self._queue.get)
             current_node = self.path_to_node[current_path]
             _ = self._queue.pop(current_path)
-            print(self._best_score, len(self.path_to_node), current_path, _, current_node)
+            #print(self._best_score, len(self.path_to_node), current_path, _, current_node)
 
             if current_node == (self.ny-1, self.nx-1):
                 min_distance_to_target = min(self._distances[current_node].values())
                 self._best_score = self._score(min_distance_to_target, current_node)
-                print(min_distance_to_target)
-                _queue = {}
-                for p in self._queue:
-                    _node = self.path_to_node[p]
-                    if p not in self._distances[_node]:
-                        continue
-                    _dist = self._distances[_node][p]
-                    s = self._best_case_score(_dist, _node)
-                    if s <= self._best_score:
-                        _queue[p] = self._worst_case_score(_dist, _node)
-                self._queue = _queue
+                self._purge_queue()
 
             # add neighbors
             for next_node, direction in self.valid_neighbors(*current_node, current_path):
@@ -75,6 +65,15 @@ class Graph:
 
         min_path = min(self._distances[(self.ny - 1, self.nx - 1)], key=self._distances[(self.ny - 1, self.nx - 1)].get)
         return min_distance_to_target, min_path
+
+    def _purge_queue(self):
+        _queue = {}
+        for p in self._queue:
+            _node = self.path_to_node[p]
+            _dist = self._distances[_node][p]
+            if self._best_case_score(_dist, _node) <= self._best_score:
+                _queue[p] = self._score(_dist, _node)
+        self._queue = _queue
 
     def _remove_dominated(self, node, new_path, new_dist):
         new_dist_node = {}
@@ -88,7 +87,7 @@ class Graph:
                     self._queue.pop(path)
             else:
                 if path == new_path and new_path not in self.path_to_node:
-                    self._queue[new_path] = self._worst_case_score(new_dist, node)
+                    self._queue[new_path] = self._score(new_dist, node)
                     self.path_to_node[new_path] = node
                 new_dist_node[path] = distance
             self._distances[node] = new_dist_node
