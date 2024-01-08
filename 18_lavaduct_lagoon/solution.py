@@ -21,13 +21,25 @@ class Instruction:
 class Lagoon:
     def __init__(self, instructions: list[Instruction]):
         self._instructions = instructions
-        self.shape, self.start = self._precalculate_grid()
+        self.shape = (None, None)
+        self.start = (None, None)
+        self._yx = np.array((0, 0))
+        self._precalculate_grid()
+
 
     def get_result(self) -> int:
         pass
 
-    def _precalculate_grid(self) -> tuple[tuple[int, int], tuple[int, int]]:
-        pass
+    def _precalculate_grid(self):
+        min_y, min_x, max_y, max_x = (0, 0, 0, 0)
+        for instruction in self._instructions:
+            self._yx += instruction.distance * instruction.direction
+            min_y = min(min_y, int(self._yx[0]))
+            min_x = min(min_x, int(self._yx[1]))
+            max_y = max(max_y, int(self._yx[0]))
+            max_x = max(max_x, int(self._yx[1]))
+        self.shape = (max_y - min_y + 1, max_x - min_x + 1)
+        self.start = (-min_y, -min_x)
 
     def dig_outline(self):
         pass
