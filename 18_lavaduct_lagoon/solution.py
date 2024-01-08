@@ -21,10 +21,12 @@ class Instruction:
 class Lagoon:
     def __init__(self, instructions: list[Instruction]):
         self._instructions = instructions
-        self.shape = (None, None)
-        self.start = (None, None)
+        self.shape = (0, 0)
+        self.start = (0, 0)
         self._yx = np.array((0, 0))
         self._precalculate_grid()
+
+        self._grid = np.char.add(np.zeros(self.shape, dtype='U1'), '.')
 
 
     def get_result(self) -> int:
@@ -42,7 +44,11 @@ class Lagoon:
         self.start = (-min_y, -min_x)
 
     def dig_outline(self):
-        pass
+        self._yx = np.array(self.start)
+        for instruction in self._instructions:
+            for _ in range(instruction.distance):
+                self._yx += instruction.direction
+                self._grid[*self._yx] = "#"
 
     def volume(self) -> int:
         pass
