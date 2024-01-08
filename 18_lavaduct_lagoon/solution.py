@@ -23,25 +23,36 @@ class Lagoon:
         self._instructions = instructions
         self.shape = (0, 0)
         self.start = (0, 0)
+        self.rotation = 0
         self._yx = np.array((0, 0))
         self._precalculate_grid()
 
         self._grid = np.char.add(np.zeros(self.shape, dtype='U1'), '.')
 
-
     def get_result(self) -> int:
-        pass
+        self.dig_outline()
+        self.dig_inner()
+        return self.volume()
 
     def _precalculate_grid(self):
         min_y, min_x, max_y, max_x = (0, 0, 0, 0)
+        _previous_direction = np.zeros(2)
         for instruction in self._instructions:
             self._yx += instruction.distance * instruction.direction
             min_y = min(min_y, int(self._yx[0]))
             min_x = min(min_x, int(self._yx[1]))
             max_y = max(max_y, int(self._yx[0]))
             max_x = max(max_x, int(self._yx[1]))
+            self.rotation += self._angle(instruction.direction, _previous_direction)
+            _previous_direction = instruction.direction
         self.shape = (max_y - min_y + 1, max_x - min_x + 1)
         self.start = (-min_y, -min_x)
+
+    def _angle(self, v1, v2):
+        """Return +/-1 for right/left turns."""
+        _in = (*v1, 0)
+        _out = (*v2, 0)
+        return np.cross(_in, _out)[2]
 
     def dig_outline(self):
         self._yx = np.array(self.start)

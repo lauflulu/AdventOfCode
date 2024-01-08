@@ -23,6 +23,9 @@ class TestPart1:
     def test_that_start_coordinates_can_be_precalculated(self, lagoon):
         assert lagoon.start == (0, 0)
 
+    def test_that_loop_rotation_is_precalculated(self, lagoon):
+        assert lagoon.rotation > 0
+
     def test_that_the_outline_ends_where_it_starts(self, lagoon):
         lagoon.dig_outline()
         assert np.all(lagoon._yx == np.array((0, 0)))
