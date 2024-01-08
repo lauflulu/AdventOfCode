@@ -19,12 +19,12 @@ class Instruction:
 class Lagoon:
     def __init__(self, instructions: list[Instruction]):
         self._instructions = instructions
-        self.y, self.x = (0, 0)
+        self.shape, self.start = self._precalculate_grid()
 
     def get_result(self) -> int:
         pass
 
-    def precalculate_shape(self) -> tuple[int, int]:
+    def _precalculate_grid(self) -> tuple[tuple[int, int], tuple[int, int]]:
         pass
 
     def dig_outline(self):

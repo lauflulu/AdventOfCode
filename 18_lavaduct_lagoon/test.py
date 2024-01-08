@@ -16,9 +16,12 @@ class TestPart1:
         assert instructions[0].distance == 6
         assert instructions[0].color == '#70c710'
 
-    @pytest.mark.skip
     def test_that_shape_can_be_pre_calculated(self, lagoon):
-        assert lagoon.precalculate_shape() == (10, 7)
+        assert lagoon.shape == (10, 7)
+
+    @pytest.mark.skip
+    def test_that_start_coordinates_can_be_precalculated(self, lagoon):
+        assert lagoon.start == (0, 0)
 
     @pytest.mark.skip
     def test_that_the_outline_ends_where_it_starts(self, lagoon):
