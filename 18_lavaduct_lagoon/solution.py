@@ -1,16 +1,18 @@
+import numpy as np
+
 
 DIRECTION_TO_VECTOR = {
-    "L": (0, -1),
-    "R": (0, 1),
-    "U": (-1, 0),
-    "D": (1, 0)}
+    "L": np.array((0, -1)),
+    "R": np.array((0, 1)),
+    "U": np.array((-1, 0)),
+    "D": np.array((1, 0))}
 
 
 class Instruction:
     def __init__(self, line: str):
         self.direction, self.distance, self.color = self._parse(line)
 
-    def _parse(self, line: str) -> tuple[tuple[int, int], int, str]:
+    def _parse(self, line: str) -> tuple[np.array, int, str]:
         direction, distance, color = line.split(" ")
         return DIRECTION_TO_VECTOR[direction], int(distance), color[1:-1]
 

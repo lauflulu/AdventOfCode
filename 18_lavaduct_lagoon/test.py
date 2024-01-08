@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 import solution
@@ -12,7 +13,7 @@ def lagoon():
 class TestPart1:
     def test_that_instructions_are_loaded(self):
         instructions = solution.load_data("example.txt")
-        assert instructions[0].direction == (0, 1)
+        assert np.all(instructions[0].direction == np.array((0, 1)))
         assert instructions[0].distance == 6
         assert instructions[0].color == '#70c710'
 
