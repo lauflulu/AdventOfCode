@@ -31,9 +31,10 @@ class Lagoon:
         self._grid = np.char.add(np.zeros(self.shape, dtype='U1'), '.')
 
     def get_result(self) -> int:
-        self.dig_outline()
-        self.dig_inner()
-        return self.volume()
+        perimeter = self.polygon_perimeter()
+        n_edges = len(self._instructions)
+        perimeter_area = (perimeter - n_edges) / 2 + ((3 -1) * self.convex_edges() + n_edges) / 4
+        return self.polygon_area() + int(perimeter_area)
 
     def _precalculate_grid(self):
         min_y, min_x, max_y, max_x = (0, 0, 0, 0)
@@ -114,6 +115,36 @@ class Lagoon:
             self._yx += instruction.distance * instruction.direction
             vertices.append(self._yx.copy())
         return vertices
+
+    def polygon_perimeter(self) -> int:
+        return sum([instruction.distance for instruction in self._instructions])
+
+    def polygon_area(self) -> int:
+        points = self.vertices()
+        n_points = len(points)
+        p0 = points[0]
+        area = 0
+        for i in range(n_points - 1):
+            v1 = points[i] - p0
+            v2 = points[i+1] - p0
+            cross = v1[0] * v2[1] - v1[1] * v2[0]
+            area += cross
+        return int(abs(area)/2)
+
+    def convex_edges(self):
+        left_edges = 0
+        right_edges = 0
+        rotation = 0
+        n_instructions = len(self._instructions)
+        for i in range(n_instructions):
+            direction = self._instructions[i].direction
+            previous_direction = self._instructions[i-1].direction
+            angle = self._angle(direction, previous_direction)
+            rotation += angle
+            left_edges += angle < 0
+            right_edges += angle > 0
+        return left_edges if rotation < 0 else right_edges
+
 
 def load_data(filename):
     with open(filename, "r") as file:
