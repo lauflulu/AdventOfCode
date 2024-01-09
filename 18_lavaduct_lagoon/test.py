@@ -34,7 +34,11 @@ class TestPart1:
         lagoon.dig_outline()
         assert lagoon.volume() == 38
 
-    @pytest.mark.skip
+    def test_that_the_inside_is_digged_out(self, lagoon):
+        lagoon.dig_outline()
+        lagoon.dig_inner()
+        assert lagoon.volume() == 62
+
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
         assert solution.get_result(data) == 62

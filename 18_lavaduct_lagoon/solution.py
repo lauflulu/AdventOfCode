@@ -88,6 +88,22 @@ class Lagoon:
     def _outside_bounds(self, y, x):
         return not 0 <= y < self.shape[0] or not 0 <= x < self.shape[1]
 
+    def dig_inner(self):
+        ny, nx = self.shape
+        for y in range(ny):
+            for x in range(nx):
+                if self._grid[y, x] == '.':
+                    self._update_tile_based_on_neighbors(y, x)
+        self._grid[self._grid == "I"] = "#"
+
+    def _update_tile_based_on_neighbors(self, y, x):
+        for direction in VECTOR_TO_DIRECTION:
+            _y, _x = direction
+            neighboring_tile = self._grid[y + _y, x + _x]
+            if neighboring_tile == 'I':
+                self._grid[y, x] = neighboring_tile
+                return
+
     def volume(self) -> int:
         return np.count_nonzero(self._grid == '#')
 
