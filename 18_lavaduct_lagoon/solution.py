@@ -19,6 +19,20 @@ class Instruction:
         return DIRECTION_TO_VECTOR[direction], int(distance), color[1:-1]
 
 
+class Instruction2:
+    def __init__(self, line: str):
+        self.direction = self._parse_direction(line)
+        self.distance = self._parse_distance(line)
+
+    def _parse_direction(self, line: str) -> np.array:
+        direction = int(line.split(" ")[2][-2])
+        _map = {0: "R",1: "D", 2: "L", 3: "U"}
+        return DIRECTION_TO_VECTOR[_map[direction]]
+
+    def _parse_distance(self, line):
+        distance = line.split(" ")[2][2:-2]
+        return int(distance, 16)
+
 
 class Lagoon:
     def __init__(self, instructions: list[Instruction]):
@@ -82,8 +96,10 @@ def load_data(filename):
     with open(filename, "r") as file:
         return [Instruction(line.strip()) for line in file]
 
+
 def load_data_2(filename):
-    pass
+    with open(filename, "r") as file:
+        return [Instruction2(line.strip()) for line in file]
 
 
 def get_result(instructions):
