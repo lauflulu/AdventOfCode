@@ -33,7 +33,10 @@ class Lagoon:
     def get_result(self) -> int:
         perimeter = self.polygon_perimeter()
         n_edges = len(self._instructions)
-        perimeter_area = (perimeter - n_edges) / 2 + ((3 -1) * self.convex_edges() + n_edges) / 4
+        straight_edges = perimeter - n_edges
+        convex_edges = self.convex_edges()
+        concave_edges = n_edges - convex_edges
+        perimeter_area = 1 / 2 * straight_edges  + 3 / 4 * convex_edges + 1/ 4 * concave_edges
         return self.polygon_area() + int(perimeter_area)
 
     def _precalculate_grid(self):
