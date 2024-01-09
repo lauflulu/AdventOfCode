@@ -28,7 +28,6 @@ class Lagoon:
         self.rotation = 0
         self._yx = np.array((0, 0))
         self._precalculate_grid()
-
         self._grid = np.char.add(np.zeros(self.shape, dtype='U1'), '.')
 
     def get_result(self) -> int:
@@ -108,6 +107,13 @@ class Lagoon:
     def volume(self) -> int:
         return np.count_nonzero(self._grid == '#')
 
+    def vertices(self) -> list[np.array]:
+        self._yx = np.zeros(2)
+        vertices = [np.zeros(2)]
+        for instruction in self._instructions:
+            self._yx += instruction.distance * instruction.direction
+            vertices.append(self._yx.copy())
+        return vertices
 
 def load_data(filename):
     with open(filename, "r") as file:
