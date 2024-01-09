@@ -43,8 +43,16 @@ class TestPart1:
         data = solution.load_data("example.txt")
         assert solution.get_result(data) == 62
 
-@pytest.mark.skip
+
 class TestPart2:
+    def test_that_vertices_are_found_correctly(self, lagoon):
+        assert np.all(lagoon.vertices()[0] == np.array((0, 0)))
+        assert np.all(lagoon.vertices()[1] == np.array((0, 6)))
+        assert np.all(lagoon.vertices()[2] == np.array((5, 6)))
+        assert np.all(lagoon.vertices()[3] == np.array((5, 4)))
+        assert np.all(lagoon.vertices()[-1] == np.array((0, 0)))
+
+    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
-        assert solution.get_result_2(data) == 0
+        assert solution.get_result_2(data) == 952408144115
