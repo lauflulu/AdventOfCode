@@ -2,11 +2,13 @@ import numpy as np
 
 
 DIRECTION_TO_VECTOR = {
-    "L": np.array((0, -1)),
-    "R": np.array((0, 1)),
     "U": np.array((-1, 0)),
-    "D": np.array((1, 0))}
+    "R": np.array((0, 1)),
+    "D": np.array((1, 0)),
+    "L": np.array((0, -1)),
+}
 
+VECTOR_TO_DIRECTION = {tuple(value): key for key, value in DIRECTION_TO_VECTOR.items()}
 
 class Instruction:
     def __init__(self, line: str):
@@ -56,10 +58,35 @@ class Lagoon:
 
     def dig_outline(self):
         self._yx = np.array(self.start)
-        for instruction in self._instructions:
-            for _ in range(instruction.distance):
-                self._yx += instruction.direction
+        n_instructions = len(self._instructions)
+        for i in range(n_instructions):
+            distance = self._instructions[i].distance
+            for d in range(distance):
                 self._grid[*self._yx] = "#"
+                in_direction = self._instructions[i].direction if d > 0 else self._instructions[i-1].direction
+                out_direction = self._instructions[i].direction
+                self._mark_inner(in_direction, out_direction)
+                self._yx += self._instructions[i].direction
+
+    def _mark_inner(self, in_direction, out_direction):
+        side = 'I' if self.rotation < 0 else 'O'
+        directions_clockwise = ['U', 'R', 'D', 'L']
+        start_index = directions_clockwise.index(VECTOR_TO_DIRECTION[tuple(-in_direction)])
+        for i in range(4):
+            direction = directions_clockwise[(i + start_index) % 4]
+            _yx = self._yx + DIRECTION_TO_VECTOR[direction]
+            if self._outside_bounds(*_yx):
+                continue
+
+            if direction == VECTOR_TO_DIRECTION[tuple(out_direction)]:
+                print(VECTOR_TO_DIRECTION[tuple(in_direction)], self._yx, direction, i, start_index)
+                side = 'O' if self.rotation < 0 else 'I'
+
+            if self._grid[*_yx] == '.':
+                self._grid[*_yx] = side
+
+    def _outside_bounds(self, y, x):
+        return not 0 <= y < self.shape[0] or not 0 <= x < self.shape[1]
 
     def volume(self) -> int:
         return np.count_nonzero(self._grid == '#')
