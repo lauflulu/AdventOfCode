@@ -113,8 +113,8 @@ def load_data(filename):
         return [Instruction(line.strip()) for line in file]
 
 
-def get_result(data):
-    pass
+def get_result(instructions):
+    return Lagoon(instructions).get_result()
 
 
 def get_result_2(data):
