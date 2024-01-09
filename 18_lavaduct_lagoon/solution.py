@@ -79,7 +79,6 @@ class Lagoon:
                 continue
 
             if direction == VECTOR_TO_DIRECTION[tuple(out_direction)]:
-                print(VECTOR_TO_DIRECTION[tuple(in_direction)], self._yx, direction, i, start_index)
                 side = 'O' if self.rotation < 0 else 'I'
 
             if self._grid[*_yx] == '.':
@@ -98,8 +97,10 @@ class Lagoon:
 
     def _update_tile_based_on_neighbors(self, y, x):
         for direction in VECTOR_TO_DIRECTION:
-            _y, _x = direction
-            neighboring_tile = self._grid[y + _y, x + _x]
+            _yx = np.array((y, x)) + np.array(direction)
+            if self._outside_bounds(*_yx):
+                continue
+            neighboring_tile = self._grid[*_yx]
             if neighboring_tile == 'I':
                 self._grid[y, x] = neighboring_tile
                 return
