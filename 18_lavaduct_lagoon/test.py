@@ -39,7 +39,6 @@ class TestPart2:
         assert np.all(instructions[0].direction == np.array((0, 1)))
         assert instructions[0].distance == 461937
 
-    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
-        data = solution.load_data("example.txt")
+        data = solution.load_data_2("example.txt")
         assert solution.get_result_2(data) == 952408144115
