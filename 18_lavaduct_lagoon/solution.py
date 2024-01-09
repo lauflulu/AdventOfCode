@@ -106,14 +106,13 @@ def get_result(instructions):
     return Lagoon(instructions).get_result()
 
 
-def get_result_2(data):
-    pass
+def get_result_2(instructions):
+    return Lagoon(instructions).get_result()
 
 
 def main():
-    data = load_data("data.txt")
-    print(get_result(data))
-    print(get_result_2(data))
+    print(get_result(load_data("data.txt")))
+    print(get_result_2(load_data_2("data.txt")))
 
 
 if __name__ == '__main__':
