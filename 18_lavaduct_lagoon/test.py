@@ -28,6 +28,10 @@ class TestPart1:
         data = solution.load_data("example.txt")
         assert solution.get_result(data) == 62
 
+    def test_that_result_is_correct(self):
+        data = solution.load_data("data.txt")
+        assert solution.get_result(data) == 36679
+
 
 class TestPart2:
 
