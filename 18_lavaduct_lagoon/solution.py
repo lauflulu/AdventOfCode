@@ -82,6 +82,9 @@ def load_data(filename):
     with open(filename, "r") as file:
         return [Instruction(line.strip()) for line in file]
 
+def load_data_2(filename):
+    pass
+
 
 def get_result(instructions):
     return Lagoon(instructions).get_result()

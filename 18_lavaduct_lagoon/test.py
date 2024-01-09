@@ -34,7 +34,10 @@ class TestPart1:
 
 
 class TestPart2:
-
+    def test_that_instructions_are_loaded(self):
+        instructions = solution.load_data_2("example.txt")
+        assert np.all(instructions[0].direction == np.array((0, 1)))
+        assert instructions[0].distance == 461937
 
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
