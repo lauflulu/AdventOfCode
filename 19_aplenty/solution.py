@@ -1,7 +1,14 @@
-class Part:
-    def __init__(self, line):
-        pass
+import re
 
+
+class Part:
+    def __init__(self, line: str):
+        self.ratings = self._parse(line)
+
+    def _parse(self, line: str):
+        xmas = re.findall(r"[0-9]+", line)
+        keys = ["x", "m", "a", "s"]
+        return {key: int(value) for key, value in zip(keys, xmas)}
 
 class Workflow:
     def __init__(self, line):
