@@ -1,3 +1,11 @@
+class Part:
+    pass
+
+
+class Workflow:
+    pass
+
+
 def load_data(filename):
     pass
 
