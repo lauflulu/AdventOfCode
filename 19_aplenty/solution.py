@@ -10,6 +10,9 @@ class Part:
         keys = ["x", "m", "a", "s"]
         return {key: int(value) for key, value in zip(keys, xmas)}
 
+    def rate(self):
+        pass
+
 
 class Rule:
     def __init__(self, rule_string):
@@ -68,18 +71,18 @@ def load_data(filename):
     return workflows, parts
 
 
-def get_result(data):
+def get_result(workflows, parts):
     pass
 
 
-def get_result_2(data):
+def get_result_2(workflows, parts):
     pass
 
 
 def main():
-    data = load_data("data.txt")
-    print(get_result(data))
-    print(get_result_2(data))
+    workflows, parts = load_data("data.txt")
+    print(get_result(workflows, parts))
+    print(get_result_2(workflows, parts))
 
 
 if __name__ == '__main__':

@@ -50,12 +50,12 @@ class TestPart1:
         (Part("{x=2127,m=1623,a=2188,s=1013}"), 6951),
     ])
     def test_given_all_workflows_a_part_is_rated_correctly(self, part, expected):
-        pass
+        assert part.rate() == expected
 
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
-        data = solution.load_data("example.txt")
-        assert solution.get_result(data) == 19114
+        workflows, parts = solution.load_data("example.txt")
+        assert solution.get_result(workflows, parts) == 19114
 
 @pytest.mark.skip
 class TestPart2:
