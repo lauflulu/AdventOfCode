@@ -26,7 +26,14 @@ class Rule:
         return (category, operator, number), return_
 
     def evaluate(self, part: Part) -> str:
-        pass
+        category, operator, number  = self._condition
+        if operator == ">":
+            if part.ratings[category] > number:
+                return self._return
+        if operator == "<":
+            if part.ratings[category] < number:
+                return self._return
+        return ""
 
 
 class Workflow:
