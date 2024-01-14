@@ -52,7 +52,6 @@ class TestPart1:
         workflows, _ = solution.load_data("example.txt")
         assert part.rate(workflows) == expected
 
-    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         workflows, parts = solution.load_data("example.txt")
         assert solution.get_result(workflows, parts) == 19114
