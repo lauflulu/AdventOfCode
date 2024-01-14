@@ -1,7 +1,7 @@
 import pytest
 
 import solution
-from solution import Rule, Part
+from solution import Rule, Part, Workflow
 
 
 class TestPart1:
@@ -32,6 +32,25 @@ class TestPart1:
     def test_given_a_part_a_rule_is_evaluated_correctly(self, rule, part, expected):
         assert rule.evaluate(part) == expected
 
+    @pytest.mark.parametrize("workflow, part, expected", [
+        (Workflow("in{s<1351:px,qqz}"), Part("{x=787,m=2655,a=1222,s=2876}"), "qzz"),
+        (Workflow("qqz{s>2770:qs,m<1801:hdj,R}"), Part("{x=787,m=2655,a=1222,s=2876}"), "qs"),
+        (Workflow("qs{s>3448:A,lnx}"), Part("{x=787,m=2655,a=1222,s=2876}"), "lnx"),
+        (Workflow("lnx{m>1548:A,A}"), Part("{x=787,m=2655,a=1222,s=2876}"), "A"),
+    ])
+    def test_given_a_part_a_workflow_is_evaluated_correctly(self, workflow, part, expected):
+        assert workflow.evaluate(part) == expected
+
+    @pytest.mark.skip
+    @pytest.mark.parametrize("part, expected", [
+        (Part("{x=787,m=2655,a=1222,s=2876}"), 7540),
+        (Part("{x=1679,m=44,a=2067,s=496}"), 0),
+        (Part("{x=2036,m=264,a=79,s=2244}"), 4623),
+        (Part("{x=2461,m=1339,a=466,s=291}"), 0),
+        (Part("{x=2127,m=1623,a=2188,s=1013}"), 6951),
+    ])
+    def test_given_all_workflows_a_part_is_rated_correctly(self, part, expected):
+        pass
 
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
