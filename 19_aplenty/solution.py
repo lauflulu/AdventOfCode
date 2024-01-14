@@ -73,11 +73,13 @@ def load_data(filename):
                 workflows[name] = Workflow(rules[:-1])
             else:
                 parts.append(Part(line[1:-1]))
+    for part in parts:
+        print(part.ratings)
     return workflows, parts
 
 
 def get_result(workflows, parts):
-    pass
+    return sum([part.rate(workflows) for part in parts])
 
 
 def get_result_2(workflows, parts):
