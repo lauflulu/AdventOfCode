@@ -41,7 +41,6 @@ class TestPart1:
     def test_given_a_part_a_workflow_is_evaluated_correctly(self, workflow, part, expected):
         assert workflow.evaluate(part) == expected
 
-    @pytest.mark.skip
     @pytest.mark.parametrize("part, expected", [
         (Part("{x=787,m=2655,a=1222,s=2876}"), 7540),
         (Part("{x=1679,m=44,a=2067,s=496}"), 0),
@@ -50,7 +49,8 @@ class TestPart1:
         (Part("{x=2127,m=1623,a=2188,s=1013}"), 6951),
     ])
     def test_given_all_workflows_a_part_is_rated_correctly(self, part, expected):
-        assert part.rate() == expected
+        workflows, _ = solution.load_data("example.txt")
+        assert part.rate(workflows) == expected
 
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
