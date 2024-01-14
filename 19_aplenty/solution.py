@@ -82,14 +82,14 @@ def get_result(workflows, parts):
     return sum([part.rate(workflows) for part in parts])
 
 
-def get_result_2(workflows, parts):
+def get_result_2(workflows):
     pass
 
 
 def main():
     workflows, parts = load_data("data.txt")
     print(get_result(workflows, parts))
-    print(get_result_2(workflows, parts))
+    print(get_result_2(workflows))
 
 
 if __name__ == '__main__':
