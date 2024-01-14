@@ -45,7 +45,10 @@ class Workflow:
         return [Rule(rule) for rule in rule_strings]
 
     def evaluate(self, part: Part) -> str:
-        pass
+        for rule in self.rules:
+            result = rule.evaluate(part)
+            if rule.evaluate(part) != "":
+                return result
 
 
 def load_data(filename):
