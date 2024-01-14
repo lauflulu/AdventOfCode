@@ -66,12 +66,12 @@ def load_data(filename):
     with open(filename, "r") as file:
         for line in file:
             if line == "\n":
+                line = file.readline()
                 workflows_read = True
             if not workflows_read:
                 name, rules = line.strip().split("{")
                 workflows[name] = Workflow(rules[:-1])
             else:
-                line = file.readline()
                 parts.append(Part(line[1:-1]))
     return workflows, parts
 
