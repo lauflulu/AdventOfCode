@@ -27,7 +27,7 @@ class PartRange:
     def combinations(self):
         product = 1
         for x in self.xmas.values():
-            product *= (x[1] - x[0])
+            product *= (x[1] - x[0] + 1)
         return product
 
 
@@ -109,6 +109,7 @@ class RangeAnalyzer:
         n_combinations = 0
         while self._part_range_queue:
             part_range = self._part_range_queue.pop(-1)
+            print(part_range.workflow_id, part_range.xmas)
             new_ranges = self._workflows[part_range.workflow_id].split(part_range)
             for new_range in new_ranges:
                 if new_range.workflow_id == "R":
@@ -134,8 +135,6 @@ def load_data(filename):
                 workflows[name] = Workflow(rules[:-1])
             else:
                 parts.append(Part(line[1:-1]))
-    for part in parts:
-        print(part.ratings)
     return workflows, parts
 
 
