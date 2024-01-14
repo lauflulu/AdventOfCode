@@ -25,6 +25,9 @@ class Rule:
         number = int(condition[2:])
         return (category, operator, number), return_
 
+    def evaluate(self, part: Part) -> str:
+        pass
+
 
 class Workflow:
     def __init__(self, line):

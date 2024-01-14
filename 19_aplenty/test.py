@@ -1,6 +1,7 @@
 import pytest
 
 import solution
+from solution import Rule, Part
 
 
 class TestPart1:
@@ -22,6 +23,15 @@ class TestPart1:
         assert workflows["in"].rules[0]._return == "px"
         assert workflows["in"].rules[1]._condition == ('x', '>', -1)
         assert workflows["in"].rules[1]._return == "qqz"
+
+    @pytest.mark.parametrize("rule, part, expected", [
+        (Rule("s>2770:qs"), Part("{x=787,m=2655,a=1222,s=2876}"), "qs"),
+        (Rule("s<2770:qs"), Part("{x=787,m=2655,a=1222,s=2876}"), ""),
+        (Rule("A"), Part("{x=787,m=2655,a=1222,s=2876}"), "A")
+    ])
+    def test_given_a_part_a_rule_is_evaluated_correctly(self, rule, part, expected):
+        assert rule.evaluate(part) == expected
+
 
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
