@@ -57,7 +57,10 @@ class Rule:
 
     def split(self, part_range: PartRange) -> tuple[PartRange, PartRange]:
         category, operator, number  = self._condition
-        if operator == ">":
+        if number == -1:
+            accepted_range = PartRange(self._return, part_range.xmas)
+            rejected_range = PartRange("", {"x": (0, 0), "m": (0, 0),"a": (0, 0),"s": (0, 0)})
+        elif operator == ">":
             xmas = part_range.xmas.copy()
             xmas[category] = (number + 1, xmas[category][1])
             accepted_range = PartRange(self._return, xmas)
