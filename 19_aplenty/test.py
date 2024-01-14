@@ -1,7 +1,7 @@
 import pytest
 
 import solution
-from solution import Rule, Part, Workflow
+from solution import Rule, Part, Workflow, PartRange
 
 
 class TestPart1:
@@ -58,8 +58,22 @@ class TestPart1:
         workflows, parts = solution.load_data("example.txt")
         assert solution.get_result(workflows, parts) == 19114
 
-@pytest.mark.skip
 class TestPart2:
+    @pytest.mark.parametrize("rule, expected", [
+        (Rule("s>2770:qs"), ((2771, 4000), (1, 2770), "qs")),
+        (Rule("s<2770:A"),  ((1, 2769), (2770, 4000), "A")),
+        #(Rule("A"),  "A")
+    ])
+    def test_that_rule_splits_part_range(self, rule, expected):
+        part_range = PartRange("in", {"x": (1, 4000), "m": (1, 4000), "a": (1, 4000), "s": (1, 4000)})
+        print(rule.split(part_range)[0].xmas, rule.split(part_range)[1].xmas)
+        accepted_range, rejected_range = rule.split(part_range)
+        assert accepted_range.xmas["s"] == expected[0]
+        assert rejected_range.xmas["s"] == expected[1]
+        assert accepted_range.workflow_id == expected[2]
+
+
+    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         workflows, _ = solution.load_data("example.txt")
         assert solution.get_result_2(workflows) == 167409079868000
