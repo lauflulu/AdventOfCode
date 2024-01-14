@@ -33,10 +33,10 @@ class TestPart1:
         assert rule.evaluate(part) == expected
 
     @pytest.mark.parametrize("workflow, part, expected", [
-        (Workflow("in{s<1351:px,qqz}"), Part("{x=787,m=2655,a=1222,s=2876}"), "qzz"),
-        (Workflow("qqz{s>2770:qs,m<1801:hdj,R}"), Part("{x=787,m=2655,a=1222,s=2876}"), "qs"),
-        (Workflow("qs{s>3448:A,lnx}"), Part("{x=787,m=2655,a=1222,s=2876}"), "lnx"),
-        (Workflow("lnx{m>1548:A,A}"), Part("{x=787,m=2655,a=1222,s=2876}"), "A"),
+        (Workflow("s<1351:px,qqz"), Part("{x=787,m=2655,a=1222,s=2876}"), "qqz"),
+        (Workflow("s>2770:qs,m<1801:hdj,R"), Part("{x=787,m=2655,a=1222,s=2876}"), "qs"),
+        (Workflow("s>3448:A,lnx"), Part("{x=787,m=2655,a=1222,s=2876}"), "lnx"),
+        (Workflow("m>1548:A,A"), Part("{x=787,m=2655,a=1222,s=2876}"), "A"),
     ])
     def test_given_a_part_a_workflow_is_evaluated_correctly(self, workflow, part, expected):
         assert workflow.evaluate(part) == expected

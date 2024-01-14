@@ -44,7 +44,7 @@ class Workflow:
         rule_strings = line.split(",")
         return [Rule(rule) for rule in rule_strings]
 
-    def evaluate(self, par: Part) -> str:
+    def evaluate(self, part: Part) -> str:
         pass
 
 
