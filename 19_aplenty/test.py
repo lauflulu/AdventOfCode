@@ -8,6 +8,7 @@ class TestPart1:
     def test_that_loaded_data_contains_list_of_parts(self):
         _, parts = solution.load_data("example.txt")
         assert isinstance(parts[0], solution.Part)
+        assert len(parts) == 5
 
     def test_that_parts_are_loaded_with_correct_ratings(self):
         _, parts = solution.load_data("example.txt")
@@ -16,6 +17,7 @@ class TestPart1:
     def test_that_loaded_data_contains_dict_of_workflows(self):
         workflows, _ = solution.load_data("example.txt")
         assert isinstance(workflows["in"], solution.Workflow)
+        assert len(workflows.keys()) == 11
 
     def test_that_workflows_are_loaded_with_correct_rules(self):
         workflows, _ = solution.load_data("example.txt")
