@@ -62,7 +62,7 @@ class TestPart2:
     @pytest.mark.parametrize("rule, expected", [
         (Rule("s>2770:qs"), ((2771, 4000), (1, 2770), "qs")),
         (Rule("s<2770:A"),  ((1, 2769), (2770, 4000), "A")),
-        #(Rule("A"),  "A")
+        (Rule("A"),  ((1, 4000), (0, 0), "A"))
     ])
     def test_that_rule_splits_part_range(self, rule, expected):
         part_range = PartRange("in", {"x": (1, 4000), "m": (1, 4000), "a": (1, 4000), "s": (1, 4000)})
