@@ -10,8 +10,13 @@ class Part:
         keys = ["x", "m", "a", "s"]
         return {key: int(value) for key, value in zip(keys, xmas)}
 
-    def rate(self):
-        pass
+    def rate(self, workflows):
+        result = "in"
+        while not result in ["A", "R"]:
+            result = workflows[result].evaluate(self)
+        if result == "R":
+            return 0
+        return sum(self.ratings.values())
 
 
 class Rule:
