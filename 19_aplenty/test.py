@@ -66,14 +66,12 @@ class TestPart2:
     ])
     def test_that_rule_splits_part_range(self, rule, expected):
         part_range = PartRange("in", {"x": (1, 4000), "m": (1, 4000), "a": (1, 4000), "s": (1, 4000)})
-        print(rule.split(part_range)[0].xmas, rule.split(part_range)[1].xmas)
         accepted_range, rejected_range = rule.split(part_range)
         assert accepted_range.xmas["s"] == expected[0]
         assert rejected_range.xmas["s"] == expected[1]
         assert accepted_range.workflow_id == expected[2]
 
 
-    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         workflows, _ = solution.load_data("example.txt")
         assert solution.get_result_2(workflows) == 167409079868000
