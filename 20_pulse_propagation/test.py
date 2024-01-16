@@ -7,9 +7,9 @@ from solution import Module, FlipFlopModule, BroadcasterModule, ConjunctionModul
 class TestPart1:
     def test_that_data_is_loaded_as_a_dict_of_modules(self):
         modules = solution.load_data("example.txt")
-        assert isinstance(modules["vh"], Module)
-        assert isinstance(modules["vh"], FlipFlopModule)
-        assert isinstance(modules["pb"], ConjunctionModule)
+        assert isinstance(modules["a"], Module)
+        assert isinstance(modules["a"], FlipFlopModule)
+        assert isinstance(modules["inv"], ConjunctionModule)
         assert isinstance(modules["broadcaster"], BroadcasterModule)
 
     @pytest.mark.skip
