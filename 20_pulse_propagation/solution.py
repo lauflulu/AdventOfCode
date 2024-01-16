@@ -42,7 +42,18 @@ class BroadcasterModule(Module):
 
 
 def load_data(filename):
-    pass
+    modules = {}
+    with open(filename, "r") as file:
+        for line in file:
+            description, destinations = line.split(" -> ")
+            destinations = [destination.strip() for destination in destinations.split(",")]
+            if description == "broadcaster":
+                modules[description] = BroadcasterModule(destinations)
+            elif description[0] == "%":
+                modules[description[1:]] = FlipFlopModule(destinations)
+            elif description[0] == "&":
+                modules[description[1:]] = ConjunctionModule(destinations)
+    return modules
 
 
 def get_result(data):
