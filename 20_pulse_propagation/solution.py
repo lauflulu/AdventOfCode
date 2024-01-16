@@ -48,6 +48,13 @@ class FlipFlopModule(Module):
 
 
 class ConjunctionModule(Module):
+    def __init__(self, destination_modules: list[str]):
+        super().__init__(destination_modules)
+        self.state = {}
+
+    def register_inputs(self, self_id, modules: dict):
+        super().register_inputs(self_id, modules)
+        self.state = {key: LOW for key in self.inputs}
 
     def receive(self, pulse: bool):
         pass
