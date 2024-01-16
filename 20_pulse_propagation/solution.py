@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Module(ABC):
     def __init__(self, destination_modules: list[str]):
-        self._destination_modules = destination_modules
+        self.destinations = destination_modules
 
     @abstractmethod
     def receive(self, pulse: bool):
