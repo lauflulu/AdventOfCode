@@ -52,6 +52,10 @@ class TestPart1:
         modules = solution.load_data("data.txt")
         assert modules["nl"].inputs == ["tg", "pr", "hd", "rh", "pf", "rl", "qz"]
 
+    def test_that_state_of_conjunction_modules_is_initialized_to_low(self):
+        modules = solution.load_data("data.txt")
+        assert [state is LOW for state in modules["nl"].state.values()]
+
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
