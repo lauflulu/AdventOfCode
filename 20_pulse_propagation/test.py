@@ -44,6 +44,14 @@ class TestPart1:
         modules["a"].receive(LOW)
         assert modules["a"].send() == [("b", LOW)]
 
+    def test_that_conjunction_modules_know_their_input_module(self):
+        modules = solution.load_data("example.txt")
+        assert modules["inv"].inputs == ["c"]
+
+    def test_that_conjunction_modules_know_their_input_modules(self):
+        modules = solution.load_data("data.txt")
+        assert modules["nl"].inputs == ["tg", "pr", "hd", "rh", "pf", "rl", "qz"]
+
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
