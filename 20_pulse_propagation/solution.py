@@ -16,7 +16,7 @@ class Module(ABC):
         pass
 
     @abstractmethod
-    def send(self):
+    def send(self) -> list:
         pass
 
 
@@ -24,13 +24,23 @@ class FlipFlopModule(Module):
     def __init__(self, destination_modules: list[str]):
         super().__init__(destination_modules)
         self.state = OFF
+        self._last_received = None
 
 
     def receive(self, pulse: bool):
-        pass
+        self._last_received = pulse
+        if pulse is LOW:
+            self.state = not self.state
 
-    def send(self):
-        pass
+
+    def send(self) -> list:
+        if self._last_received is HIGH:
+            return []
+        if self.state is ON:
+            out_pulse  = HIGH
+        else:
+           out_pulse = LOW
+        return [(destination, out_pulse) for destination in self.destinations]
 
 
 class ConjunctionModule(Module):
@@ -38,7 +48,7 @@ class ConjunctionModule(Module):
     def receive(self, pulse: bool):
         pass
 
-    def send(self):
+    def send(self) -> list:
         pass
 
 
@@ -47,7 +57,7 @@ class BroadcasterModule(Module):
     def receive(self, pulse: bool):
         pass
 
-    def send(self):
+    def send(self) -> list:
         pass
 
 
