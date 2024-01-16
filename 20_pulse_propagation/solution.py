@@ -1,6 +1,12 @@
 from abc import ABC, abstractmethod
 
 
+HIGH = True
+LOW = False
+ON = True
+OFF = False
+
+
 class Module(ABC):
     def __init__(self, destination_modules: list[str]):
         self.destinations = destination_modules
@@ -15,6 +21,10 @@ class Module(ABC):
 
 
 class FlipFlopModule(Module):
+    def __init__(self, destination_modules: list[str]):
+        super().__init__(destination_modules)
+        self.state = OFF
+
 
     def receive(self, pulse: bool):
         pass
@@ -39,6 +49,12 @@ class BroadcasterModule(Module):
 
     def send(self):
         pass
+
+
+class TheButton:
+    def __init__(self, modules):
+        self.modules = modules
+        self.pulses = []
 
 
 def load_data(filename):
