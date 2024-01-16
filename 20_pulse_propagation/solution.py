@@ -10,6 +10,12 @@ OFF = False
 class Module(ABC):
     def __init__(self, destination_modules: list[str]):
         self.destinations = destination_modules
+        self.inputs = []
+
+    def register_inputs(self, self_id, modules: dict):
+        for key, module in modules.items():
+            if self_id in module.destinations:
+                self.inputs.append(key)
 
     @abstractmethod
     def receive(self, pulse: bool):
@@ -26,12 +32,10 @@ class FlipFlopModule(Module):
         self.state = OFF
         self._last_received = None
 
-
     def receive(self, pulse: bool):
         self._last_received = pulse
         if pulse is LOW:
             self.state = not self.state
-
 
     def send(self) -> list:
         if self._last_received is HIGH:
@@ -79,6 +83,8 @@ def load_data(filename):
                 modules[description[1:]] = FlipFlopModule(destinations)
             elif description[0] == "&":
                 modules[description[1:]] = ConjunctionModule(destinations)
+    for key, module in modules.items():
+        module.register_inputs(key, modules)
     return modules
 
 
