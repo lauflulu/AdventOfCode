@@ -5,7 +5,13 @@ from solution import Module, FlipFlopModule, BroadcasterModule, ConjunctionModul
 from solution import HIGH, LOW, ON, OFF, Pulse
 
 
-class TestPart1:
+def is_pulse(pulse_1: Pulse, pulse_2: Pulse):
+    return (pulse_1.sender_id == pulse_2.sender_id
+            and pulse_1.level == pulse_2.level
+            and pulse_1.receiver_id == pulse_2.receiver_id)
+
+
+class TestLoadData:
     def test_that_data_is_loaded_as_a_dict_of_modules(self):
         modules = solution.load_data("example.txt")
         assert isinstance(modules["a"], Module)
@@ -18,6 +24,8 @@ class TestPart1:
         assert modules["a"].destinations == ["b"]
         assert modules["broadcaster"].destinations == ["a", "b", "c"]
 
+
+class TestFlipFlopModule:
     def test_that_flip_flop_does_nothing_when_receiving_high_pulse(self):
         modules = solution.load_data("example.txt")
         assert modules["a"].state is OFF
@@ -36,19 +44,15 @@ class TestPart1:
     def test_that_flip_flop_sends_high_pulse_when_off_and_receiving_low_pulse(self):
         modules = solution.load_data("example.txt")
         modules["a"].receive(Pulse("broadcaster", LOW, "a"))
-        assert self.is_pulse(modules["a"].send()[0], Pulse("a", HIGH, "b"))
-
-    def is_pulse(self, pulse_1: Pulse, pulse_2: Pulse):
-        return (pulse_1.sender_id == pulse_2.sender_id
-                and pulse_1.level == pulse_2.level
-                and pulse_1.receiver_id == pulse_2.receiver_id)
+        assert is_pulse(modules["a"].send()[0], Pulse("a", HIGH, "b"))
 
     def test_that_flip_flop_sends_low_pulse_when_on_and_receiving_low_pulse(self):
         modules = solution.load_data("example.txt")
         modules["a"].state = ON
         modules["a"].receive(Pulse("broadcaster", LOW, "a"))
-        assert self.is_pulse(modules["a"].send()[0], Pulse("a", LOW, "b"))
+        assert is_pulse(modules["a"].send()[0], Pulse("a", LOW, "b"))
 
+class TestConjunctionModule:
     def test_that_conjunction_modules_know_their_input_module(self):
         modules = solution.load_data("example.txt")
         assert modules["inv"].inputs == ["c"]
@@ -81,6 +85,7 @@ class TestPart1:
         out_pulses = module.send()
         assert [out_pulse.level is HIGH for out_pulse in out_pulses]
 
+class TestPart1:
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
