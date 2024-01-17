@@ -7,6 +7,12 @@ ON = True
 OFF = False
 
 
+class Pulse:
+    def __init__(self, sender_id, level, receiver_id):
+        self.sender_id = sender_id
+        self.level = level
+        self.receiver_id = receiver_id
+
 class Module(ABC):
     def __init__(self, destination_modules: list[str]):
         self.destinations = destination_modules

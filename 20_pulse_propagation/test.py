@@ -2,7 +2,7 @@ import pytest
 
 import solution
 from solution import Module, FlipFlopModule, BroadcasterModule, ConjunctionModule
-from solution import HIGH, LOW, ON, OFF
+from solution import HIGH, LOW, ON, OFF, Pulse
 
 
 class TestPart1:
@@ -55,6 +55,11 @@ class TestPart1:
     def test_that_state_of_conjunction_modules_is_initialized_to_low(self):
         modules = solution.load_data("data.txt")
         assert [state is LOW for state in modules["nl"].state.values()]
+
+    def test_that_conjunction_modules_remember_last_received_pulse_for_each_input(self):
+        modules = solution.load_data("example.txt")
+        modules["inv"].receive(Pulse("c", HIGH, "inv"))
+        assert modules["inv"].state["c"] == HIGH
 
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
