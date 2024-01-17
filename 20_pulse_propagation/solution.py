@@ -94,7 +94,7 @@ class TheButton:
     def push(self, n=1):
         for _ in range(n):
             self.pulses = [Pulse("button", LOW, "broadcaster")]
-            print()
+            # print()
             self.process_pulses()
 
     def process_pulses(self):
@@ -131,8 +131,10 @@ def load_data(filename):
     return modules
 
 
-def get_result(data):
-    pass
+def get_result(modules):
+    button = TheButton(modules)
+    button.push(1000)
+    return button.low_count * button.high_count
 
 
 def get_result_2(data):
@@ -140,9 +142,9 @@ def get_result_2(data):
 
 
 def main():
-    data = load_data("data.txt")
-    print(get_result(data))
-    print(get_result_2(data))
+    modules = load_data("data.txt")
+    print(get_result(modules))
+    print(get_result_2(modules))
 
 
 if __name__ == '__main__':
