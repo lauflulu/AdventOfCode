@@ -67,7 +67,9 @@ class ConjunctionModule(Module):
         self.state[pulse.sender_id] = pulse.level
 
     def send(self) -> list:
-        pass
+        if [level is HIGH for level in self.state.keys()]:
+            return [Pulse("y", HIGH, destination) for destination in self.destinations]
+        return [Pulse("y", LOW, destination) for destination in self.destinations]
 
 
 class BroadcasterModule(Module):
