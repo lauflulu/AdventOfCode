@@ -91,21 +91,27 @@ class TheButton:
         self.modules = modules
         self.pulses: list[Pulse] = []
 
-    def push(self):
-        self.pulses = [Pulse("button", LOW, "broadcaster")]
-        self.process_pulses()
+    def push(self, n=1):
+        for _ in range(n):
+            self.pulses = [Pulse("button", LOW, "broadcaster")]
+            print()
+            self.process_pulses()
 
     def process_pulses(self):
         while self.pulses:
             pulse = self.pulses.pop(0)
-            print(pulse.sender_id, pulse.level, pulse.receiver_id)
-            self.modules[pulse.receiver_id].receive(pulse)
-            for p in self.modules[pulse.receiver_id].send():
-                self.pulses.append(p)
+
             if pulse.level == LOW:
                 self.low_count += 1
             if pulse.level == HIGH:
                 self.high_count += 1
+
+            # print(pulse.sender_id, "-high->" if pulse.level else "-low->", pulse.receiver_id)
+            if pulse.receiver_id not in self.modules:
+                continue
+            self.modules[pulse.receiver_id].receive(pulse)
+            for p in self.modules[pulse.receiver_id].send():
+                self.pulses.append(p)
 
 
 def load_data(filename):
