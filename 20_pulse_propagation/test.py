@@ -102,6 +102,14 @@ class TestPart1:
         assert button.low_count == 8
         assert button.high_count == 4
 
+    def test_that_correct_number_of_pulses_is_sent_for_1000_button_pushes(self):
+        modules = solution.load_data("example_2.txt")
+        button = solution.TheButton(modules)
+        button.push(1000)
+        assert button.low_count == 4250
+        assert button.high_count == 2750
+
+
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
