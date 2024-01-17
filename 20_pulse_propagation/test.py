@@ -85,6 +85,15 @@ class TestConjunctionModule:
         out_pulses = module.send()
         assert [out_pulse.level is HIGH for out_pulse in out_pulses]
 
+
+class TestBroadcasterModule:
+    @pytest.mark.parametrize("level", [HIGH, LOW])
+    def test_that_broadcaster_sends_a_received_pulse_to_its_destinations(self, level):
+        module = BroadcasterModule(module_id="broadcaster", destination_modules=["a", "b", "c"])
+        module.receive(Pulse("x", level, "broadcaster"))
+        pulses = module.send()
+        assert [pulse.level == level for pulse in pulses]
+
 class TestPart1:
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
