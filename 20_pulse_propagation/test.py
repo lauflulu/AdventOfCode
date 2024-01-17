@@ -95,6 +95,13 @@ class TestBroadcasterModule:
         assert [pulse.level == level for pulse in pulses]
 
 class TestPart1:
+    def test_that_correct_number_of_pulses_is_sent_for_a_single_button_push_for_example(self):
+        modules = solution.load_data("example.txt")
+        button = solution.TheButton(modules)
+        button.push()
+        assert button.low_count == 8
+        assert button.high_count == 4
+
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
