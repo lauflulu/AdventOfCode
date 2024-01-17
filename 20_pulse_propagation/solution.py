@@ -13,6 +13,7 @@ class Pulse:
         self.level = level
         self.receiver_id = receiver_id
 
+
 class Module(ABC):
     def __init__(self, destination_modules: list[str]):
         self.destinations = destination_modules
@@ -24,7 +25,7 @@ class Module(ABC):
                 self.inputs.append(key)
 
     @abstractmethod
-    def receive(self, pulse: bool):
+    def receive(self, pulse: Pulse):
         pass
 
     @abstractmethod
@@ -38,9 +39,9 @@ class FlipFlopModule(Module):
         self.state = OFF
         self._last_received = None
 
-    def receive(self, pulse: bool):
-        self._last_received = pulse
-        if pulse is LOW:
+    def receive(self, pulse: Pulse):
+        self._last_received = pulse.level
+        if pulse.level is LOW:
             self.state = not self.state
 
     def send(self) -> list:
@@ -62,7 +63,7 @@ class ConjunctionModule(Module):
         super().register_inputs(self_id, modules)
         self.state = {key: LOW for key in self.inputs}
 
-    def receive(self, pulse: bool):
+    def receive(self, pulse: Pulse):
         pass
 
     def send(self) -> list:
@@ -71,7 +72,7 @@ class ConjunctionModule(Module):
 
 class BroadcasterModule(Module):
 
-    def receive(self, pulse: bool):
+    def receive(self, pulse: Pulse):
         pass
 
     def send(self) -> list:
@@ -81,7 +82,7 @@ class BroadcasterModule(Module):
 class TheButton:
     def __init__(self, modules):
         self.modules = modules
-        self.pulses = []
+        self.pulses: list[Pulse] = []
 
 
 def load_data(filename):
