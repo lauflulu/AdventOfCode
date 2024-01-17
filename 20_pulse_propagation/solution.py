@@ -49,10 +49,9 @@ class FlipFlopModule(Module):
         if self._last_received is HIGH:
             return []
         if self.state is ON:
-            out_pulse  = HIGH
-        else:
-           out_pulse = LOW
-        return [Pulse(self.id, out_pulse, destination) for destination in self.destinations]
+            return [Pulse(self.id, HIGH, destination) for destination in self.destinations]
+        return [Pulse(self.id, LOW, destination) for destination in self.destinations]
+
 
 
 class ConjunctionModule(Module):
