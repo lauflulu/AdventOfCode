@@ -86,8 +86,26 @@ class BroadcasterModule(Module):
 
 class TheButton:
     def __init__(self, modules):
+        self.low_count = 0
+        self.high_count = 0
         self.modules = modules
         self.pulses: list[Pulse] = []
+
+    def push(self):
+        self.pulses = [Pulse("button", LOW, "broadcaster")]
+        self.process_pulses()
+
+    def process_pulses(self):
+        while self.pulses:
+            pulse = self.pulses.pop(0)
+            print(pulse.sender_id, pulse.level, pulse.receiver_id)
+            self.modules[pulse.receiver_id].receive(pulse)
+            for p in self.modules[pulse.receiver_id].send():
+                self.pulses.append(p)
+            if pulse.level == LOW:
+                self.low_count += 1
+            if pulse.level == HIGH:
+                self.high_count += 1
 
 
 def load_data(filename):
