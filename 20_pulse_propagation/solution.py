@@ -15,7 +15,8 @@ class Pulse:
 
 
 class Module(ABC):
-    def __init__(self, destination_modules: list[str]):
+    def __init__(self, module_id, destination_modules: list[str]):
+        self.id = module_id
         self.destinations = destination_modules
         self.inputs = []
 
@@ -34,8 +35,8 @@ class Module(ABC):
 
 
 class FlipFlopModule(Module):
-    def __init__(self, destination_modules: list[str]):
-        super().__init__(destination_modules)
+    def __init__(self, module_id, destination_modules: list[str]):
+        super().__init__(module_id, destination_modules)
         self.state = OFF
         self._last_received = None
 
@@ -51,12 +52,12 @@ class FlipFlopModule(Module):
             out_pulse  = HIGH
         else:
            out_pulse = LOW
-        return [(destination, out_pulse) for destination in self.destinations]
+        return [Pulse(self.id, out_pulse, destination) for destination in self.destinations]
 
 
 class ConjunctionModule(Module):
-    def __init__(self, destination_modules: list[str]):
-        super().__init__(destination_modules)
+    def __init__(self, module_id, destination_modules: list[str]):
+        super().__init__(module_id, destination_modules)
         self.state = {}
 
     def register_inputs(self, self_id, modules: dict):
@@ -69,7 +70,7 @@ class ConjunctionModule(Module):
     def send(self) -> list:
         if [level is HIGH for level in self.state.keys()]:
             return [Pulse("y", HIGH, destination) for destination in self.destinations]
-        return [Pulse("y", LOW, destination) for destination in self.destinations]
+        return [Pulse(self.id, LOW, destination) for destination in self.destinations]
 
 
 class BroadcasterModule(Module):
@@ -94,11 +95,11 @@ def load_data(filename):
             description, destinations = line.split(" -> ")
             destinations = [destination.strip() for destination in destinations.split(",")]
             if description == "broadcaster":
-                modules[description] = BroadcasterModule(destinations)
+                modules[description] = BroadcasterModule(description, destinations)
             elif description[0] == "%":
-                modules[description[1:]] = FlipFlopModule(destinations)
+                modules[description[1:]] = FlipFlopModule(description[1:], destinations)
             elif description[0] == "&":
-                modules[description[1:]] = ConjunctionModule(destinations)
+                modules[description[1:]] = ConjunctionModule(description[1:], destinations)
     for key, module in modules.items():
         module.register_inputs(key, modules)
     return modules
