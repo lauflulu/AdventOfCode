@@ -70,20 +70,20 @@ class TestConjunctionModule:
         modules["inv"].receive(Pulse("c", HIGH, "inv"))
         assert modules["inv"].state["c"] == HIGH
 
-    def test_that_conjunction_modules_sends_high_pulse_if_all_inputs_are_high(self):
+    def test_that_conjunction_modules_sends_low_pulse_if_all_inputs_are_high(self):
         module = ConjunctionModule(module_id="x", destination_modules=["a", "b"])
         module.inputs = ["c", "d"]
         module.state = {key: HIGH for key in module.inputs}
         out_pulses = module.send()
-        assert [out_pulse.level is HIGH for out_pulse in out_pulses]
+        assert all([out_pulse.level is LOW for out_pulse in out_pulses])
 
-    def test_that_conjunction_module_sends_low_pulse_if_at_least_one_input_is_low(self):
+    def test_that_conjunction_module_sends_high_pulse_if_at_least_one_input_is_low(self):
         module = ConjunctionModule(module_id="x", destination_modules=["a", "b"])
         module.inputs = ["c", "d"]
         module.state = {key: HIGH for key in module.inputs}
         module.receive(Pulse("c", LOW, "x"))
         out_pulses = module.send()
-        assert [out_pulse.level is HIGH for out_pulse in out_pulses]
+        assert all([out_pulse.level is HIGH for out_pulse in out_pulses])
 
 
 class TestBroadcasterModule:
