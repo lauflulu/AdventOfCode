@@ -73,12 +73,15 @@ class ConjunctionModule(Module):
 
 
 class BroadcasterModule(Module):
+    def __init__(self, module_id, destination_modules: list[str]):
+        super().__init__(module_id, destination_modules)
+        self._last_received = None
 
     def receive(self, pulse: Pulse):
-        pass
+        self._last_received = pulse.level
 
     def send(self) -> list:
-        pass
+        return [Pulse(self.id, self._last_received, destination) for destination in self.destinations]
 
 
 class TheButton:
