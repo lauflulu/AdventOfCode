@@ -64,7 +64,7 @@ class ConjunctionModule(Module):
         self.state = {key: LOW for key in self.inputs}
 
     def receive(self, pulse: Pulse):
-        pass
+        self.state[pulse.sender_id] = pulse.level
 
     def send(self) -> list:
         pass
