@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+import numpy as np
 
 HIGH = True
 LOW = False
@@ -73,9 +74,19 @@ class ConjunctionModule(Module):
 
 
 class OutputConjunctionModule(ConjunctionModule):
+    def __init__(self, module_id, destination_modules: list[str]):
+        super().__init__(module_id, destination_modules)
+        self.high_states = {}
+
+    def register_inputs(self, self_id, modules: dict):
+        super().register_inputs(self_id, modules)
+        self.high_states = {key: [] for key in self.inputs}
+
     def receive(self, pulse: Pulse, n_push=0):
         super().receive(pulse)
-        print(n_push, ["1" if s is HIGH else "0" for key, s in self.state.items()])
+        for key, s in self.state.items():
+            if s is HIGH:
+                self.high_states[key].append(n_push)
 
 
 class BroadcasterModule(Module):
@@ -147,7 +158,8 @@ def get_result(modules):
 
 def get_result_2(modules):
     button = TheButton(modules)
-    button.push(3000)
+    button.push(20000)
+    print([np.diff(value) for value in modules["ns"].high_states.values()])
 
 
 def main():
