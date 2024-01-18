@@ -26,7 +26,7 @@ class Module(ABC):
                 self.inputs.append(key)
 
     @abstractmethod
-    def receive(self, pulse: Pulse):
+    def receive(self, pulse: Pulse, n_push=0):
         pass
 
     @abstractmethod
@@ -40,7 +40,7 @@ class FlipFlopModule(Module):
         self.state = OFF
         self._last_received = None
 
-    def receive(self, pulse: Pulse):
+    def receive(self, pulse: Pulse, n_push=0):
         self._last_received = pulse.level
         if pulse.level is LOW:
             self.state = not self.state
@@ -63,7 +63,7 @@ class ConjunctionModule(Module):
         super().register_inputs(self_id, modules)
         self.state = {key: LOW for key in self.inputs}
 
-    def receive(self, pulse: Pulse):
+    def receive(self, pulse: Pulse, n_push=0):
         self.state[pulse.sender_id] = pulse.level
 
     def send(self) -> list:
@@ -73,9 +73,9 @@ class ConjunctionModule(Module):
 
 
 class OutputConjunctionModule(ConjunctionModule):
-    def receive(self, pulse: Pulse):
+    def receive(self, pulse: Pulse, n_push=0):
         super().receive(pulse)
-        print(["1" if s is HIGH else "0" for key, s in self.state.items()])
+        print(n_push, ["1" if s is HIGH else "0" for key, s in self.state.items()])
 
 
 class BroadcasterModule(Module):
@@ -83,7 +83,7 @@ class BroadcasterModule(Module):
         super().__init__(module_id, destination_modules)
         self._last_received = None
 
-    def receive(self, pulse: Pulse):
+    def receive(self, pulse: Pulse, n_push=0):
         self._last_received = pulse.level
 
     def send(self) -> list:
@@ -91,19 +91,19 @@ class BroadcasterModule(Module):
 
 
 class TheButton:
-    def __init__(self, modules):
+    def __init__(self, modules: dict[str, Module]):
         self.low_count = 0
         self.high_count = 0
         self.modules = modules
         self.pulses: list[Pulse] = []
 
     def push(self, n=1):
-        for _ in range(n):
+        for i in range(n):
             self.pulses = [Pulse("button", LOW, "broadcaster")]
             # print()
-            self.process_pulses()
+            self.process_pulses(i)
 
-    def process_pulses(self):
+    def process_pulses(self, n_push: int):
         while self.pulses:
             pulse = self.pulses.pop(0)
 
@@ -115,7 +115,7 @@ class TheButton:
             # print(pulse.sender_id, "-high->" if pulse.level else "-low->", pulse.receiver_id)
             if pulse.receiver_id not in self.modules:
                 continue
-            self.modules[pulse.receiver_id].receive(pulse)
+            self.modules[pulse.receiver_id].receive(pulse, n_push)
             for p in self.modules[pulse.receiver_id].send():
                 self.pulses.append(p)
 
@@ -147,7 +147,7 @@ def get_result(modules):
 
 def get_result_2(modules):
     button = TheButton(modules)
-    button.push(10000)
+    button.push(3000)
 
 
 def main():
