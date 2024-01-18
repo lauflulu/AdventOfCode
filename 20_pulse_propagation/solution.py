@@ -72,6 +72,12 @@ class ConjunctionModule(Module):
         return [Pulse(self.id, HIGH, destination) for destination in self.destinations]
 
 
+class OutputConjunctionModule(ConjunctionModule):
+    def receive(self, pulse: Pulse):
+        super().receive(pulse)
+        print(["1" if s is HIGH else "0" for key, s in self.state.items()])
+
+
 class BroadcasterModule(Module):
     def __init__(self, module_id, destination_modules: list[str]):
         super().__init__(module_id, destination_modules)
@@ -122,6 +128,8 @@ def load_data(filename):
             destinations = [destination.strip() for destination in destinations.split(",")]
             if description == "broadcaster":
                 modules[description] = BroadcasterModule(description, destinations)
+            elif description in ("&ns", "&con"):
+                modules[description[1:]] = OutputConjunctionModule(description[1:], destinations)
             elif description[0] == "%":
                 modules[description[1:]] = FlipFlopModule(description[1:], destinations)
             elif description[0] == "&":
@@ -137,8 +145,9 @@ def get_result(modules):
     return button.low_count * button.high_count
 
 
-def get_result_2(data):
-    pass
+def get_result_2(modules):
+    button = TheButton(modules)
+    button.push(10000)
 
 
 def main():
