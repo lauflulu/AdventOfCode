@@ -15,11 +15,9 @@ class TestPart1:
         gardener.step(n_steps)
         assert gardener.number_of_reachable_tiles() == n_tiles
 
-    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         gardener = solution.load_data("example.txt")
-        gardener.step(64)
-        assert solution.get_result(gardener) == -1
+        assert solution.get_result(gardener) == 42
 
 
 @pytest.mark.skip
