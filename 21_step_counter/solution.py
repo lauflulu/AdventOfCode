@@ -57,7 +57,8 @@ def load_data(filename) -> Gardener:
 
 
 def get_result(gardener: Gardener) -> int:
-    pass
+    gardener.step(64)
+    return gardener.number_of_reachable_tiles()
 
 
 def get_result_2(gardener: Gardener) -> int:
