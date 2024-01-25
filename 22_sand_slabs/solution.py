@@ -10,9 +10,24 @@ class Block:
                 for y in range(int(xyz_1[1]), int(xyz_2[1]) + 1)
                 for z in range(int(xyz_1[2]), int(xyz_2[2]) + 1)]
 
+    def fall(self, to_z):
+        min_current_z = min([cube[2] for cube in self.cubes])
+        for cube in self.cubes:
+            cube[2] += to_z - min_current_z
+
+
 class Environment:
     def __init__(self, blocks: list[Block]):
         self.blocks = blocks
+
+    def fall(self):
+        self.sort_by_lowest_z()
+        tops_of_fallen_blocks = {}
+        for i, block in enumerate(self.blocks):
+            xys = [(cube[0], cube[1]) for cube in block.cubes]
+            highest_z_below = max([tops_of_fallen_blocks[xy] for xy in xys if xy in tops_of_fallen_blocks] or [0])
+            block.fall(highest_z_below  + 1)
+            tops_of_fallen_blocks.update({(cube[0], cube[1]): cube[2] for cube in block.cubes})
 
     def sort_by_lowest_z(self):
         self.blocks.sort(key=lambda block: block.cubes[0][2])
