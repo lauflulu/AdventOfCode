@@ -16,14 +16,14 @@ class TestPart1:
         random.shuffle(blocks)
         environment = solution.Environment(blocks)
         environment.sort_by_lowest_z()
-        assert [block.cubes[0][2] for block in blocks] == [1, 2, 3, 4, 5, 6, 8]
+        assert [block.lowest_z() for block in blocks] == [1, 2, 3, 4, 5, 6, 8]
 
     def test_that_blocks_are_sorted_by_highest_z(self):
         blocks = solution.load_data("example.txt")
         random.shuffle(blocks)
         environment = solution.Environment(blocks)
         environment.sort_by_highest_z()
-        assert [block.cubes[-1][2] for block in blocks] == [1, 2, 3, 4, 5, 6, 9]
+        assert [block.highest_z() for block in blocks] == [1, 2, 3, 4, 5, 6, 9]
 
     def test_that_bottom_block_does_not_fall_below_the_ground(self):
         blocks = solution.load_data("example.txt")
