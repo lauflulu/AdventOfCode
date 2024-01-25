@@ -46,6 +46,19 @@ class TestPart1:
         assert blocks[1].supported_by == [blocks[0]]
         assert blocks[3].supported_by == [blocks[2], blocks[1]]
 
+    def test_that_removable_blocks_are_correctly_identified(self):
+        blocks = solution.load_data("example.txt")
+        environment = solution.Environment(blocks)
+        environment.settle()
+        environment.identify_supports()
+        assert blocks[0].removable == False
+        assert blocks[1].removable == True
+        assert blocks[2].removable == True
+        assert blocks[3].removable == True
+        assert blocks[4].removable == True
+        assert blocks[5].removable == False
+        assert blocks[6].removable == True
+
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
