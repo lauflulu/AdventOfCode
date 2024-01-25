@@ -68,8 +68,13 @@ class TestPart1:
         assert solution.get_result(data) == 416
 
 
-@pytest.mark.skip
 class TestPart2:
+    def test_that_settle_returns_count_of_blocks_that_fall(self):
+        blocks = solution.load_data("example.txt")
+        environment = solution.Environment(blocks)
+        assert environment.settle() == 5
+
+    @pytest.mark.skip(reason="Not implemented")
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
-        assert solution.get_result_2(data) == 0
+        assert solution.get_result_2(data) == 7
