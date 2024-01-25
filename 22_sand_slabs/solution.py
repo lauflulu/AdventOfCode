@@ -12,10 +12,11 @@ class Block:
                 for y in range(int(xyz_1[1]), int(xyz_2[1]) + 1)
                 for z in range(int(xyz_1[2]), int(xyz_2[2]) + 1)]
 
-    def fall(self, to_z):
+    def fall(self, to_z) -> bool:
         min_current_z = min([cube[2] for cube in self.cubes])
         for cube in self.cubes:
             cube[2] += to_z - min_current_z
+        return (to_z - min_current_z) != 0
 
     def set_supports(self, blocks):
         self.supported_by = blocks
@@ -41,14 +42,16 @@ class Environment:
         self.identify_supports()
         return len([block for block in self.blocks if block.removable])
 
-    def settle(self):
+    def settle(self) -> int:
         self.sort_by_lowest_z()
         tops_of_fallen_blocks = {}
+        fallen_blocks = 0
         for block in self.blocks:
             xys = [(cube[0], cube[1]) for cube in block.cubes]
             highest_z_below = max([tops_of_fallen_blocks[xy] for xy in xys if xy in tops_of_fallen_blocks] or [0])
-            block.fall(highest_z_below  + 1)
+            fallen_blocks += block.fall(highest_z_below  + 1)
             tops_of_fallen_blocks.update({(cube[0], cube[1]): cube[2] for cube in block.cubes})
+        return fallen_blocks
 
     def identify_supports(self):
         self.sort_by_highest_z()
