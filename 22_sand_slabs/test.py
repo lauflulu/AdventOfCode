@@ -28,13 +28,13 @@ class TestPart1:
     def test_that_bottom_block_does_not_fall_below_the_ground(self):
         blocks = solution.load_data("example.txt")
         environment = solution.Environment(blocks)
-        environment.fall()
+        environment.settle()
         assert blocks[0].cubes == [[1, 0, 1], [1, 1, 1], [1, 2, 1]]
 
     def test_that_top_block_falls_to_the_top_of_the_pile(self):
         blocks = solution.load_data("example.txt")
         environment = solution.Environment(blocks)
-        environment.fall()
+        environment.settle()
         assert blocks[6].cubes == [[1, 1, 5], [1, 1, 6]]
 
     @pytest.mark.skip
