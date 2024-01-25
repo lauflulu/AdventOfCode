@@ -59,7 +59,6 @@ class TestPart1:
         assert blocks[5].removable == False
         assert blocks[6].removable == True
 
-    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
         assert solution.get_result(data) == 5
