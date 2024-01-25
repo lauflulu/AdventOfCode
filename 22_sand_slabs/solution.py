@@ -27,6 +27,11 @@ class Environment:
     def __init__(self, blocks: list[Block]):
         self.blocks = blocks
 
+    def n_removable_blocks(self):
+        self.settle()
+        self.identify_supports()
+        return len([block for block in self.blocks if block.removable])
+
     def settle(self):
         self.sort_by_lowest_z()
         tops_of_fallen_blocks = {}
@@ -62,8 +67,8 @@ def load_data(filename) -> list[Block]:
         return list(map(Block, f.readlines()))
 
 
-def get_result(data):
-    pass
+def get_result(blocks: list[Block]) -> int:
+    return Environment(blocks).n_removable_blocks()
 
 
 def get_result_2(data):
