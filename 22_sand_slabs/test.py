@@ -77,3 +77,8 @@ class TestPart2:
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
         assert solution.get_result_2(data) == 7
+
+    @pytest.mark.skip(reason="Takes too long")
+    def test_that_result_is_correct_for_data(self):
+        data = solution.load_data("data.txt")
+        assert solution.get_result_2(data) == 60963
