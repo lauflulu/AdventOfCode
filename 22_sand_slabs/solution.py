@@ -27,7 +27,7 @@ class Environment:
     def settle(self):
         self.sort_by_lowest_z()
         tops_of_fallen_blocks = {}
-        for i, block in enumerate(self.blocks):
+        for block in self.blocks:
             xys = [(cube[0], cube[1]) for cube in block.cubes]
             highest_z_below = max([tops_of_fallen_blocks[xy] for xy in xys if xy in tops_of_fallen_blocks] or [0])
             block.fall(highest_z_below  + 1)
@@ -47,12 +47,8 @@ class Environment:
                     supporting_blocks.append(block_below)
             block.set_supports(supporting_blocks)
 
-
-
-
     def sort_by_lowest_z(self):
         self.blocks.sort(key=lambda block: block.cubes[0][2])
-
 
     def sort_by_highest_z(self):
         self.blocks.sort(key=lambda block: block.cubes[-1][2])
