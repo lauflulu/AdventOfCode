@@ -22,6 +22,12 @@ class Block:
         if len(blocks) == 1:
             blocks[0].removable = False
 
+    def lowest_z(self):
+        return self.cubes[0][2]
+
+    def highest_z(self):
+        return self.cubes[-1][2]
+
 
 class Environment:
     def __init__(self, blocks: list[Block]):
@@ -47,7 +53,7 @@ class Environment:
             supporting_blocks = []
             for j in reversed(range(0, i)):
                 block_below = self.blocks[j]
-                if block_below.cubes[-1][2] < block.cubes[0][2] - 1:
+                if block_below.highest_z() < block.lowest_z() - 1:
                     break
                 xys = [(cube[0], cube[1]) for cube in block.cubes]
                 below_xys = [(cube[0], cube[1]) for cube in block_below.cubes]
@@ -56,10 +62,10 @@ class Environment:
             block.set_supports(supporting_blocks)
 
     def sort_by_lowest_z(self):
-        self.blocks.sort(key=lambda block: block.cubes[0][2])
+        self.blocks.sort(key=lambda block: block.lowest_z())
 
     def sort_by_highest_z(self):
-        self.blocks.sort(key=lambda block: block.cubes[-1][2])
+        self.blocks.sort(key=lambda block: block.highest_z())
 
 
 def load_data(filename) -> list[Block]:
