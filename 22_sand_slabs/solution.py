@@ -1,6 +1,7 @@
 class Block:
     def __init__(self, line: str):
         self.cubes = self._parse_line(line)
+        self.removable = True
         self.supported_by = []
 
     def _parse_line(self, line: str) -> list:
@@ -18,6 +19,8 @@ class Block:
 
     def set_supports(self, blocks):
         self.supported_by = blocks
+        if len(blocks) == 1:
+            blocks[0].removable = False
 
 
 class Environment:
