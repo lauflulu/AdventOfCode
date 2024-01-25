@@ -63,6 +63,10 @@ class TestPart1:
         data = solution.load_data("example.txt")
         assert solution.get_result(data) == 5
 
+    def test_that_result_is_correct_for_data(self):
+        data = solution.load_data("data.txt")
+        assert solution.get_result(data) == 416
+
 
 @pytest.mark.skip
 class TestPart2:
