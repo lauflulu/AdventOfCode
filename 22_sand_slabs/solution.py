@@ -14,6 +14,12 @@ class Environment:
     def __init__(self, blocks: list[Block]):
         self.blocks = blocks
 
+    def sort_by_lowest_z(self):
+        self.blocks.sort(key=lambda block: block.cubes[0][2])
+
+
+    def sort_by_highest_z(self):
+        self.blocks.sort(key=lambda block: block.cubes[-1][2])
 
 
 def load_data(filename) -> list[Block]:
