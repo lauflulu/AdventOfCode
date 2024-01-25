@@ -37,6 +37,15 @@ class TestPart1:
         environment.settle()
         assert blocks[6].cubes == [[1, 1, 5], [1, 1, 6]]
 
+    def test_that_supporting_blocks_are_correctly_identified(self):
+        blocks = solution.load_data("example.txt")
+        environment = solution.Environment(blocks)
+        environment.settle()
+        environment.identify_supports()
+        assert blocks[0].supported_by == []
+        assert blocks[1].supported_by == [blocks[0]]
+        assert blocks[3].supported_by == [blocks[2], blocks[1]]
+
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
