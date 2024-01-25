@@ -13,10 +13,10 @@ class Block:
                 for z in range(int(xyz_1[2]), int(xyz_2[2]) + 1)]
 
     def fall(self, to_z) -> bool:
-        min_current_z = min([cube[2] for cube in self.cubes])
+        dz = self.lowest_z() - to_z
         for cube in self.cubes:
-            cube[2] += to_z - min_current_z
-        return (to_z - min_current_z) != 0
+            cube[2] -= dz
+        return dz != 0
 
     def set_supports(self, blocks):
         self.supported_by = blocks
