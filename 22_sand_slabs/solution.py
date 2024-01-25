@@ -28,6 +28,9 @@ class Block:
     def highest_z(self):
         return self.cubes[-1][2]
 
+    def xys(self):
+        return [(cube[0], cube[1]) for cube in self.cubes]
+
 
 class Environment:
     def __init__(self, blocks: list[Block]):
@@ -55,9 +58,7 @@ class Environment:
                 block_below = self.blocks[j]
                 if block_below.highest_z() < block.lowest_z() - 1:
                     break
-                xys = [(cube[0], cube[1]) for cube in block.cubes]
-                below_xys = [(cube[0], cube[1]) for cube in block_below.cubes]
-                if any(xy in below_xys for xy in xys):
+                if any(xy in block_below.xys() for xy in (block.xys())):
                     supporting_blocks.append(block_below)
             block.set_supports(supporting_blocks)
 
