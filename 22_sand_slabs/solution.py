@@ -10,6 +10,11 @@ class Block:
                 for y in range(int(xyz_1[1]), int(xyz_2[1]) + 1)
                 for z in range(int(xyz_1[2]), int(xyz_2[2]) + 1)]
 
+class Environment:
+    def __init__(self, blocks: list[Block]):
+        self.blocks = blocks
+
+
 
 def load_data(filename) -> list[Block]:
     with open(filename) as f:
