@@ -1,3 +1,6 @@
+import copy
+
+
 class Block:
     def __init__(self, line: str):
         self.cubes = self._parse_line(line)
@@ -45,9 +48,9 @@ class Environment:
     def n_fallen_blocks(self):
         total_fallen_blocks = 0
         self.settle()
-        all_blocks = self.blocks.copy()
+        all_blocks = copy.deepcopy(self.blocks)
         for i, _ in enumerate(all_blocks):
-            self.blocks = all_blocks.copy()
+            self.blocks = copy.deepcopy(all_blocks)
             self.blocks.pop(i)
             total_fallen_blocks += self.settle()
         return total_fallen_blocks
