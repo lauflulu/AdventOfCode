@@ -1,6 +1,7 @@
 class Block:
     def __init__(self, line: str):
         self.cubes = self._parse_line(line)
+        self.supported_by = []
 
     def _parse_line(self, line: str) -> list:
         ends = line.strip().split("~")
@@ -15,6 +16,9 @@ class Block:
         for cube in self.cubes:
             cube[2] += to_z - min_current_z
 
+    def set_supports(self, blocks):
+        self.supported_by = blocks
+
 
 class Environment:
     def __init__(self, blocks: list[Block]):
@@ -28,6 +32,21 @@ class Environment:
             highest_z_below = max([tops_of_fallen_blocks[xy] for xy in xys if xy in tops_of_fallen_blocks] or [0])
             block.fall(highest_z_below  + 1)
             tops_of_fallen_blocks.update({(cube[0], cube[1]): cube[2] for cube in block.cubes})
+
+    def identify_supports(self):
+        self.sort_by_highest_z()
+        for i, block in enumerate(self.blocks):
+            supporting_blocks = []
+            for j in reversed(range(0, i)):
+                block_below = self.blocks[j]
+                if block_below.cubes[-1][2] < block.cubes[0][2] - 1:
+                    break
+                xys = [(cube[0], cube[1]) for cube in block.cubes]
+                below_xys = [(cube[0], cube[1]) for cube in block_below.cubes]
+                if any(xy in below_xys for xy in xys):
+                    supporting_blocks.append(block_below)
+            block.set_supports(supporting_blocks)
+
 
 
 
