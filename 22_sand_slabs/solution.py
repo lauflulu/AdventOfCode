@@ -44,14 +44,13 @@ class Environment:
 
     def settle(self) -> int:
         self.sort_by_lowest_z()
-        tops_of_fallen_blocks = {}
-        fallen_blocks = 0
+        tops = {}
+        fallen_block_count = 0
         for block in self.blocks:
-            xys = [(cube[0], cube[1]) for cube in block.cubes]
-            highest_z_below = max([tops_of_fallen_blocks[xy] for xy in xys if xy in tops_of_fallen_blocks] or [0])
-            fallen_blocks += block.fall(highest_z_below  + 1)
-            tops_of_fallen_blocks.update({(cube[0], cube[1]): cube[2] for cube in block.cubes})
-        return fallen_blocks
+            highest_z_below = max([tops[xy] for xy in block.xys() if xy in tops] or [0])
+            fallen_block_count += block.fall(highest_z_below  + 1)
+            tops.update({(cube[0], cube[1]): cube[2] for cube in block.cubes})
+        return fallen_block_count
 
     def identify_supports(self):
         self.sort_by_highest_z()
