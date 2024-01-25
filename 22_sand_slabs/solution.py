@@ -3,7 +3,12 @@ class Block:
         self.cubes = self._parse_line(line)
 
     def _parse_line(self, line: str) -> list:
-        pass
+        ends = line.strip().split("~")
+        xyz_1 = ends[0].split(",")
+        xyz_2 = ends[1].split(",")
+        return [[x, y, z] for x in range(int(xyz_1[0]), int(xyz_2[0]) + 1)
+                for y in range(int(xyz_1[1]), int(xyz_2[1]) + 1)
+                for z in range(int(xyz_1[2]), int(xyz_2[2]) + 1)]
 
 
 def load_data(filename) -> list[Block]:
