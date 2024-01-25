@@ -42,6 +42,16 @@ class Environment:
         self.identify_supports()
         return len([block for block in self.blocks if block.removable])
 
+    def n_fallen_blocks(self):
+        total_fallen_blocks = 0
+        self.settle()
+        all_blocks = self.blocks.copy()
+        for i, _ in enumerate(all_blocks):
+            self.blocks = all_blocks.copy()
+            self.blocks.pop(i)
+            total_fallen_blocks += self.settle()
+        return total_fallen_blocks
+
     def settle(self) -> int:
         self.sort_by_lowest_z()
         tops = {}
@@ -80,8 +90,8 @@ def get_result(blocks: list[Block]) -> int:
     return Environment(blocks).n_removable_blocks()
 
 
-def get_result_2(data):
-    pass
+def get_result_2(blocks: list[Block]) -> int:
+    return Environment(blocks).n_fallen_blocks()
 
 
 def main():
