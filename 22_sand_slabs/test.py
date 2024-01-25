@@ -74,7 +74,6 @@ class TestPart2:
         environment = solution.Environment(blocks)
         assert environment.settle() == 5
 
-    @pytest.mark.skip(reason="Not implemented")
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
         assert solution.get_result_2(data) == 7
