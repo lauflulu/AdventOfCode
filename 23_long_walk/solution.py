@@ -75,18 +75,21 @@ class Walk:
         return np.all(DIRECTIONS_TO_VECTOR[tile] == -DIRECTIONS_TO_VECTOR[direction])
 
     def longest_path(self, include_uphill=False) -> int:
-        self.explore()
+        self.explore(include_uphill)
         start = (0, 1)
         finish = (self.trail_map.shape[0]-1, self.trail_map.shape[1] - 2)
-        tips = [(start, 0)]
+        branches = [([start], 0)]
         max_distance = 0
-        while tips:
-            node, length = tips.pop(0)
+        while branches:
+            branch, length = branches.pop(0)
+            node = branch[-1]
             max_distance = max(max_distance, length)
             if node == finish:
                 continue
             for out_node, out_length in self.trail_graph[node].items():
-                tips.append((out_node, length + out_length))
+                if out_node in branch:
+                    continue
+                branches.append((branch + [out_node], length + out_length))
         return max_distance
 
 
@@ -105,7 +108,7 @@ def get_result_2(walk: Walk) -> int:
 
 def main():
     data = load_data("data.txt")
-    print(get_result(data))
+    #print(get_result(data))
     print(get_result_2(data))
 
 
