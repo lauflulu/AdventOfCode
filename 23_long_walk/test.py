@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 import solution
@@ -20,6 +21,15 @@ class TestPart1:
         walk = solution.load_data("example.txt")
         walk.explore()
         assert (5, 3) in walk.trail_graph
+
+    @pytest.mark.parametrize("yx, last_direction, expected", [
+        (np.array((1, 1)), "s", ["e"]),
+        (np.array((5, 3)), "s", ["s", "e"]),
+        (np.array((3, 4)), "w", ["w"]),
+    ])
+    def test_that_possible_directions_are_found(self, yx, last_direction, expected):
+        walk = solution.load_data("example.txt")
+        assert walk.possible_directions(yx, last_direction) == expected
 
     @pytest.mark.skip
     def test_that_first_edge_has_the_correct_weight(self):

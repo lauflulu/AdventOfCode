@@ -37,11 +37,11 @@ class Walk:
         possible_directions = [direction]
         while len(possible_directions) == 1:
             yx += DIRECTIONS_TO_VECTOR[possible_directions[0]]
-            possible_directions = self._possible_directions(yx, last_direction=possible_directions[0])
+            possible_directions = self.possible_directions(yx, last_direction=possible_directions[0])
             distance += 1
         return distance, tuple(yx), ["s", "w"]
 
-    def _possible_directions(self, yx, last_direction):
+    def possible_directions(self, yx, last_direction):
         directions = []
         for d in "nsew":
             if np.all(DIRECTIONS_TO_VECTOR[d] == - DIRECTIONS_TO_VECTOR[last_direction]):
