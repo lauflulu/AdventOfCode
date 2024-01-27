@@ -19,10 +19,10 @@ class Walk:
     def _parse(lines: list[str]) -> np.ndarray:
         return np.array([[tile for tile in line.strip()] for line in lines])
 
-    def explore(self):
+    def explore(self, include_uphill=False):
         while self._tip_queue:
             current_node, direction = self._pop_queue()
-            distance, new_node, out_directions = self._explore_from(current_node, direction)
+            distance, new_node, out_directions = self._explore_from(current_node, direction, include_uphill)
             if new_node is None:
                 continue
             self._update_graph(current_node, distance, new_node)
@@ -42,14 +42,15 @@ class Walk:
         else:
             self.trail_graph[current_node][new_node] = length
 
-    def _explore_from(self, node: tuple, direction: str) -> tuple[int, tuple[int, int] | None, list[str]]:
+    def _explore_from(self, node: tuple, direction: str, include_uphill: bool) \
+            -> tuple[int, tuple[int, int] | None, list[str]]:
         distance = 0
         yx = np.array(node)
         possible_directions = [direction]
         while len(possible_directions) == 1:
             direction = possible_directions[0]
             yx += DIRECTIONS_TO_VECTOR[direction]
-            if self._is_uphill(yx, direction):
+            if not include_uphill and self._is_uphill(yx, direction):
                 return distance, None, []
             possible_directions = self.possible_directions(yx, last_direction=direction)
             distance += 1
