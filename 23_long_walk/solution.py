@@ -21,13 +21,18 @@ class Walk:
 
     def explore(self):
         while self._tip_queue:
-            current_node, direction = self._tip_queue.pop(0)
-            print(current_node, direction)
-            length, new_node, out_directions = self._explore_from(current_node, direction)
-            self._update_graph(current_node, length, new_node)
-            for tip in out_directions:
-                if new_node not in self.trail_graph:
-                    self._tip_queue.append((new_node, tip))
+            current_node, direction = self._pop_queue()
+            distance, new_node, out_directions = self._explore_from(current_node, direction)
+            self._update_graph(current_node, distance, new_node)
+            self._append_queue(new_node, out_directions)
+
+    def _append_queue(self, new_node, out_directions):
+        for tip in out_directions:
+            if new_node not in self.trail_graph:
+                self._tip_queue.append((new_node, tip))
+
+    def _pop_queue(self):
+        return self._tip_queue.pop(0)
 
     def _update_graph(self, current_node, length, new_node):
         if current_node not in self.trail_graph:
