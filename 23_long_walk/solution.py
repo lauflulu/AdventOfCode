@@ -73,14 +73,29 @@ class Walk:
             return False
         return np.all(DIRECTIONS_TO_VECTOR[tile] == -DIRECTIONS_TO_VECTOR[direction])
 
+    def longest_path(self) -> int:
+        self.explore()
+        start = (0, 1)
+        finish = (self.trail_map.shape[0]-1, self.trail_map.shape[1] - 2)
+        tips = [(start, 0)]
+        max_distance = 0
+        while tips:
+            node, length = tips.pop(0)
+            max_distance = max(max_distance, length)
+            if node == finish:
+                continue
+            for out_node, out_length in self.trail_graph[node].items():
+                tips.append((out_node, length + out_length))
+        return max_distance
+
 
 def load_data(filename) -> Walk:
     with open(filename, "r") as f:
         return Walk(f.readlines())
 
 
-def get_result(data):
-    pass
+def get_result(walk: Walk) -> int:
+    return walk.longest_path()
 
 
 def get_result_2(data):
