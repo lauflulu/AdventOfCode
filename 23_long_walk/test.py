@@ -31,8 +31,7 @@ class TestPart1:
         walk = solution.load_data("example.txt")
         assert walk.possible_directions(yx, last_direction) == expected
 
-    @pytest.mark.skip
-    def test_that_first_edge_has_the_correct_weight(self):
+    def test_that_first_segment_has_the_correct_distance(self):
         walk = solution.load_data("example.txt")
         walk.explore()
         assert walk.trail_graph[(0, 1)][(5, 3)] == 15
