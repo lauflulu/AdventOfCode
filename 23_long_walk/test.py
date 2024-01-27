@@ -47,7 +47,6 @@ class TestPart1:
         assert (19, 13) not in walk.trail_graph[(19, 19)]
         assert (11, 21) not in walk.trail_graph[(19, 19)]
 
-    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
         assert solution.get_result(data) == 94
