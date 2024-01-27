@@ -24,13 +24,16 @@ class Walk:
             current_node, direction = self._tip_queue.pop(0)
             print(current_node, direction)
             length, new_node, out_directions = self._explore_from(current_node, direction)
-            if current_node not in self.trail_graph:
-                self.trail_graph[current_node] = {new_node: length}
-            else:
-                self.trail_graph[current_node][new_node] = length
+            self._update_graph(current_node, length, new_node)
             for tip in out_directions:
                 if new_node not in self.trail_graph:
                     self._tip_queue.append((new_node, tip))
+
+    def _update_graph(self, current_node, length, new_node):
+        if current_node not in self.trail_graph:
+            self.trail_graph[current_node] = {new_node: length}
+        else:
+            self.trail_graph[current_node][new_node] = length
 
     def _explore_from(self, node: tuple, direction: str) -> tuple[int, tuple[int, int], list[str]]:
         distance = 0
