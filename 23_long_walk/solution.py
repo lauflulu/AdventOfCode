@@ -74,7 +74,7 @@ class Walk:
             return False
         return np.all(DIRECTIONS_TO_VECTOR[tile] == -DIRECTIONS_TO_VECTOR[direction])
 
-    def longest_path(self) -> int:
+    def longest_path(self, include_uphill=False) -> int:
         self.explore()
         start = (0, 1)
         finish = (self.trail_map.shape[0]-1, self.trail_map.shape[1] - 2)
@@ -99,8 +99,8 @@ def get_result(walk: Walk) -> int:
     return walk.longest_path()
 
 
-def get_result_2(data):
-    pass
+def get_result_2(walk: Walk) -> int:
+    return walk.longest_path(include_uphill=True)
 
 
 def main():
