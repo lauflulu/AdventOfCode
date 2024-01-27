@@ -23,6 +23,8 @@ class Walk:
         while self._tip_queue:
             current_node, direction = self._pop_queue()
             distance, new_node, out_directions = self._explore_from(current_node, direction)
+            if new_node is None:
+                continue
             self._update_graph(current_node, distance, new_node)
             self._append_queue(new_node, out_directions)
 
@@ -40,13 +42,16 @@ class Walk:
         else:
             self.trail_graph[current_node][new_node] = length
 
-    def _explore_from(self, node: tuple, direction: str) -> tuple[int, tuple[int, int], list[str]]:
+    def _explore_from(self, node: tuple, direction: str) -> tuple[int, tuple[int, int] | None, list[str]]:
         distance = 0
         yx = np.array(node)
         possible_directions = [direction]
         while len(possible_directions) == 1:
-            yx += DIRECTIONS_TO_VECTOR[possible_directions[0]]
-            possible_directions = self.possible_directions(yx, last_direction=possible_directions[0])
+            direction = possible_directions[0]
+            yx += DIRECTIONS_TO_VECTOR[direction]
+            if self._is_uphill(yx, direction):
+                return distance, None, []
+            possible_directions = self.possible_directions(yx, last_direction=direction)
             distance += 1
         return distance, (int(yx[0]), int(yx[1])), possible_directions
 
@@ -61,6 +66,9 @@ class Walk:
             if self.trail_map[tuple(_yx)] in [".", "^", "v", "<", ">"]:
                 directions.append(d)
         return directions
+
+    def _is_uphill(self, yx, direction):
+        pass
 
 
 def load_data(filename) -> Walk:
