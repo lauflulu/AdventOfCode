@@ -81,7 +81,7 @@ class Walk:
         branches = [([start], 0)]
         max_distance = 0
         while branches:
-            branch, length = branches.pop(0)
+            branch, length = branches.pop(-1)
             node = branch[-1]
             max_distance = max(max_distance, length)
             if node == finish:
