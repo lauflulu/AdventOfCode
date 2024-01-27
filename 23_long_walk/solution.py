@@ -68,7 +68,10 @@ class Walk:
         return directions
 
     def _is_uphill(self, yx, direction):
-        pass
+        tile = self.trail_map[tuple(yx)]
+        if tile not in DIRECTIONS_TO_VECTOR:
+            return False
+        return np.all(DIRECTIONS_TO_VECTOR[tile] == -DIRECTIONS_TO_VECTOR[direction])
 
 
 def load_data(filename) -> Walk:
