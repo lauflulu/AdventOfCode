@@ -16,11 +16,16 @@ class TestPart1:
         walk = solution.load_data("example.txt")
         assert (0, 1) in walk.trail_graph
 
-    @pytest.mark.skip
     def test_that_intersections_are_marked_as_nodes(self):
         walk = solution.load_data("example.txt")
         walk.explore()
         assert (5, 3) in walk.trail_graph
+
+    @pytest.mark.skip
+    def test_that_first_edge_has_the_correct_weight(self):
+        walk = solution.load_data("example.txt")
+        walk.explore()
+        assert walk.trail_graph[(0, 1)][(5, 3)] == 15
 
     @pytest.mark.skip
     def test_that_finish_is_marked_as_node(self):
