@@ -2,10 +2,10 @@ import numpy as np
 
 
 DIRECTIONS_TO_VECTOR = {
-    "n": np.array((-1, 0)),
-    "s": np.array((1, 0)),
-    "e": np.array((0, 1)),
-    "w": np.array((0, -1)),
+    "^": np.array((-1, 0)),
+    "v": np.array((1, 0)),
+    ">": np.array((0, 1)),
+    "<": np.array((0, -1)),
 }
 
 
@@ -13,7 +13,7 @@ class Walk:
     def __init__(self, lines: list[str]):
         self.trail_map = self._parse(lines)
         self.trail_graph = {(0, 1): {}}
-        self._tip_queue = [((0, 1), "s")]
+        self._tip_queue = [((0, 1), "v")]
 
     @staticmethod
     def _parse(lines: list[str]) -> np.ndarray:
@@ -57,10 +57,10 @@ class Walk:
 
     def possible_directions(self, yx, last_direction):
         directions = []
-        for d in "nsew":
-            if np.all(DIRECTIONS_TO_VECTOR[d] == - DIRECTIONS_TO_VECTOR[last_direction]):
+        for d, d_yx in DIRECTIONS_TO_VECTOR.items():
+            if np.all(d_yx == - DIRECTIONS_TO_VECTOR[last_direction]):
                 continue
-            _yx = yx + np.array(DIRECTIONS_TO_VECTOR[d])
+            _yx = yx + np.array(d_yx)
             if not 0 <= _yx[0] < self.trail_map.shape[0] or not 0 <= _yx[1] < self.trail_map.shape[1]:
                 continue
             if self.trail_map[tuple(_yx)] in [".", "^", "v", "<", ">"]:

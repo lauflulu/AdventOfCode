@@ -23,9 +23,9 @@ class TestPart1:
         assert (5, 3) in walk.trail_graph
 
     @pytest.mark.parametrize("yx, last_direction, expected", [
-        (np.array((1, 1)), "s", ["e"]),
-        (np.array((5, 3)), "s", ["s", "e"]),
-        (np.array((3, 4)), "w", ["w"]),
+        (np.array((1, 1)), "v", [">"]),
+        (np.array((5, 3)), "v", ["v", ">"]),
+        (np.array((3, 4)), "<", ["<"]),
     ])
     def test_that_possible_directions_are_found(self, yx, last_direction, expected):
         walk = solution.load_data("example.txt")
