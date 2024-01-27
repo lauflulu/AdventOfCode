@@ -25,9 +25,9 @@ class Walk:
             c += 1
             print(c, self._tip_queue)
             current_node, direction = self._tip_queue.pop(0)
-            length, new_node, new_tips = self._explore_from(current_node, direction)
+            length, new_node, out_directions = self._explore_from(current_node, direction)
             self.trail_graph.update({current_node: {new_node: length}})
-            for tip in new_tips:
+            for tip in out_directions:
                 if new_node not in self.trail_graph:
                     self._tip_queue.append((new_node, tip))
 
@@ -39,7 +39,7 @@ class Walk:
             yx += DIRECTIONS_TO_VECTOR[possible_directions[0]]
             possible_directions = self.possible_directions(yx, last_direction=possible_directions[0])
             distance += 1
-        return distance, tuple(yx), ["s", "w"]
+        return distance, tuple(yx), possible_directions
 
     def possible_directions(self, yx, last_direction):
         directions = []
