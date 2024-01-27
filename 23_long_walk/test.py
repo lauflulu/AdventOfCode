@@ -36,11 +36,10 @@ class TestPart1:
         walk.explore()
         assert walk.trail_graph[(0, 1)][(5, 3)] == 15
 
-    @pytest.mark.skip
-    def test_that_finish_is_marked_as_node(self):
+    def test_that_finish_is_marked_as_out_node(self):
         walk = solution.load_data("example.txt")
         walk.explore()
-        assert (22, 21) in walk.trail_graph
+        assert any((22, 21) in out_nodes for out_nodes in walk.trail_graph.values())
 
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
