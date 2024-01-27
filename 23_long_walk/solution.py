@@ -1,8 +1,13 @@
+import numpy as np
 
 
 class Walk:
     def __init__(self, lines: list[str]):
-        self.trail_map = None
+        self.trail_map = self._parse(lines)
+
+    @staticmethod
+    def _parse(lines: list[str]) -> np.ndarray:
+        return np.array([[tile for tile in line.strip()] for line in lines])
 
 
 def load_data(filename) -> Walk:
