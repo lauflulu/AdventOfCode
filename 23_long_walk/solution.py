@@ -1,8 +1,8 @@
 
 
 class Walk:
-    pass
-
+    def __init__(self, lines: list[str]):
+        self.trail_map = None
 
 
 def load_data(filename) -> Walk:
