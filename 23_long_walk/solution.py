@@ -1,4 +1,11 @@
-def load_data(filename):
+
+
+class Walk:
+    pass
+
+
+
+def load_data(filename) -> Walk:
     pass
 
 
