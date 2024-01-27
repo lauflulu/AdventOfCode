@@ -6,7 +6,8 @@ class Walk:
 
 
 def load_data(filename) -> Walk:
-    pass
+    with open(filename, "r") as f:
+        return Walk(f.readlines())
 
 
 def get_result(data):
