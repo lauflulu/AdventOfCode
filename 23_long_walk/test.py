@@ -41,6 +41,12 @@ class TestPart1:
         walk.explore()
         assert any((22, 21) in out_nodes for out_nodes in walk.trail_graph.values())
 
+    def test_that_uphill_segments_are_not_explored(self):
+        walk = solution.load_data("example.txt")
+        walk.explore()
+        assert (19, 13) not in walk.trail_graph[(19, 19)]
+        assert (11, 21) not in walk.trail_graph[(19, 19)]
+
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
