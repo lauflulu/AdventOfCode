@@ -20,10 +20,7 @@ class Walk:
         return np.array([[tile for tile in line.strip()] for line in lines])
 
     def explore(self):
-        c = 0
-        while self._tip_queue and c < 100:
-            c += 1
-            print(c, self._tip_queue)
+        while self._tip_queue:
             current_node, direction = self._tip_queue.pop(0)
             length, new_node, out_directions = self._explore_from(current_node, direction)
             self.trail_graph.update({current_node: {new_node: length}})
