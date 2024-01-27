@@ -39,7 +39,7 @@ class Walk:
             yx += DIRECTIONS_TO_VECTOR[possible_directions[0]]
             possible_directions = self.possible_directions(yx, last_direction=possible_directions[0])
             distance += 1
-        return distance, tuple(yx), possible_directions
+        return distance, (int(yx[0]), int(yx[1])), possible_directions
 
     def possible_directions(self, yx, last_direction):
         directions = []
