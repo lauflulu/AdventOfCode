@@ -54,6 +54,10 @@ def load_data(filename: str) -> list[Hailstone]:
         return [Hailstone(line) for line in f]
 
 
+def solve_initial_position(hailstones: list[Hailstone]) -> tuple[int, int, int]:
+    return 0, 0, 0
+
+
 def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
     cross_count = 0
     for a, b in itertools.combinations(hailstones, 2):
@@ -63,8 +67,8 @@ def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
     return cross_count
 
 
-def get_result_2(data):
-    pass
+def get_result_2(hailstones: list[Hailstone]) -> int:
+    return sum(solve_initial_position(hailstones[:3]))
 
 
 def main():
