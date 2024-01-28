@@ -1,3 +1,5 @@
+import itertools
+
 import numpy as np
 
 
@@ -45,9 +47,13 @@ def load_data(filename: str) -> list[Hailstone]:
         return [Hailstone(line) for line in f]
 
 
-def get_result(data):
-    pass
-
+def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
+    cross_count = 0
+    for a, b in itertools.combinations(hailstones, 2):
+        intersection = Intersection(a, b, limits=limits)
+        if intersection.forward and intersection.in_box:
+            cross_count += 1
+    return cross_count
 
 def get_result_2(data):
     pass

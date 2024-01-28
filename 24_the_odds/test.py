@@ -24,8 +24,8 @@ class TestPart1:
         assert intersection.in_box is True
 
     def test_that_result_is_correct_for_example(self):
-        data = solution.load_data("example.txt")
-        assert solution.get_result(data) == 2
+        hailstones = solution.load_data("example.txt")
+        assert solution.get_result(hailstones, limits=(2, 27)) == 2
 
 
 @pytest.mark.skip
