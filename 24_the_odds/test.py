@@ -17,7 +17,7 @@ class TestPart1:
 
     def test_that_intersections_are_found_correctly(self):
         hailstones = solution.load_data("example.txt")
-        intersection = solution.Intersection(a=hailstones[0], b=hailstones[1], limits=(2, 27))
+        intersection = solution.Intersection(a=hailstones[0], b=hailstones[1], limits=(7, 27))
         assert pytest.approx(14.333, abs=0.1) == intersection.x
         assert pytest.approx(15.333, abs=0.1) == intersection.y
         assert intersection.forward is True
@@ -25,13 +25,13 @@ class TestPart1:
 
     def test_that_parallel_trajectories_are_not_intersecting(self):
         hailstones = solution.load_data("example.txt")
-        intersection = solution.Intersection(a=hailstones[1], b=hailstones[2], limits=(2, 27))
+        intersection = solution.Intersection(a=hailstones[1], b=hailstones[2], limits=(7, 27))
         assert intersection.forward is False
         assert intersection.in_box is False
 
     def test_that_result_is_correct_for_example(self):
         hailstones = solution.load_data("example.txt")
-        assert solution.get_result(hailstones, limits=(2, 27)) == 2
+        assert solution.get_result(hailstones, limits=(7, 27)) == 2
 
 
 @pytest.mark.skip
