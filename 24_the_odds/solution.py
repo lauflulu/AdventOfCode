@@ -28,14 +28,21 @@ class Intersection:
         a, b = self._hailstone_a, self._hailstone_b
         v = np.array([a.velocity[:2], -b.velocity[:2]]).T
         p = b.start_position[:2] - a.start_position[:2]
-        t = np.linalg.solve(v, p)
+        try:
+            t = np.linalg.solve(v, p)
+        except np.linalg.LinAlgError:
+            return None, None, None, None
         intersect = a.start_position[:2] + a.velocity[:2] * t[0]
         return intersect[0], intersect[1], t[0], t[1]
 
     def _is_forward(self) -> bool:
+        if self._tx is None or self._ty is None:
+            return False
         return bool(self._tx > 0 and self._ty > 0)
 
     def _is_in_box(self):
+        if self.x is None or self.y is None:
+            return False
         return bool(
             self._limits[0] <= self.x <= self._limits[1]
             and self._limits[0] <= self.y <= self._limits[1]
