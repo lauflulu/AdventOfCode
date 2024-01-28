@@ -57,7 +57,7 @@ def load_data(filename: str) -> list[Hailstone]:
         return [Hailstone(line) for line in f]
 
 
-def solve_initial_position(hailstones: list[Hailstone]) -> tuple[int, int, int]:
+def solve_numerically(hailstones: list[Hailstone]) -> tuple[int, int, int]:
     x_1, y_1, z_1 = hailstones[0].start_position
     x_2, y_2, z_2 = hailstones[1].start_position
     x_3, y_3, z_3 = hailstones[2].start_position
@@ -89,7 +89,7 @@ def solve_initial_position(hailstones: list[Hailstone]) -> tuple[int, int, int]:
     return round(x), round(y), round(z)
 
 
-def solve_sympy(hailstones: list[Hailstone]):
+def solve_symbolically(hailstones: list[Hailstone]):
     x_1, y_1, z_1 = hailstones[0].start_position
     x_2, y_2, z_2 = hailstones[1].start_position
     x_3, y_3, z_3 = hailstones[2].start_position
@@ -111,6 +111,10 @@ def solve_sympy(hailstones: list[Hailstone]):
     return root[0][:3]
 
 
+def get_initial_position(hailstones: list[Hailstone]) -> tuple[int, int, int]:
+    return solve_symbolically(hailstones)
+
+
 def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
     cross_count = 0
     for a, b in itertools.combinations(hailstones, 2):
@@ -121,7 +125,7 @@ def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
 
 
 def get_result_2(hailstones: list[Hailstone]) -> int:
-    return sum(solve_sympy(hailstones[:3]))
+    return sum(get_initial_position(hailstones[:3]))
 
 
 def main():
