@@ -23,6 +23,12 @@ class TestPart1:
         assert intersection.forward is True
         assert intersection.in_box is True
 
+    def test_that_parallel_trajectories_are_not_intersecting(self):
+        hailstones = solution.load_data("example.txt")
+        intersection = solution.Intersection(a=hailstones[1], b=hailstones[2], limits=(2, 27))
+        assert intersection.forward is False
+        assert intersection.in_box is False
+
     def test_that_result_is_correct_for_example(self):
         hailstones = solution.load_data("example.txt")
         assert solution.get_result(hailstones, limits=(2, 27)) == 2
