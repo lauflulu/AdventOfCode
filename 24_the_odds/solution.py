@@ -14,21 +14,30 @@ class Hailstone:
     
     
 class Intersection:
-    def __init__(self, a: Hailstone, b: Hailstone):
+    def __init__(self, a: Hailstone, b: Hailstone, limits: tuple[int, int]):
         self._hailstone_a = a
         self._hailstone_b = b
+        self._limits = limits
         self.x, self.y, self._tx, self._ty = self._find_intersection()
         self.forward = self._is_forward()
         self.in_box = self._is_in_box()
 
     def _find_intersection(self):
-        pass
+        a, b = self._hailstone_a, self._hailstone_b
+        v = np.array([a.velocity[:2], -b.velocity[:2]]).T
+        p = b.start_position[:2] - a.start_position[:2]
+        t = np.linalg.solve(v, p)
+        intersect = a.start_position[:2] + a.velocity[:2] * t[0]
+        return intersect[0], intersect[1], t[0], t[1]
 
-    def _is_forward(self):
-        pass
+    def _is_forward(self) -> bool:
+        return bool(self._tx > 0 and self._ty > 0)
 
     def _is_in_box(self):
-        pass
+        return bool(
+            self._limits[0] <= self.x <= self._limits[1]
+            and self._limits[0] <= self.y <= self._limits[1]
+        )
 
 
 def load_data(filename: str) -> list[Hailstone]:

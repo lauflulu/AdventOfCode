@@ -17,9 +17,9 @@ class TestPart1:
 
     def test_that_intersections_are_found_correctly(self):
         hailstones = solution.load_data("example.txt")
-        intersection = solution.Intersection(a=hailstones[0], b=hailstones[1])
-        assert intersection.x == 14.333
-        assert intersection.y == 15.333
+        intersection = solution.Intersection(a=hailstones[0], b=hailstones[1], limits=(2, 27))
+        assert pytest.approx(14.333, abs=0.1) == intersection.x
+        assert pytest.approx(15.333, abs=0.1) == intersection.y
         assert intersection.forward is True
         assert intersection.in_box is True
 
