@@ -1,6 +1,7 @@
 import itertools
 
 import numpy as np
+from scipy.optimize import fsolve
 
 
 class Hailstone:
@@ -55,7 +56,29 @@ def load_data(filename: str) -> list[Hailstone]:
 
 
 def solve_initial_position(hailstones: list[Hailstone]) -> tuple[int, int, int]:
-    return 0, 0, 0
+    x_1, y_1, z_1 = hailstones[0].start_position
+    x_2, y_2, z_2 = hailstones[1].start_position
+    x_3, y_3, z_3 = hailstones[2].start_position
+    u_1, v_1, w_1 = hailstones[0].velocity
+    u_2, v_2, w_2 = hailstones[1].velocity
+    u_3, v_3, w_3 = hailstones[2].velocity
+
+    def nonlinear_equations(p):
+        x, y, z, u, v, w, t_1, t_2, t_3 = p
+        return [
+            x_1 + u_1 * t_1 - x - u * t_1,
+            y_1 + v_1 * t_1 - y - v * t_1,
+            z_1 + w_1 * t_1 - z - w * t_1,
+            x_2 + u_2 * t_2 - x - u * t_2,
+            y_2 + v_2 * t_2 - y - v * t_2,
+            z_2 + w_2 * t_2 - z - w * t_2,
+            x_3 + u_3 * t_3 - x - u * t_3,
+            y_3 + v_3 * t_3 - y - v * t_3,
+            z_3 + w_3 * t_3 - z - w * t_3,
+        ]
+    root = fsolve(nonlinear_equations, np.array([0, 0, 0, 0, 0, 0, 0, 0, 0]))
+    x, y, z = root[:3]
+    return round(x), round(y), round(z)
 
 
 def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
