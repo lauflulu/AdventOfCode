@@ -15,10 +15,18 @@ class TestPart1:
         assert np.all(hailstones[0].start_position == np.array([19, 13, 30]))
         assert np.all(hailstones[0].velocity == np.array([-2, 1, -2]))
 
+    def test_that_intersections_are_found_correctly(self):
+        hailstones = solution.load_data("example.txt")
+        intersection = solution.Intersection(a=hailstones[0], b=hailstones[1])
+        assert intersection.x == 14.333
+        assert intersection.y == 15.333
+        assert intersection.forward is True
+        assert intersection.in_box is True
+
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
-        assert solution.get_result(data) == 0
+        assert solution.get_result(data) == 2
 
 
 @pytest.mark.skip
