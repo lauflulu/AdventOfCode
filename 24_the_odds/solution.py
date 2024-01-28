@@ -1,4 +1,14 @@
-def load_data(filename):
+
+
+class Hailstone:
+    def __init__(self):
+        self.velocity = None
+        self.start_position = None
+
+    pass
+
+
+def load_data(filename: str) -> list[Hailstone]:
     pass
 
 
