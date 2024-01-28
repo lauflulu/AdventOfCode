@@ -35,9 +35,13 @@ class TestPart1:
 
 
 class TestPart2:
-    def test_that_initial_position_is_found_by_solving_nonlinear_equations_given_three_hailstones(self):
+    def test_that_initial_position_is_found_by_solving_nonlinear_equations_with_fsolve(self):
         hailstones = solution.load_data("example.txt")
         assert solution.solve_initial_position(hailstones[:3]) == (24, 13, 10)
+
+    def test_that_initial_position_is_found_by_solving_nonlinear_equations_with_sympy(self):
+        hailstones = solution.load_data("example.txt")
+        assert solution.solve_sympy(hailstones[:3]) == (24, 13, 10)
 
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")

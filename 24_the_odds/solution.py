@@ -2,6 +2,8 @@ import itertools
 
 import numpy as np
 from scipy.optimize import fsolve
+from sympy import solve
+from sympy.abc import x, y, z, u, v, w, r, s, t
 
 
 class Hailstone:
@@ -64,21 +66,49 @@ def solve_initial_position(hailstones: list[Hailstone]) -> tuple[int, int, int]:
     u_3, v_3, w_3 = hailstones[2].velocity
 
     def nonlinear_equations(p):
-        x, y, z, u, v, w, t_1, t_2, t_3 = p
+        x, y, z, u, v, w, r, s, t = p
         return [
-            x_1 + u_1 * t_1 - x - u * t_1,
-            y_1 + v_1 * t_1 - y - v * t_1,
-            z_1 + w_1 * t_1 - z - w * t_1,
-            x_2 + u_2 * t_2 - x - u * t_2,
-            y_2 + v_2 * t_2 - y - v * t_2,
-            z_2 + w_2 * t_2 - z - w * t_2,
-            x_3 + u_3 * t_3 - x - u * t_3,
-            y_3 + v_3 * t_3 - y - v * t_3,
-            z_3 + w_3 * t_3 - z - w * t_3,
+            x_1 + u_1 * r - x - u * r,
+            y_1 + v_1 * r - y - v * r,
+            z_1 + w_1 * r - z - w * r,
+            x_2 + u_2 * s - x - u * s,
+            y_2 + v_2 * s - y - v * s,
+            z_2 + w_2 * s - z - w * s,
+            x_3 + u_3 * t - x - u * t,
+            y_3 + v_3 * t - y - v * t,
+            z_3 + w_3 * t - z - w * t,
         ]
-    root = fsolve(nonlinear_equations, np.array([0, 0, 0, 0, 0, 0, 0, 0, 0]))
+    root = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
+    for _ in range(100):
+        try:
+            root = fsolve(nonlinear_equations, root)
+        except RuntimeWarning:
+            continue
     x, y, z = root[:3]
+    print(root)
     return round(x), round(y), round(z)
+
+
+def solve_sympy(hailstones: list[Hailstone]):
+    x_1, y_1, z_1 = hailstones[0].start_position
+    x_2, y_2, z_2 = hailstones[1].start_position
+    x_3, y_3, z_3 = hailstones[2].start_position
+    u_1, v_1, w_1 = hailstones[0].velocity
+    u_2, v_2, w_2 = hailstones[1].velocity
+    u_3, v_3, w_3 = hailstones[2].velocity
+    equations = [
+        x_1 + u_1 * r - x - u * r,
+        y_1 + v_1 * r - y - v * r,
+        z_1 + w_1 * r - z - w * r,
+        x_2 + u_2 * s - x - u * s,
+        y_2 + v_2 * s - y - v * s,
+        z_2 + w_2 * s - z - w * s,
+        x_3 + u_3 * t - x - u * t,
+        y_3 + v_3 * t - y - v * t,
+        z_3 + w_3 * t - z - w * t,
+    ]
+    root = solve(equations, x, y, z, u, v, w, r, s, t)
+    return root[0][:3]
 
 
 def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
@@ -91,7 +121,7 @@ def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
 
 
 def get_result_2(hailstones: list[Hailstone]) -> int:
-    return sum(solve_initial_position(hailstones[:3]))
+    return sum(solve_sympy(hailstones[:3]))
 
 
 def main():
