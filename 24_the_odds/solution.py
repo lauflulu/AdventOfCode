@@ -62,14 +62,15 @@ def get_result(hailstones: list[Hailstone], limits: tuple[int, int]) -> int:
             cross_count += 1
     return cross_count
 
+
 def get_result_2(data):
     pass
 
 
 def main():
-    data = load_data("data.txt")
-    print(get_result(data))
-    print(get_result_2(data))
+    hailstones = load_data("data.txt")
+    print(get_result(hailstones, limits=(200000000000000, 400000000000000)))
+    print(get_result_2(hailstones))
 
 
 if __name__ == '__main__':
