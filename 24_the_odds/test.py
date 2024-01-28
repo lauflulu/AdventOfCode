@@ -23,7 +23,6 @@ class TestPart1:
         assert intersection.forward is True
         assert intersection.in_box is True
 
-    @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
         assert solution.get_result(data) == 2
