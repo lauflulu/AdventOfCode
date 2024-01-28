@@ -10,11 +10,10 @@ class TestPart1:
         assert isinstance(hailstones, list)
         assert isinstance(hailstones[0], solution.Hailstone)
 
-    @pytest.mark.skip
     def test_that_hailstone_parses_line_correctly(self):
         hailstones = solution.load_data("example.txt")
-        assert hailstones[0].start_position == np.array([19, 13, 30])
-        assert hailstones[0].velocity == np.array([-2, 1, -2])
+        assert np.all(hailstones[0].start_position == np.array([19, 13, 30]))
+        assert np.all(hailstones[0].velocity == np.array([-2, 1, -2]))
 
     @pytest.mark.skip
     def test_that_result_is_correct_for_example(self):

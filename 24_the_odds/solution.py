@@ -1,15 +1,21 @@
+import numpy as np
 
 
 class Hailstone:
-    def __init__(self):
-        self.velocity = None
-        self.start_position = None
+    def __init__(self, line: str):
+        self.start_position, self.velocity = self._parse(line)
 
-    pass
+    @staticmethod
+    def _parse(line: str):
+        position, velocity = line.split("@")
+        position = np.array([int(x.strip()) for x in position.split(",")])
+        velocity = np.array([int(x.strip()) for x in velocity.split(",")])
+        return position, velocity
 
 
 def load_data(filename: str) -> list[Hailstone]:
-    pass
+    with open(filename) as f:
+        return [Hailstone(line) for line in f]
 
 
 def get_result(data):
