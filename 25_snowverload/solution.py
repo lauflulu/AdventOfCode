@@ -2,6 +2,7 @@ import numpy as np
 
 
 def load_data(filename):
+def load_data(filename) -> tuple[np.ndarray, list[str]]:
     with open(filename, "r") as f:
         nodes = []
         for line in f:
@@ -14,7 +15,7 @@ def load_data(filename):
             neighbors, node = _parse(line)
             for n in neighbors:
                 adjacency_matrix[nodes.index(node), nodes.index(n)] = 1
-    return adjacency_matrix + adjacency_matrix.T
+    return adjacency_matrix + adjacency_matrix.T, nodes
 
 
 def _parse(line):
