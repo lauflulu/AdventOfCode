@@ -11,8 +11,9 @@ class TestPart1:
 
     def test_that_data_is_loaded_with_list_of_nodes(self):
         _, nodes = solution.load_data("example.txt")
-        assert nodes == ['jqt', 'rhn', 'xhk', 'nvd', 'rsh', 'frs', 'pzl', 'lsr',
-                         'hfx', 'cmg', 'qnr', 'lhk', 'bvb', 'ntq', 'rzs']
+        assert nodes == [
+            'jqt', 'rhn', 'xhk', 'nvd', 'rsh', 'frs', 'pzl', 'lsr', 'hfx', 'cmg', 'qnr', 'lhk', 'bvb', 'ntq', 'rzs'
+        ]
 
     def test_that_diagonal_of_adjacency_matrix_is_zero(self):
         graph, _ = solution.load_data("example.txt")
@@ -30,6 +31,10 @@ class TestPart1:
     def test_that_result_is_correct_for_example(self):
         data = solution.load_data("example.txt")
         assert solution.get_result(data) == 54
+
+
+class TestStoerWagner:
+    pass
 
 
 @pytest.mark.skip(reason="Not implemented yet")

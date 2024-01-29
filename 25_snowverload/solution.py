@@ -1,7 +1,15 @@
 import numpy as np
 
 
-def load_data(filename):
+class StoerWagner:
+    def __init__(self, matrix, nodes):
+        self.matrix = matrix
+        self.nodes = nodes
+
+    def get_min_cut(self):
+        pass
+
+
 def load_data(filename) -> tuple[np.ndarray, list[str]]:
     with open(filename, "r") as f:
         nodes = []
