@@ -37,6 +37,10 @@ class TestPart1:
 def simple_graph():
     return solution.StoerWagner(np.array([[0, 1, 1], [1, 0, 1], [1, 1, 0]]), ["a", "b", "c"])
 
+@pytest.fixture
+def simple_graph_2():
+    return solution.StoerWagner(np.array([[0, 1, 2], [1, 0, 1], [2, 1, 0]]), ["a", "b", "c"])
+
 
 class TestStoerWagner:
     def test_merge_nodes(self, simple_graph):
@@ -54,6 +58,14 @@ class TestStoerWagner:
         assert simple_graph.sum_of_weights("a") == 2
         assert simple_graph.sum_of_weights("b") == 2
         assert simple_graph.sum_of_weights("c") == 2
+
+    def test_node_most_tightly_connected_with(self, simple_graph):
+        assert simple_graph.node_most_tightly_connected_with(["a", "c"]) == "b"
+        assert simple_graph.node_most_tightly_connected_with(["b", "c"]) == "a"
+        assert simple_graph.node_most_tightly_connected_with(["a"]) == "b"
+
+    def test_node_most_tightly_connected_with_2(self, simple_graph_2):
+        assert simple_graph_2.node_most_tightly_connected_with(["a"]) == "c"
 
 
 @pytest.mark.skip(reason="Not implemented yet")
