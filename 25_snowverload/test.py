@@ -45,6 +45,11 @@ class TestStoerWagner:
         assert simple_graph.nodes == {"a": 2, "c": 1}
         assert simple_graph.index == ["a", "c"]
 
+    def test_weight(self, simple_graph):
+        assert simple_graph.weight("a", ["b", "c"]) == 2
+        assert simple_graph.weight("b", ["a", "c"]) == 2
+        assert simple_graph.weight("c", ["a"]) == 1
+
 
 @pytest.mark.skip(reason="Not implemented yet")
 class TestPart2:
