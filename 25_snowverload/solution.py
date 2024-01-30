@@ -26,8 +26,9 @@ class StoerWagner:
         while A != self.index:
             A.append(self.node_most_tightly_connected_with(A))
         s, t = A[-2], A[-1]
-        self.merge_nodes(s, t)  # matrix and nodes
-        return t, self.sum_of_weights(t)
+        self.merge_nodes(s, t)
+        print(t)
+        return t, self.sum_of_weights(s)
 
     def node_most_tightly_connected_with(self, A):
         max_connected_node = ""
@@ -55,8 +56,8 @@ class StoerWagner:
         self.nodes.pop(t)
         self.nodes[s] += 1
 
-    def sum_of_weights(self, t):
-        return sum(self.matrix[self.index.index(t), :])
+    def sum_of_weights(self, s):
+        return sum(self.matrix[self.index.index(s), :])
 
 
 def load_data(filename) -> tuple[np.ndarray, list[str]]:
