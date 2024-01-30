@@ -29,8 +29,8 @@ class TestPart1:
 
     @pytest.mark.skip(reason="Not implemented yet")
     def test_that_result_is_correct_for_example(self):
-        data = solution.load_data("example.txt")
-        assert solution.get_result(data) == 54
+        matrix, nodes = solution.load_data("example.txt")
+        assert solution.get_result(matrix, nodes) == 54
 
 
 class TestStoerWagner:
