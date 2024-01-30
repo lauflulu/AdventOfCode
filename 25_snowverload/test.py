@@ -73,6 +73,12 @@ class TestStoerWagner:
         assert simple_graph.nodes == {"a": 1, "b": 2}
         assert simple_graph.index == ["a", "b"]
 
+    def test_minimum_cut_returns_length_of_one_minimum_partition(self, simple_graph):
+        assert simple_graph.minimum_cut() == 2
+
+    def test_minimum_cut_returns_length_of_one_minimum_partition_2(self, simple_graph_2):
+        assert simple_graph_2.minimum_cut() == 2
+
 
 @pytest.mark.skip(reason="Not implemented yet")
 class TestPart2:
