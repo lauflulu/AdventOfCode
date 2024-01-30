@@ -34,13 +34,13 @@ class StoerWagner:
         max_weight = 0
         for node in self.index:
             if node not in A:
-                node_weight = self.weight(node, A)
+                node_weight = self.weight_of_connections_between(node, A)
                 if node_weight > max_weight:
                     max_weight = node_weight
                     max_connected_node = node
         return max_connected_node
 
-    def weight(self, node, A):
+    def weight_of_connections_between(self, node, A):
         return sum(self.matrix[self.index.index(node), self.index.index(a)] for a in A)
 
     def merge_nodes(self, s, t):

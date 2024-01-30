@@ -45,10 +45,10 @@ class TestStoerWagner:
         assert simple_graph.nodes == {"a": 2, "c": 1}
         assert simple_graph.index == ["a", "c"]
 
-    def test_weight(self, simple_graph):
-        assert simple_graph.weight("a", ["b", "c"]) == 2
-        assert simple_graph.weight("b", ["a", "c"]) == 2
-        assert simple_graph.weight("c", ["a"]) == 1
+    def test_that_weight_of_connections_between_node_and_set_of_nodes_is_correct(self, simple_graph):
+        assert simple_graph.weight_of_connections_between("a", ["b", "c"]) == 2
+        assert simple_graph.weight_of_connections_between("b", ["a", "c"]) == 2
+        assert simple_graph.weight_of_connections_between("c", ["a"]) == 1
 
 
 @pytest.mark.skip(reason="Not implemented yet")
