@@ -27,7 +27,6 @@ class TestPart1:
         graph, _ = solution.load_data("example.txt")
         assert np.all(np.logical_or(graph == 0, graph == 1))
 
-    @pytest.mark.skip(reason="Not implemented yet")
     def test_that_result_is_correct_for_example(self):
         matrix, nodes = solution.load_data("example.txt")
         assert solution.get_result(matrix, nodes) == 54
