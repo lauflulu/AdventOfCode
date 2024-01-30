@@ -24,26 +24,26 @@ class StoerWagner:
         node_a = self.index[0]
         A = [node_a]
         while A != self.index:
-            A.append(self._node_most_tightly_connected_with(A))
+            A.append(self.node_most_tightly_connected_with(A))
         s, t = A[-2], A[-1]
-        self._merge_nodes(s, t)  # matrix and nodes
-        return t, self._sum_of_weights(t)
+        self.merge_nodes(s, t)  # matrix and nodes
+        return t, self.sum_of_weights(t)
 
-    def _node_most_tightly_connected_with(self, A):
+    def node_most_tightly_connected_with(self, A):
         max_connected_node = ""
         max_weight = 0
         for node in self.index:
             if node not in A:
-                node_weight = self._weight(node, A)
+                node_weight = self.weight(node, A)
                 if node_weight > max_weight:
                     max_weight = node_weight
                     max_connected_node = node
         return max_connected_node
 
-    def _weight(self, node, A):
+    def weight(self, node, A):
         return sum(self.matrix[self.index.index(node), self.index.index(a)] for a in A)
 
-    def _merge_nodes(self, s, t):
+    def merge_nodes(self, s, t):
         self.matrix[self.index.index(s), :] += self.matrix[self.index.index(t), :]
         self.matrix[:, self.index.index(s)] += self.matrix[:, self.index.index(t)]
         self.matrix = np.delete(self.matrix, self.index.index(t), 0)
@@ -55,7 +55,7 @@ class StoerWagner:
         self.nodes.pop(t)
         self.nodes[s] += 1
 
-    def _sum_of_weights(self, t):
+    def sum_of_weights(self, t):
         return sum(self.matrix[self.index.index(t), :])
 
 
