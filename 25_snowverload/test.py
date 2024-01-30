@@ -50,6 +50,11 @@ class TestStoerWagner:
         assert simple_graph.weight_of_connections_between("b", ["a", "c"]) == 2
         assert simple_graph.weight_of_connections_between("c", ["a"]) == 1
 
+    def test_that_sum_of_weights_is_correct(self, simple_graph):
+        assert simple_graph.sum_of_weights("a") == 2
+        assert simple_graph.sum_of_weights("b") == 2
+        assert simple_graph.sum_of_weights("c") == 2
+
 
 @pytest.mark.skip(reason="Not implemented yet")
 class TestPart2:
