@@ -33,8 +33,17 @@ class TestPart1:
         assert solution.get_result(matrix, nodes) == 54
 
 
+@pytest.fixture
+def simple_graph():
+    return solution.StoerWagner(np.array([[0, 1, 1], [1, 0, 1], [1, 1, 0]]), ["a", "b", "c"])
+
+
 class TestStoerWagner:
-    pass
+    def test_merge_nodes(self, simple_graph):
+        simple_graph._merge_nodes("a", "b")
+        assert simple_graph.matrix.tolist() == [[0, 2], [2, 0]]
+        assert simple_graph.nodes == {"a": 2, "c": 1}
+        assert simple_graph._index == ["a", "c"]
 
 
 @pytest.mark.skip(reason="Not implemented yet")
