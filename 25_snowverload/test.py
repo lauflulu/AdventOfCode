@@ -67,6 +67,12 @@ class TestStoerWagner:
     def test_node_most_tightly_connected_with_2(self, simple_graph_2):
         assert simple_graph_2.node_most_tightly_connected_with(["a"]) == "c"
 
+    def test_minimum_cut_phase(self, simple_graph):
+        assert simple_graph.minimum_cut_phase() == ("b", 2)
+        assert simple_graph.matrix.tolist() == [[0, 2], [2, 0]]
+        assert simple_graph.nodes == {"a": 1, "b": 2}
+        assert simple_graph.index == ["a", "b"]
+
 
 @pytest.mark.skip(reason="Not implemented yet")
 class TestPart2:
