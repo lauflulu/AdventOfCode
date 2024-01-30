@@ -4,7 +4,7 @@ import numpy as np
 class StoerWagner:
     def __init__(self, matrix, nodes):
         self.matrix = matrix
-        self._index = nodes
+        self.index = nodes
         self.nodes = {node: 1 for node in nodes}
 
     def get_result(self):
@@ -13,7 +13,7 @@ class StoerWagner:
     def minimum_cut(self):
         w_min = np.inf
         t_min = []
-        while len(self._index) > 1:
+        while len(self.index) > 1:
             t, w = self.minimum_cut_phase()
             if w < w_min:
                 w_min = w
@@ -21,9 +21,9 @@ class StoerWagner:
         return t_min, w_min
 
     def minimum_cut_phase(self):
-        node_a = self._index[0]
+        node_a = self.index[0]
         A = [node_a]
-        while A != self._index:
+        while A != self.index:
             A.append(self._node_most_tightly_connected_with(A))
         s, t = A[-2], A[-1]
         self._merge_nodes(s, t)  # matrix and nodes
@@ -32,7 +32,7 @@ class StoerWagner:
     def _node_most_tightly_connected_with(self, A):
         max_connected_node = ""
         max_weight = 0
-        for node in self._index:
+        for node in self.index:
             if node not in A:
                 node_weight = self._weight(node, A)
                 if node_weight > max_weight:
@@ -41,21 +41,22 @@ class StoerWagner:
         return max_connected_node
 
     def _weight(self, node, A):
-        return sum(self.matrix[self._index.index(node), self._index.index(a)] for a in A)
+        return sum(self.matrix[self.index.index(node), self.index.index(a)] for a in A)
 
     def _merge_nodes(self, s, t):
-        self._index.remove(t)
-        self.nodes.pop(t)
-        self.nodes[s] += 1
-        self.matrix[self._index.index(s), :] += self.matrix[self._index.index(t), :]
-        self.matrix[:, self._index.index(s)] += self.matrix[:, self._index.index(t)]
-        self.matrix = np.delete(self.matrix, self._index.index(t), 0)
-        self.matrix = np.delete(self.matrix, self._index.index(t), 1)
-        for i in range(len(self._index)):
+        self.matrix[self.index.index(s), :] += self.matrix[self.index.index(t), :]
+        self.matrix[:, self.index.index(s)] += self.matrix[:, self.index.index(t)]
+        self.matrix = np.delete(self.matrix, self.index.index(t), 0)
+        self.matrix = np.delete(self.matrix, self.index.index(t), 1)
+        for i in range(len(self.index) - 1):
             self.matrix[i, i] = 0
 
+        self.index.remove(t)
+        self.nodes.pop(t)
+        self.nodes[s] += 1
+
     def _sum_of_weights(self, t):
-        return sum(self.matrix[self._index.index(t), :])
+        return sum(self.matrix[self.index.index(t), :])
 
 
 def load_data(filename) -> tuple[np.ndarray, list[str]]:

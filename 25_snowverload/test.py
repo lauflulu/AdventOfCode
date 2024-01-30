@@ -43,7 +43,7 @@ class TestStoerWagner:
         simple_graph._merge_nodes("a", "b")
         assert simple_graph.matrix.tolist() == [[0, 2], [2, 0]]
         assert simple_graph.nodes == {"a": 2, "c": 1}
-        assert simple_graph._index == ["a", "c"]
+        assert simple_graph.index == ["a", "c"]
 
 
 @pytest.mark.skip(reason="Not implemented yet")
