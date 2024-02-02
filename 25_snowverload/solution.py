@@ -15,9 +15,7 @@ class StoerWagner:
     def minimum_cut(self):
         w_min = np.inf
         min_partition = []
-        i = 0
-        while len(self.index) > 2 and i < 10:
-            i += 1
+        while len(self.index) > 2:
             t, w = self.minimum_cut_phase()
             if w < w_min:
                 w_min = w
