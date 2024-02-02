@@ -1,3 +1,5 @@
+import cProfile
+
 import numpy as np
 import pytest
 
@@ -78,6 +80,17 @@ class TestStoerWagner:
     def test_minimum_cut_returns_length_of_one_minimum_partition_2(self, simple_graph_2):
         assert simple_graph_2.minimum_cut() == 2
 
+
+class TestPerformance:
+    def test_complete_algorithm(self):
+
+        with cProfile.Profile() as pr:
+            pr.enable()
+            for _ in range(100):
+                matrix, nodes = solution.load_data("example.txt")
+                solution.get_result(matrix, nodes)
+            pr.disable()
+        pr.print_stats()
 
 @pytest.mark.skip(reason="Not implemented yet")
 class TestPart2:
