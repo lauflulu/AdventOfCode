@@ -36,9 +36,8 @@ class StoerWagner:
     def node_most_tightly_connected_with(self, processed_nodes):
         max_connected_node = ""
         max_weight = 0
-        for processed, node in zip(processed_nodes, self.index):
-            if processed:
-                continue
+        unprocessed_nodes = [node for processed, node in zip(processed_nodes, self.index) if not processed]
+        for node in unprocessed_nodes:
             node_weight = self.weight_of_connections_between(node, processed_nodes)
             if node_weight > max_weight:
                 max_weight = node_weight
