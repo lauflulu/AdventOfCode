@@ -34,18 +34,22 @@ class StoerWagner:
         return s, self.sum_of_weights(s)
 
     def node_most_tightly_connected_with(self, processed_nodes):
+        node_weights = self.weight_of_connections(processed_nodes)
+
+        unprocessed_labels = [node for node, processed in zip(self.index, processed_nodes) if not processed]
         max_connected_node = ""
         max_weight = 0
-        unprocessed_nodes = [node for processed, node in zip(processed_nodes, self.index) if not processed]
-        for node in unprocessed_nodes:
-            node_weight = self.weight_of_connections_between(node, processed_nodes)
+        for node in unprocessed_labels:
+            node_weight = node_weights[unprocessed_labels.index(node)]
             if node_weight > max_weight:
                 max_weight = node_weight
                 max_connected_node = node
         return max_connected_node
 
-    def weight_of_connections_between(self, node, processed_nodes):
-        return sum(self.matrix[self.index.index(node), processed_nodes])
+    def weight_of_connections(self, processed_nodes):
+        unprocessed_nodes = np.invert(processed_nodes)
+        sliced = self.matrix[unprocessed_nodes, :][:, processed_nodes]
+        return np.sum(sliced, axis=1)
 
     def merge_nodes(self, s, t):
         self.matrix[self.index.index(s), :] += self.matrix[self.index.index(t), :]

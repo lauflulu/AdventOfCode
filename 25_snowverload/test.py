@@ -51,9 +51,9 @@ class TestStoerWagner:
         assert simple_graph.index == ["a", "c"]
 
     def test_that_weight_of_connections_between_node_and_set_of_nodes_is_correct(self, simple_graph):
-        assert simple_graph.weight_of_connections_between("a", [False, True, True]) == 2
-        assert simple_graph.weight_of_connections_between("b", [True, False, True]) == 2
-        assert simple_graph.weight_of_connections_between("c", [True, False, False]) == 1
+        assert max(simple_graph.weight_of_connections([False, True, True])) == 2
+        assert max(simple_graph.weight_of_connections([True, False, True])) == 2
+        assert max(simple_graph.weight_of_connections([True, False, False])) == 1
 
     def test_that_sum_of_weights_is_correct(self, simple_graph):
         assert simple_graph.sum_of_weights("a") == 2
