@@ -91,7 +91,6 @@ class TestPerformance:
             pr.disable()
         pr.print_stats()
 
-    @pytest.mark.skip(reason="Takes too long")
     def test_min_cut_phase_with_large_graph(self):
         with cProfile.Profile() as pr:
             pr.enable()
