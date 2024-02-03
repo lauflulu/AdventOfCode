@@ -23,27 +23,30 @@ class StoerWagner:
         return min_partition
 
     def minimum_cut_phase(self):
-        node_a = self.index[0]
-        A = [node_a]
-        while len(A) != len(self.index):
-            A.append(self.node_most_tightly_connected_with(A))
-        s, t = A[-2], A[-1]
+        processed_nodes = [False for _ in range(len(self.index))]
+        processed_nodes[0] = True
+        while sum(processed_nodes) != len(self.index) - 2:
+            processed_nodes[self.index.index(self.node_most_tightly_connected_with(processed_nodes))] = True
+        s = self.node_most_tightly_connected_with(processed_nodes)
+        processed_nodes[self.index.index(self.node_most_tightly_connected_with(processed_nodes))] = True
+        t = self.node_most_tightly_connected_with(processed_nodes)
         self.merge_nodes(s, t)
         return s, self.sum_of_weights(s)
 
-    def node_most_tightly_connected_with(self, A):
+    def node_most_tightly_connected_with(self, processed_nodes):
         max_connected_node = ""
         max_weight = 0
-        for node in self.index:
-            if node not in A:
-                node_weight = self.weight_of_connections_between(node, A)
-                if node_weight > max_weight:
-                    max_weight = node_weight
-                    max_connected_node = node
+        for processed, node in zip(processed_nodes, self.index):
+            if processed:
+                continue
+            node_weight = self.weight_of_connections_between(node, processed_nodes)
+            if node_weight > max_weight:
+                max_weight = node_weight
+                max_connected_node = node
         return max_connected_node
 
-    def weight_of_connections_between(self, node, A):
-        return sum(self.matrix[self.index.index(node), self.index.index(a)] for a in A)
+    def weight_of_connections_between(self, node, processed_nodes):
+        return sum(self.matrix[self.index.index(node), processed_nodes])
 
     def merge_nodes(self, s, t):
         self.matrix[self.index.index(s), :] += self.matrix[self.index.index(t), :]

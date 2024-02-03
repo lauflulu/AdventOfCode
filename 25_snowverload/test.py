@@ -51,9 +51,9 @@ class TestStoerWagner:
         assert simple_graph.index == ["a", "c"]
 
     def test_that_weight_of_connections_between_node_and_set_of_nodes_is_correct(self, simple_graph):
-        assert simple_graph.weight_of_connections_between("a", ["b", "c"]) == 2
-        assert simple_graph.weight_of_connections_between("b", ["a", "c"]) == 2
-        assert simple_graph.weight_of_connections_between("c", ["a"]) == 1
+        assert simple_graph.weight_of_connections_between("a", [False, True, True]) == 2
+        assert simple_graph.weight_of_connections_between("b", [True, False, True]) == 2
+        assert simple_graph.weight_of_connections_between("c", [True, False, False]) == 1
 
     def test_that_sum_of_weights_is_correct(self, simple_graph):
         assert simple_graph.sum_of_weights("a") == 2
@@ -61,12 +61,12 @@ class TestStoerWagner:
         assert simple_graph.sum_of_weights("c") == 2
 
     def test_node_most_tightly_connected_with(self, simple_graph):
-        assert simple_graph.node_most_tightly_connected_with(["a", "c"]) == "b"
-        assert simple_graph.node_most_tightly_connected_with(["b", "c"]) == "a"
-        assert simple_graph.node_most_tightly_connected_with(["a"]) == "b"
+        assert simple_graph.node_most_tightly_connected_with([True, False, True]) == "b"
+        assert simple_graph.node_most_tightly_connected_with([False, True, True]) == "a"
+        assert simple_graph.node_most_tightly_connected_with([True, False, False]) == "b"
 
     def test_node_most_tightly_connected_with_2(self, simple_graph_2):
-        assert simple_graph_2.node_most_tightly_connected_with(["a"]) == "c"
+        assert simple_graph_2.node_most_tightly_connected_with([True, False, False]) == "c"
 
     def test_minimum_cut_phase(self, simple_graph):
         assert simple_graph.minimum_cut_phase() == ("b", 2)
@@ -83,7 +83,6 @@ class TestStoerWagner:
 
 class TestPerformance:
     def test_complete_algorithm(self):
-
         with cProfile.Profile() as pr:
             pr.enable()
             for _ in range(100):
@@ -91,6 +90,17 @@ class TestPerformance:
                 solution.get_result(matrix, nodes)
             pr.disable()
         pr.print_stats()
+
+    @pytest.mark.skip(reason="Takes too long")
+    def test_min_cut_phase_with_large_graph(self):
+        with cProfile.Profile() as pr:
+            pr.enable()
+            matrix, nodes = solution.load_data("data.txt")
+            sw = solution.StoerWagner(matrix, nodes)
+            sw.minimum_cut_phase()
+            pr.disable()
+        pr.print_stats()
+
 
 @pytest.mark.skip(reason="Not implemented yet")
 class TestPart2:
