@@ -37,14 +37,8 @@ class StoerWagner:
         node_weights = self.weight_of_connections(processed_nodes)
 
         unprocessed_labels = [node for node, processed in zip(self.index, processed_nodes) if not processed]
-        max_connected_node = ""
-        max_weight = 0
-        for node in unprocessed_labels:
-            node_weight = node_weights[unprocessed_labels.index(node)]
-            if node_weight > max_weight:
-                max_weight = node_weight
-                max_connected_node = node
-        return max_connected_node
+        max_weight_index = np.argmax(node_weights)
+        return unprocessed_labels[max_weight_index]
 
     def weight_of_connections(self, processed_nodes):
         unprocessed_nodes = np.invert(processed_nodes)
