@@ -1,10 +1,5 @@
 #include <gtest/gtest.h>
 
-TEST(Example, equal)
-{
-    ASSERT_EQ(0, 0);
-}
-
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
