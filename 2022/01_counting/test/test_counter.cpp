@@ -52,3 +52,40 @@ TEST_F(TestCounter, WhenPollsTwoIntegerSequencesShouldKeepHighestCount)
 
     ASSERT_EQ(counter->get_highest_count(), 314);
 }
+
+TEST_F(TestCounter, WhenPolls32BitIntegerShouldHaveCorrectHighestCount)
+{
+    mock_serial->set_input(String("3141592\r\n"));
+
+    counter->poll();
+
+    ASSERT_EQ(counter->get_highest_count(), 3141592);
+}
+
+TEST_F(TestCounter, WhenGivenExampleInputShouldYieldCorrectResult)
+{
+    String example_input =
+        "1000\r\n"
+        "2000\r\n"
+        "3000\r\n "
+        "\r\n"
+        "4000\r\n"
+        "\r\n"
+        "5000\r\n"
+        "6000\r\n"
+        "\r\n"
+        "7000\r\n"
+        "8000\r\n"
+        "9000\r\n"
+        "\r\n"
+        "10000\r\n"
+        "\r\n";
+    mock_serial->set_input(example_input);
+
+    for (auto i{0U}; i < 20U; i++)
+    {
+        counter->poll();
+    }
+
+    ASSERT_EQ(counter->get_highest_count(), 24000);
+}
