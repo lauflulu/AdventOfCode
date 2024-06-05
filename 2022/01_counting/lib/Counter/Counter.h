@@ -1,13 +1,15 @@
 #include <Arduino.h>
+#include <SerialAdapter.h>
 
-class SerialCounter
+class Counter
 {
 public:
-    SerialCounter(){};
+    Counter(ISerial &serial_) : serial(serial_) { serial = serial_; };
 
     uint32_t get_highest_count(void);
 
 private:
     uint32_t current_count{};
     uint32_t highest_count{};
+    ISerial &serial;
 };

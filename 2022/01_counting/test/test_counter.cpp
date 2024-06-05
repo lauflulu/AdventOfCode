@@ -1,8 +1,19 @@
 #include <gtest/gtest.h>
-#include <SerialCounter.h>
+#include <Counter.h>
 
-TEST(Counter, WhenInitializedShouldBeZero)
+class TestCounter : public ::testing::Test
 {
-    SerialCounter counter{};
-    ASSERT_EQ(counter.get_highest_count(), 0);
+protected:
+    Counter *counter;
+    virtual void SetUp()
+    {
+        SerialMock mock_serial;
+        counter = new Counter(mock_serial);
+    }
+};
+
+TEST_F(TestCounter, WhenInitializedShouldBeZero)
+{
+
+    ASSERT_EQ(counter->get_highest_count(), 0);
 }
