@@ -15,7 +15,7 @@ class SerialMock : public ISerial
 public:
     SerialMock(){};
 
-    String read_line(void) override { return input_buffer.substring(0, input_buffer.indexOf(0x0A)); };
+    String read_line(void) override;
     void write_line(String) override{};
 
     void set_input(String input);

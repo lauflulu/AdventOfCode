@@ -22,9 +22,21 @@ TEST_F(TestCounter, WhenInitializedShouldBeZero)
 
 TEST_F(TestCounter, WhenPollsIntegerShouldAddToHighestCount)
 {
-    mock_serial->set_input(String("54\n\r"));
+    mock_serial->set_input(String("54\r\n"));
 
     counter->poll();
 
     ASSERT_EQ(counter->get_highest_count(), 54);
+}
+
+TEST_F(TestCounter, WhenPollsIntegerConsecutivelyShouldAddToHighestCount)
+{
+    mock_serial->set_input(String("42\r\n0\r\n314\r\n"));
+
+    for (auto i{0U}; i < 3U; i++)
+    {
+        counter->poll();
+    }
+
+    ASSERT_EQ(counter->get_highest_count(), 356);
 }
