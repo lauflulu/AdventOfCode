@@ -1,3 +1,4 @@
+#pragma once
 #include <Arduino.h>
 
 class ISerial
@@ -14,8 +15,13 @@ class SerialMock : public ISerial
 public:
     SerialMock(){};
 
-    String read_line(void) override { return String("0"); };
+    String read_line(void) override { return input_buffer.substring(0, input_buffer.indexOf(0x0A)); };
     void write_line(String) override{};
+
+    void set_input(String input);
+
+private:
+    String input_buffer;
 };
 
 class SerialAdapter : public ISerial
