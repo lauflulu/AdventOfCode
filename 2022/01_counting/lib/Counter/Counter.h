@@ -13,6 +13,9 @@ public:
     void poll(void);
 
 private:
+    void update_top3();
+
+private:
     uint32_t current_count{};
     uint32_t top3_counts[3]{};
     ISerial &serial;
