@@ -17,17 +17,17 @@ uint32_t Counter::get_top3_count()
 
 void Counter::poll(void)
 {
-    String current_line = serial.read_line();
+    String message = serial.read_line();
+    bool count_complete = message.charAt(0) == 0x0D;
 
-    if (current_line.charAt(0) == 0x0D)
+    if (!count_complete)
     {
-        update_top3();
-
-        current_count = 0;
+        current_count += message.toInt();
     }
     else
     {
-        current_count += current_line.toInt();
+        update_top3();
+        current_count = 0;
     }
 }
 
