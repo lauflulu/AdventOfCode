@@ -33,13 +33,11 @@ void Counter::poll(void)
 
 void Counter::update_top3()
 {
-    if (current_count < top3_counts[0])
+    if (current_count >= top3_counts[0])
     {
-    }
-    else
-    {
-        top3_counts[0] = current_count; // overwrite lowest count
-        // bubble sort
+        // overwrite lowest count
+        top3_counts[0] = current_count;
+        // bubble sort ascending
         for (auto i{0U}; i < 2U; i++)
         {
             if (top3_counts[i + 1] < top3_counts[i])
