@@ -10,5 +10,5 @@ void setup()
 void loop()
 {
     counter.poll();
-    Serial.println(counter.get_highest_count());
+    Serial.println(String(counter.get_highest_count()) + "," + String(counter.get_top3_count()));
 }

@@ -5,6 +5,16 @@ uint32_t Counter::get_highest_count()
     return highest_count;
 }
 
+uint32_t Counter::get_top3_count()
+{
+    uint32_t sum{0U};
+    for (auto i{0U}; i < 3U; i++)
+    {
+        sum += top3_counts[i];
+    }
+    return sum;
+}
+
 void Counter::poll(void)
 {
     String current_line = serial.read_line();
