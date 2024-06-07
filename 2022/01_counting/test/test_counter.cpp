@@ -22,18 +22,21 @@ TEST_F(TestCounter, WhenInitializedShouldBeZero)
 
 TEST_F(TestCounter, WhenPollsIntegerShouldAddToHighestCount)
 {
-    mock_serial->set_input(String("54\r\n"));
+    mock_serial->set_input(String("54\r\n\r\n"));
 
+    while (mock_serial->available())
+    {
     counter->poll();
+    }
 
     ASSERT_EQ(counter->get_highest_count(), 54);
 }
 
 TEST_F(TestCounter, WhenPollsIntegerSequenceShouldAddToHighestCount)
 {
-    mock_serial->set_input(String("42\r\n0\r\n314\r\n"));
+    mock_serial->set_input(String("42\r\n0\r\n314\r\n\r\n"));
 
-    for (auto i{0U}; i < 3U; i++)
+    while (mock_serial->available())
     {
         counter->poll();
     }
@@ -43,9 +46,9 @@ TEST_F(TestCounter, WhenPollsIntegerSequenceShouldAddToHighestCount)
 
 TEST_F(TestCounter, WhenPollsTwoIntegerSequencesShouldKeepHighestCount)
 {
-    mock_serial->set_input(String("314\r\n\r\n42\r\n"));
+    mock_serial->set_input(String("314\r\n\r\n42\r\n\r\n"));
 
-    for (auto i{0U}; i < 3U; i++)
+    while (mock_serial->available())
     {
         counter->poll();
     }
@@ -55,14 +58,17 @@ TEST_F(TestCounter, WhenPollsTwoIntegerSequencesShouldKeepHighestCount)
 
 TEST_F(TestCounter, WhenPolls32BitIntegerShouldHaveCorrectHighestCount)
 {
-    mock_serial->set_input(String("3141592\r\n"));
+    mock_serial->set_input(String("3141592\r\n\r\n"));
 
+    while (mock_serial->available())
+    {
     counter->poll();
+    }
 
     ASSERT_EQ(counter->get_highest_count(), 3141592);
 }
 
-TEST_F(TestCounter, WhenGivenExampleInputShouldYieldCorrectResult)
+TEST_F(TestCounter, WhenGivenExampleInputShouldComputeHighestCount)
 {
     String example_input =
         "1000\r\n"
@@ -82,7 +88,7 @@ TEST_F(TestCounter, WhenGivenExampleInputShouldYieldCorrectResult)
         "\r\n";
     mock_serial->set_input(example_input);
 
-    for (auto i{0U}; i < 20U; i++)
+    while (mock_serial->available())
     {
         counter->poll();
     }

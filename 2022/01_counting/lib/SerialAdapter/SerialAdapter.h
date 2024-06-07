@@ -19,6 +19,7 @@ public:
     void write_line(String) override{};
 
     void set_input(String input);
+    bool available();
 
 private:
     String input_buffer;
