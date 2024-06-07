@@ -14,7 +14,6 @@ public:
 
 private:
     uint32_t current_count{};
-    uint32_t highest_count{};
     uint32_t top3_counts[3]{};
     ISerial &serial;
 };

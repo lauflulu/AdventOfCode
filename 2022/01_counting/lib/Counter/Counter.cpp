@@ -2,7 +2,7 @@
 
 uint32_t Counter::get_highest_count()
 {
-    return highest_count;
+    return top3_counts[2];
 }
 
 uint32_t Counter::get_top3_count()
@@ -21,11 +21,6 @@ void Counter::poll(void)
 
     if (current_line.charAt(0) == 0x0D)
     {
-        if (current_count > highest_count)
-        {
-            highest_count = current_count;
-        }
-
         if (current_count < top3_counts[0])
         {
         }
