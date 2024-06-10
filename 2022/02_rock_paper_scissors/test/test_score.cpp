@@ -99,3 +99,13 @@ TEST_F(TestScore, WhenCZShouldBe6)
 
     ASSERT_EQ(score->get_total_score(), 6);
 }
+
+TEST_F(TestScore, WhenExampleInputShouldBe15)
+{
+    mock_serial->set_input("A Y\r\nB X\r\nC Z\r\n");
+    while (mock_serial->available())
+    {
+        score->poll();
+    }
+    ASSERT_EQ(score->get_total_score(), 15);
+}
