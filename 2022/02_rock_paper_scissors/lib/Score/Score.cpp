@@ -8,40 +8,11 @@ uint32_t Score::get_total_score()
 void Score::poll(void)
 {
     String message = serial.read_line();
-    if (message.startsWith("A X"))
+    for (uint8_t i{0U}; i < 9; i++)
     {
-        score += 4;
-    }
-    else if (message.startsWith("A Y"))
-    {
-        score += 8;
-    }
-    else if (message.startsWith("A Z"))
-    {
-        score += 3;
-    }
-    else if (message.startsWith("B X"))
-    {
-        score += 1;
-    }
-    else if (message.startsWith("B Y"))
-    {
-        score += 5;
-    }
-    else if (message.startsWith("B Z"))
-    {
-        score += 9;
-    }
-    else if (message.startsWith("C X"))
-    {
-        score += 7;
-    }
-    else if (message.startsWith("C Y"))
-    {
-        score += 2;
-    }
-    else if (message.startsWith("C Z"))
-    {
-        score += 6;
+        if (message.startsWith(score_map_1[i].outcome))
+        {
+            score += score_map_1[i].score;
+        }
     }
 }
