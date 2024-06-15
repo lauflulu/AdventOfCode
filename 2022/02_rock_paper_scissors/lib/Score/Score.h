@@ -17,8 +17,10 @@ public:
     uint32_t get_total_score(void);
     void poll(void);
 
+    void update_score_1(String &message);
+
 private:
-    uint32_t score{};
+    uint32_t score_1{};
     ISerial &serial;
 
     Game score_map_1[9] = {
