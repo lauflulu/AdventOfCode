@@ -10,5 +10,5 @@ void setup()
 void loop()
 {
   score.poll();
-  Serial.println(String(score.get_total_score()));
+  Serial.println(String(score.get_score_1()));
 }

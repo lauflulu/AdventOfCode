@@ -1,6 +1,6 @@
 #include <Score.h>
 
-uint32_t Score::get_total_score()
+uint32_t Score::get_score_1()
 {
     return score_1;
 }

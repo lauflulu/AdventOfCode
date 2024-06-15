@@ -14,7 +14,7 @@ class Score
 public:
     Score(ISerial &serial_) : serial{serial_} { serial = serial_; };
 
-    uint32_t get_total_score(void);
+    uint32_t get_score_1(void);
     void poll(void);
 
     void update_score_1(String &message);

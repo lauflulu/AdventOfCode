@@ -16,7 +16,7 @@ protected:
 
 TEST_F(TestScore, WhenInitializedIsZero)
 {
-    ASSERT_EQ(score->get_total_score(), 0);
+    ASSERT_EQ(score->get_score_1(), 0);
 }
 
 TEST_F(TestScore, WhenAXShouldBe4)
@@ -25,7 +25,7 @@ TEST_F(TestScore, WhenAXShouldBe4)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 4);
+    ASSERT_EQ(score->get_score_1(), 4);
 }
 
 TEST_F(TestScore, WhenAYShouldBe8)
@@ -34,7 +34,7 @@ TEST_F(TestScore, WhenAYShouldBe8)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 8);
+    ASSERT_EQ(score->get_score_1(), 8);
 }
 
 TEST_F(TestScore, WhenAZShouldBe3)
@@ -43,7 +43,7 @@ TEST_F(TestScore, WhenAZShouldBe3)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 3);
+    ASSERT_EQ(score->get_score_1(), 3);
 }
 
 TEST_F(TestScore, WhenBXShouldBe1)
@@ -52,7 +52,7 @@ TEST_F(TestScore, WhenBXShouldBe1)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 1);
+    ASSERT_EQ(score->get_score_1(), 1);
 }
 
 TEST_F(TestScore, WhenBYShouldBe5)
@@ -61,7 +61,7 @@ TEST_F(TestScore, WhenBYShouldBe5)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 5);
+    ASSERT_EQ(score->get_score_1(), 5);
 }
 
 TEST_F(TestScore, WhenBZShouldBe9)
@@ -70,7 +70,7 @@ TEST_F(TestScore, WhenBZShouldBe9)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 9);
+    ASSERT_EQ(score->get_score_1(), 9);
 }
 
 TEST_F(TestScore, WhenCXShouldBe7)
@@ -79,7 +79,7 @@ TEST_F(TestScore, WhenCXShouldBe7)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 7);
+    ASSERT_EQ(score->get_score_1(), 7);
 }
 
 TEST_F(TestScore, WhenCYShouldBe2)
@@ -88,7 +88,7 @@ TEST_F(TestScore, WhenCYShouldBe2)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 2);
+    ASSERT_EQ(score->get_score_1(), 2);
 }
 
 TEST_F(TestScore, WhenCZShouldBe6)
@@ -97,7 +97,7 @@ TEST_F(TestScore, WhenCZShouldBe6)
 
     score->poll();
 
-    ASSERT_EQ(score->get_total_score(), 6);
+    ASSERT_EQ(score->get_score_1(), 6);
 }
 
 TEST_F(TestScore, WhenExampleInputShouldBe15)
@@ -107,5 +107,5 @@ TEST_F(TestScore, WhenExampleInputShouldBe15)
     {
         score->poll();
     }
-    ASSERT_EQ(score->get_total_score(), 15);
+    ASSERT_EQ(score->get_score_1(), 15);
 }
