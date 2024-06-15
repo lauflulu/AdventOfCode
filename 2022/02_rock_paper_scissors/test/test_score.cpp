@@ -2,7 +2,7 @@
 #include <SerialAdapter.h>
 #include <Score.h>
 
-class TestScore : public ::testing::Test
+class TestScore : public ::testing::TestWithParam<Game>
 {
 protected:
     SerialMock *mock_serial;
@@ -14,98 +14,30 @@ protected:
     }
 };
 
-TEST_F(TestScore, WhenInitializedIsZero)
+INSTANTIATE_TEST_SUITE_P(
+    Part1, TestScore,
+    ::testing::Values(
+        Game{"\r\n", 0},
+        Game{"A X\r\n", 4},
+        Game{"A Y\r\n", 8},
+        Game{"A Z\r\n", 3},
+        Game{"B X\r\n", 1},
+        Game{"B Y\r\n", 5},
+        Game{"B Z\r\n", 9},
+        Game{"C X\r\n", 7},
+        Game{"C Y\r\n", 2},
+        Game{"C Z\r\n", 6},
+        Game{"A Y\r\nB X\r\nC Z\r\n", 15}));
+
+TEST_P(TestScore, WhenGivenInputShouldYieldScore)
 {
-    ASSERT_EQ(score->get_score_1(), 0);
-}
+    Game game = GetParam();
+    mock_serial->set_input(game.outcome);
 
-TEST_F(TestScore, WhenAXShouldBe4)
-{
-    mock_serial->set_input("A X\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 4);
-}
-
-TEST_F(TestScore, WhenAYShouldBe8)
-{
-    mock_serial->set_input("A Y\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 8);
-}
-
-TEST_F(TestScore, WhenAZShouldBe3)
-{
-    mock_serial->set_input("A Z\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 3);
-}
-
-TEST_F(TestScore, WhenBXShouldBe1)
-{
-    mock_serial->set_input("B X\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 1);
-}
-
-TEST_F(TestScore, WhenBYShouldBe5)
-{
-    mock_serial->set_input("B Y\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 5);
-}
-
-TEST_F(TestScore, WhenBZShouldBe9)
-{
-    mock_serial->set_input("B Z\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 9);
-}
-
-TEST_F(TestScore, WhenCXShouldBe7)
-{
-    mock_serial->set_input("C X\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 7);
-}
-
-TEST_F(TestScore, WhenCYShouldBe2)
-{
-    mock_serial->set_input("C Y\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 2);
-}
-
-TEST_F(TestScore, WhenCZShouldBe6)
-{
-    mock_serial->set_input("C Z\r\n");
-
-    score->poll();
-
-    ASSERT_EQ(score->get_score_1(), 6);
-}
-
-TEST_F(TestScore, WhenExampleInputShouldBe15)
-{
-    mock_serial->set_input("A Y\r\nB X\r\nC Z\r\n");
     while (mock_serial->available())
     {
         score->poll();
     }
-    ASSERT_EQ(score->get_score_1(), 15);
+
+    ASSERT_EQ(score->get_score_1(), game.score);
 }
