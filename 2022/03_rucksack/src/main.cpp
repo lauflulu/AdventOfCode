@@ -1,18 +1,18 @@
-#include <Arduino.h>
+#include <main.h>
 
-// put function declarations here:
-int myFunction(int, int);
+uint32_t sum{0U};
+uint16_t line_count{0U};
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+void setup()
+{
+  Serial.begin(9600);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void loop()
+{
+  String contents = Serial.readStringUntil(0x0A);
+  Rucksack rucksack{contents};
+  sum += rucksack.compute_priority();
+  line_count++;
+  Serial.println(line_count + String(",") + contents + String(",") + sum);
 }
