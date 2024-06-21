@@ -3,6 +3,7 @@
 Rucksack::Rucksack(String contents)
 {
     _contents = contents;
+    _contents.trim();
 }
 
 uint8_t Rucksack::compute_priority()
