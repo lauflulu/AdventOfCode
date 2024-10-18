@@ -4,12 +4,9 @@
 class Pair
 {
 public:
-    Pair(String input) { _parse_input(input); }
+    Pair(String input);
 
     bool is_fully_contained();
-
-private:
-    void _parse_input(String input);
 
 private:
     uint8_t _elf_1_low;
