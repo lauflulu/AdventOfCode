@@ -48,3 +48,9 @@ TEST(InputPair2, IsFullyContained)
     Pair pair{String("3-3,2-80\r\n")};
     ASSERT_EQ(true, pair.is_fully_contained());
 }
+
+TEST(EmptyInput, IsFullyContainedWhenReceivingFirstSerialMessageShouldBeFalse)
+{
+    Pair pair{String("\r\n")};
+    ASSERT_EQ(false, pair.is_fully_contained());
+}

@@ -2,6 +2,11 @@
 
 bool Pair::is_fully_contained()
 {
+    if (_elf_1_high == 0 and _elf_2_high == 0)
+    {
+        return false;
+    }
+
     if ((_elf_1_high <= _elf_2_high) and (_elf_1_low >= _elf_2_low))
     {
         return true;
