@@ -36,3 +36,15 @@ TEST(ExamplePair6, IsNotFullyContained)
     Pair pair{String("2-6,4-8")};
     ASSERT_EQ(false, pair.is_fully_contained());
 }
+
+TEST(InputPair1, IsNotFullyContained)
+{
+    Pair pair{String("24-66,23-25\r\n")};
+    ASSERT_EQ(false, pair.is_fully_contained());
+}
+
+TEST(InputPair2, IsFullyContained)
+{
+    Pair pair{String("3-3,2-80\r\n")};
+    ASSERT_EQ(true, pair.is_fully_contained());
+}
