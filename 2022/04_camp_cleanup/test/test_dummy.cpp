@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
+#include <Pair.h>
 
-TEST(TestDummy, ZeroIsZero)
+TEST(ExamplePair1, IsNotFullyContained)
 {
-    ASSERT_EQ(0, 0);
+    Pair pair{String("2-4,6-8")};
+    ASSERT_EQ(false, pair.is_fully_contained());
 }
