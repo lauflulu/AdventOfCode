@@ -1,7 +1,7 @@
 import serial
 import time
 
-ser = serial.Serial("COM3", 9600)
+ser = serial.Serial("COM4", 9600)
 
 with open("input.txt") as file:
     for line in file:
