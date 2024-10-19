@@ -2,7 +2,8 @@
 #include <Pair.h>
 
 uint32_t line_count{0U};
-uint32_t result_count{0U};
+uint32_t contained_count{0U};
+uint32_t overlap_count{0U};
 
 void setup()
 {
@@ -16,8 +17,10 @@ void loop()
 
   Pair pair{input};
   bool is_contained = pair.is_fully_contained();
-  result_count += is_contained;
-  String response = pair.is_fully_contained() ? String(", fully contained,") : String(", seperate,");
+  contained_count += is_contained;
+  bool is_overlapping = pair.is_overlapping();
+  overlap_count += is_overlapping;
 
-  Serial.println(line_count + response + result_count);
+  String response = String("line: ") + line_count + String(", contained: ") + contained_count + String(", overlapping: ") + overlap_count;
+  Serial.println(response);
 }
