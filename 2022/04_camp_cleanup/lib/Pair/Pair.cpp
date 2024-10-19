@@ -37,5 +37,18 @@ bool Pair::is_fully_contained()
 
 bool Pair::is_overlapping()
 {
+    if (_elf_1_high == 0 and _elf_2_high == 0)
+    {
+        return false;
+    }
+
+    if ((_elf_1_high >= _elf_2_low) and (_elf_1_high <= _elf_2_high))
+    {
+        return true;
+    }
+    if ((_elf_2_high >= _elf_1_low) and (_elf_2_high <= _elf_1_high))
+    {
+        return true;
+    }
     return false;
 }
