@@ -1,18 +1,19 @@
 #include <Arduino.h>
+#include <SPIFFS.h>
+#include <Stacks.h>
 
-// put function declarations here:
-int myFunction(int, int);
-
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+void setup()
+{
+  Serial.begin(115200);
+  SPIFFS.begin(true);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
+void loop()
+{
+  delay(1000);
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  Serial.println("hello");
+  Stacks stacks{};
+
+  Serial.println(stacks._input_stacks);
 }
