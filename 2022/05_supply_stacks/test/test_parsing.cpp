@@ -41,3 +41,12 @@ TEST_F(ExampleStacks, WhenCreatedShouldBeAtInitialState)
     ASSERT_EQ(stacks->stacks[1][2], "D"[0]);
     ASSERT_EQ(stacks->stacks[2][2], " "[0]);
 }
+
+TEST_F(ExampleStacks, WhenAtInitialStateShouldConvertToString)
+{
+    String expected{"ZMP\nNC \n D \n"};
+    String output{""};
+    stacks->to_string(output);
+
+    ASSERT_TRUE(output.substring(0, 12) == expected);
+}

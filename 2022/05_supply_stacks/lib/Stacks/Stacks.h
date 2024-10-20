@@ -10,6 +10,20 @@ public:
         _parse(input_stacks);
     };
 
+    String &to_string(String &buffer)
+    {
+        buffer = String("");
+        for (auto i_height{0U}; i_height < stacks[0].size(); i_height++)
+        {
+            for (auto i_stack{0U}; i_stack < stacks.size(); i_stack++)
+            {
+                buffer += stacks[i_stack][i_height];
+            }
+            buffer += String("\n");
+        }
+        return buffer;
+    }
+
 public:
     std::array<std::array<char, n_height>, n_stacks> stacks;
 

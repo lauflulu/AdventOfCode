@@ -2,14 +2,13 @@
 #include <SPIFFS.h>
 #include <Stacks.h>
 
-String input_stacks;
-
 void setup()
 {
   Serial.begin(115200);
   SPIFFS.begin(true);
 
   File file = SPIFFS.open("/initial_stacks.txt", "r");
+  String input_stacks;
 
   while (file.available())
   {
@@ -20,13 +19,12 @@ void setup()
   file.close();
 
   Stacks<9, 56> stacks{input_stacks};
+
+  Serial.println("hello");
+  String buffer{""};
+  Serial.println(stacks.to_string(buffer));
 }
 
 void loop()
 {
-  delay(1000);
-
-  Serial.println("hello");
-
-  Serial.println(stacks._input_stacks);
 }
