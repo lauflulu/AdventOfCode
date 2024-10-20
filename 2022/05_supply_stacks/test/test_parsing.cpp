@@ -7,7 +7,7 @@
 class ExampleStacks : public ::testing::Test
 {
 public:
-    Stacks *stacks;
+    Stacks<3, 6> *stacks;
 
 protected:
     void SetUp() override
@@ -23,12 +23,21 @@ protected:
         }
         file.close();
 
-        stacks = new Stacks(input_stacks);
+        stacks = new Stacks<3, 6>(input_stacks);
     }
 };
 
 TEST_F(ExampleStacks, WhenCreatedShouldBeAtInitialState)
 {
-    std::cout << stacks->_input_stacks.c_str() << std::endl;
-    ASSERT_EQ(1, 1);
+    ASSERT_EQ(stacks->stacks[0][0], "Z"[0]);
+    ASSERT_EQ(stacks->stacks[1][0], "M"[0]);
+    ASSERT_EQ(stacks->stacks[2][0], "P"[0]);
+
+    ASSERT_EQ(stacks->stacks[0][1], "N"[0]);
+    ASSERT_EQ(stacks->stacks[1][1], "C"[0]);
+    ASSERT_EQ(stacks->stacks[2][1], " "[0]);
+
+    ASSERT_EQ(stacks->stacks[0][2], " "[0]);
+    ASSERT_EQ(stacks->stacks[1][2], "D"[0]);
+    ASSERT_EQ(stacks->stacks[2][2], " "[0]);
 }

@@ -19,7 +19,7 @@ void setup()
 
   file.close();
 
-  Stacks stacks{input_stacks};
+  Stacks<9, 56> stacks{input_stacks};
 }
 
 void loop()
