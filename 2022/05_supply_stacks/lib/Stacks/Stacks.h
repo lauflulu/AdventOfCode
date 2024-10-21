@@ -2,10 +2,10 @@
 #include <Arduino.h>
 
 template <uint8_t n_stacks, uint8_t n_height>
-class Stacks
+class StdArrayStacks
 {
 public:
-    Stacks(const String &input_stacks)
+    StdArrayStacks(const String &input_stacks)
     {
         _parse(input_stacks);
     };

@@ -7,7 +7,7 @@
 class ExampleStacks : public ::testing::Test
 {
 public:
-    Stacks<3, 6> *stacks;
+    StdArrayStacks<3, 6> *stacks;
 
 protected:
     void SetUp() override
@@ -23,7 +23,7 @@ protected:
         }
         file.close();
 
-        stacks = new Stacks<3, 6>(input_stacks);
+        stacks = new StdArrayStacks<3, 6>(input_stacks);
     }
 };
 

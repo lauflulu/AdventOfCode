@@ -18,7 +18,7 @@ void setup()
 
   file.close();
 
-  Stacks<9, 56> stacks{input_stacks};
+  StdArrayStacks<9, 56> stacks{input_stacks};
 
   Serial.println("hello");
   String buffer{""};
