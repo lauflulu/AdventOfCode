@@ -6,8 +6,8 @@ class GiantCargoDock
 {
 public:
     GiantCargoDock() {};
-    GiantCargoDock(const String &input_stacks);
 
+    void load(const String &input_text);
     void push_row(const String &line);
     void read_top(String &buffer);
     void process(const String &instruction);

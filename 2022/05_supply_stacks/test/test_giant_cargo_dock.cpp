@@ -69,6 +69,7 @@ protected:
     void SetUp() override
     {
         String input_stacks{};
+        stacks = new GiantCargoDock{};
 
         std::ifstream file("data/example_stacks.txt");
         std::string line;
@@ -79,7 +80,7 @@ protected:
         }
         file.close();
 
-        stacks = new GiantCargoDock{input_stacks};
+        stacks->load(input_stacks);
     }
 };
 

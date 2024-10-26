@@ -3,27 +3,29 @@
 
 #include <GiantCargoDock.h>
 
+GiantCargoDock stacks;
+
 void setup()
 {
   Serial.begin(115200);
   SPIFFS.begin(true);
 
   File file = SPIFFS.open("/initial_stacks.txt", "r");
-  String input_stacks;
+  String input_text;
 
   while (file.available())
   {
     char next_char = file.read();
-    input_stacks += next_char;
+    input_text += next_char;
   }
 
   file.close();
 
-  GiantCargoDock stacks{input_stacks};
+  stacks.load(input_text);
 
-  Serial.println("hello");
   String buffer{""};
-  Serial.println(stacks.to_string(buffer));
+  stacks.read_top(buffer);
+  Serial.println(buffer);
 }
 
 void loop()

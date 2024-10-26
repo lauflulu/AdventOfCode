@@ -1,8 +1,8 @@
 #include <GiantCargoDock.h>
 
-GiantCargoDock::GiantCargoDock(const String &input_stacks)
+void GiantCargoDock::load(const String &input_text)
 {
-    String remaining_input = String("\n") + input_stacks.substring(0, input_stacks.length() - 1);
+    String remaining_input = String("\n") + input_text.substring(0, input_text.length() - 1);
     uint8_t i_height{0U};
 
     while (remaining_input.length() > 1)
@@ -13,7 +13,7 @@ GiantCargoDock::GiantCargoDock(const String &input_stacks)
 
         push_row(current_line);
     }
-};
+}
 
 void GiantCargoDock::push_row(const String &line)
 {
