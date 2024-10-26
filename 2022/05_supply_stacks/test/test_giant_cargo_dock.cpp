@@ -60,39 +60,39 @@ TEST(CargoDock, WhenIncompleteRowPushedShouldBeOnTop)
     ASSERT_TRUE(output == expected);
 }
 
-// class ExampleStacks : public ::testing::Test
-// {
-// public:
-//     GiantCargoDock *stacks;
+class ExampleDock : public ::testing::Test
+{
+public:
+    GiantCargoDock *stacks;
 
-// protected:
-//     void SetUp() override
-//     {
-//         String input_stacks{};
+protected:
+    void SetUp() override
+    {
+        String input_stacks{};
 
-//         std::ifstream file("data/example_stacks.txt");
-//         std::string line;
-//         while (std::getline(file, line))
-//         {
-//             input_stacks += line.c_str();
-//             input_stacks += "\n";
-//         }
-//         file.close();
+        std::ifstream file("data/example_stacks.txt");
+        std::string line;
+        while (std::getline(file, line))
+        {
+            input_stacks += line.c_str();
+            input_stacks += "\n";
+        }
+        file.close();
 
-//         stacks = new GiantCargoDock{input_stacks};
-//     }
-// };
+        stacks = new GiantCargoDock{input_stacks};
+    }
+};
 
-// TEST_F(ExampleStacks, WhenAtInitialStateShouldReadNDP)
-// {
-//     String expected{"NDP"};
-//     String output{""};
-//     stacks->read_top(output);
+TEST_F(ExampleDock, WhenAtInitialStateShouldReadNDP)
+{
+    String expected{"NDP"};
+    String output{""};
+    stacks->read_top(output);
 
-//     ASSERT_TRUE(output == expected);
-// }
+    ASSERT_TRUE(output == expected);
+}
 
-// TEST_F(ExampleStacks, WhenFirstIntstructionShouldReadDCP)
+// TEST_F(ExampleDock, WhenFirstIntstructionShouldReadDCP)
 // {
 //     String expected{"DCP"};
 //     String output{""};
