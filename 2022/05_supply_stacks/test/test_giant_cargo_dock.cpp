@@ -89,16 +89,16 @@ TEST_F(ExampleDock, WhenAtInitialStateShouldReadNDP)
     String output{""};
     stacks->read_top(output);
 
-    ASSERT_TRUE(output == expected);
+    ASSERT_STREQ(output.c_str(), expected.c_str());
 }
 
-// TEST_F(ExampleDock, WhenFirstIntstructionShouldReadDCP)
-// {
-//     String expected{"DCP"};
-//     String output{""};
-//     stacks->read_top(output);
+TEST_F(ExampleDock, WhenFirstIntstructionShouldReadDCP)
+{
+    String expected{"DCP"};
+    String output{""};
 
-//     stacks->process_instruction(String("move 1 fom 2 to 1"));
+    stacks->process(String("move 1 fom 2 to 1\n"));
 
-//     ASSERT_TRUE(output == expected);
-// }
+    stacks->read_top(output);
+    ASSERT_STREQ(output.c_str(), expected.c_str());
+}

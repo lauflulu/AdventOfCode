@@ -10,11 +10,8 @@ public:
 
     void push_row(const String &line);
     void read_top(String &buffer);
+    void process(const String &instruction);
 
-    void process_instruction(const String &instruction)
-    {
-    }
-
-public:
+private:
     std::array<Stack, 3> stacks{};
 };
