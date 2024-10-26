@@ -13,5 +13,5 @@ public:
     void process(const String &instruction);
 
 private:
-    std::array<Stack, 3> stacks{};
+    std::array<Stack, 9> stacks{};
 };

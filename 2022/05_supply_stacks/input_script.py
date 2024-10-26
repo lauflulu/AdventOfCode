@@ -1,7 +1,12 @@
 import serial
 import time
 
-ser = serial.Serial("COM3", 9600)
+ser = serial.Serial("COM4", 115200)
+
+start = time.time()
+while time.time() - start < 5:
+    time.sleep(0.01) 
+    print( f"{ser.readline()}")
 
 with open("input.txt") as file:
     for line in file:

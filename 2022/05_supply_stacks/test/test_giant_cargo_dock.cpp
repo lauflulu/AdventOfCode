@@ -103,3 +103,17 @@ TEST_F(ExampleDock, WhenFirstIntstructionShouldReadDCP)
     stacks->read_top(output);
     ASSERT_STREQ(output.c_str(), expected.c_str());
 }
+
+TEST_F(ExampleDock, WhenAllIntstructionsProcessedShouldReadCMZ)
+{
+    String expected{"CMZ"};
+    String output{""};
+
+    stacks->process(String("move 1 fom 2 to 1\n"));
+    stacks->process(String("move 3 from 1 to 3\n"));
+    stacks->process(String("move 2 from 2 to 1\n"));
+    stacks->process(String("move 1 from 1 to 2\n"));
+
+    stacks->read_top(output);
+    ASSERT_STREQ(output.c_str(), expected.c_str());
+}
