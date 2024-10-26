@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <SPIFFS.h>
-#include <Stacks.h>
+
+#include <GiantCargoDock.h>
 
 void setup()
 {
@@ -18,7 +19,7 @@ void setup()
 
   file.close();
 
-  StdArrayStacks<9, 56> stacks{input_stacks};
+  GiantCargoDock stacks{input_stacks};
 
   Serial.println("hello");
   String buffer{""};
