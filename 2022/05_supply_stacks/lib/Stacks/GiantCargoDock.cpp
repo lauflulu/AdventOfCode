@@ -24,7 +24,8 @@ void GiantCargoDock::push_row(const String &line)
         if (i_char % 4 == 1)
         {
             char current_character = line.charAt(i_char);
-            if (0x41 <= current_character & current_character <= 0x5A)
+            const char A{0x41}, Z{0x5A};
+            if (A <= current_character & current_character <= Z)
             {
                 stacks[i_stack].push(current_character);
             }
