@@ -11,7 +11,9 @@ public:
     void push_row(const String &line);
     void read_top(String &buffer);
     void process(const String &instruction);
+    void process_9001(const String &instruction);
 
 private:
     std::array<Stack, 9> stacks{};
+    Stack helper{};
 };
