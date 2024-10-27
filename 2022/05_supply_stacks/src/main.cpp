@@ -34,7 +34,7 @@ void loop()
   String input = Serial.readStringUntil(0x0A);
   line_count++;
 
-  stacks.process(input);
+  stacks.process_9001(input);
 
   String top{""};
   stacks.read_top(top);
