@@ -14,7 +14,8 @@ def connect_to_esp32():
     print(f"Connected to ESP32 at {ESP32_IP}:{ESP32_PORT}")
 
     # Send data to ESP32
-    message = "Hello ESP32\n"
+    with open("input.txt") as f:
+        message = f.read()
     client_socket.sendall(message.encode())
     print(f"Sent: {message.strip()}")
 

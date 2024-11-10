@@ -72,3 +72,12 @@ TEST(ExampleMessage5, StartMarkerShouldBeAtPosition11)
 
     ASSERT_EQ(marker_position, 11);
 }
+
+TEST(MessageWithoutStartMarker, Returns0)
+{
+    String message = "vqvvnggnngcgssswbblplrlflfnnnmmjppgd";
+
+    uint32_t marker_position = find_start_marker(message);
+
+    ASSERT_EQ(marker_position, 0);
+}
