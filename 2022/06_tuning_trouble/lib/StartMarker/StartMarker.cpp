@@ -1,15 +1,27 @@
 #include <StartMarker.h>
 
-uint32_t find_start_marker(const String &message)
+uint32_t find_packet_marker(const String &message)
+{
+    const uint8_t MARKER_SIZE{4U};
+    return _find_marker(message, MARKER_SIZE);
+}
+
+uint32_t find_message_marker(const String &message)
+{
+    const uint8_t MARKER_SIZE{14U};
+    return _find_marker(message, MARKER_SIZE);
+}
+
+uint32_t _find_marker(const String &message, const uint8_t MARKER_SIZE)
 {
     const uint32_t LENGTH = message.length();
-    const uint8_t MARKER_SIZE{4U};
     if (LENGTH < MARKER_SIZE)
     {
         return 0;
     }
 
-    char buffer[MARKER_SIZE]{0x40, 0x40, 0x40, 0};
+    char buffer[15]{0x40};
+    buffer[MARKER_SIZE] = 0;
     uint8_t block_timer{MARKER_SIZE - 1};
     for (auto i_message{0}; i_message < LENGTH; i_message++)
     {
@@ -28,13 +40,13 @@ uint32_t find_start_marker(const String &message)
         }
         block_timer--;
 
-        shift(next, buffer, MARKER_SIZE - 1);
+        _shift(next, buffer, MARKER_SIZE - 1);
     }
 
     return 0;
 }
 
-void shift(char c, char buffer[], uint8_t size)
+void _shift(char c, char buffer[], uint8_t size)
 {
     for (auto i{0}; i < size - 1; i++)
     {

@@ -40,8 +40,9 @@ void loop()
       if (client.available())
       {
         String data = client.readStringUntil('\n');
-        uint32_t result_1 = find_start_marker(data);
-        client.println(String("Result: ") + result_1);
+        uint32_t result_1 = find_packet_marker(data);
+        uint32_t result_2 = find_message_marker(data);
+        client.println(String("Result1: ") + result_1 + String(" Result2: ") + result_2);
       }
     }
     client.stop();
