@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <WiFi.h>
 
+#include <StartMarker.h>
+
 const char *SSID = "WLAN";
 const char *PASSWORD = "password123";
 const int PORT = 12345;
@@ -38,7 +40,8 @@ void loop()
       if (client.available())
       {
         String data = client.readStringUntil('\n');
-        client.println(String("Echo: ") + data);
+        uint32_t result_1 = find_start_marker(data);
+        client.println(String("Result: ") + result_1);
       }
     }
     client.stop();
